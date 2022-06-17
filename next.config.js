@@ -1,15 +1,15 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    reactStrictMode: true,
-    poweredByHeader: false,
-    eslint: {
-        dirs: [
-            'src',
-        ],
-    },
-    images: {
-        formats: ['image/avif', 'image/webp'],
-    },
-};
+const withPlugins = require('next-compose-plugins');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+});
 
-module.exports = nextConfig;
+const withNextConfig = require('./next-plugins/withNextConfig');
+const withCheckRequiredEnv = require('./next-plugins/withCheckRequiredEnv');
+const withEnv = require('./next-plugins/withEnv');
+
+module.exports = withPlugins([
+    withNextConfig,
+    withCheckRequiredEnv,
+    withEnv,
+    withBundleAnalyzer,
+]);
