@@ -1,33 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Head from 'next/head';
+
+import { AppLayout } from 'views/home';
 
 import '../styles/globals.css';
 
-import type { NextPage } from 'next';
-import type { AppProps } from 'next/app';
-
-type NextPageMeta = {
-    title?: string;
-    description?: string;
-    keywords?: string[];
-};
-
-export type NextLayout = React.FunctionComponent<NextPageLayoutProps & {
-    children: React.ReactNode;
-}>;
-
-type NextPageLayoutProps = {
-    Layout?: NextLayout;
-    meta?: NextPageMeta;
-};
-
-export type NextPageWithLayout<P = {}> = NextPage<P> & {
-    layoutProps?: NextPageLayoutProps;
-};
-
-type AppPropsWithLayout = AppProps & {
-    Component: NextPageWithLayout;
-};
+import type { AppPropsWithLayout, NextPageMeta } from 'views/home';
 
 const DEFAULT_META: NextPageMeta = {
     title: 'Fitness Trainging',
@@ -35,20 +13,14 @@ const DEFAULT_META: NextPageMeta = {
     keywords: ['fitness', 'training'],
 };
 
-const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-    const Layout = Component.layoutProps?.Layout ?? Fragment;
-    const layoutProps = Component.layoutProps?.Layout
-        ? { layoutProps: Component.layoutProps }
-        : {};
+const App = (props: AppPropsWithLayout) => {
+    const { Component } = props;
 
     const meta = Component.layoutProps?.meta ?? DEFAULT_META;
 
     return (
         <>
             <Head>
-                {/* required */}
-                <meta key="charSet" charSet="utf-8" />
-
                 {/* title */}
                 <title key="title">{meta.title}</title>
                 <meta key="twitter:title" name="twitter:title" content={meta.title} />
@@ -67,24 +39,19 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                 <meta property="og:locale" content="ru_RU" />
                 <meta property="og:type" content="website" />
                 {/* <meta property="og:url" content={fullPath} /> */}
-                <meta property="og:image" content="/favicon.ico" />
+                {/* <meta property="og:image" content="/favicon.ico" /> */}
 
                 {/* Twitter */}
                 <meta name="twitter:title" content={meta.title} />
                 <meta name="twitter:description" content={meta.description} />
                 <meta name="twitter:card" content="summary" />
                 {/* <meta name="twitter:url" content={fullPath} /> */}
-                <meta name="twitter:image" content="/favicon.ico" />
-
-                {/* icons */}
-                <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+                {/* <meta name="twitter:image" content="/favicon.ico" /> */}
 
                 {/* links */}
                 {/* <link rel="canonical" href={fullPath} /> */}
             </Head>
-            <Layout {...layoutProps}>
-                <Component {...pageProps} />
-            </Layout>
+            <AppLayout {...props} />
         </>
     );
 };

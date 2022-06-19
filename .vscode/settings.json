@@ -1,4 +1,8 @@
 {
-    // fix for tailwind https://github.com/tailwindlabs/tailwindcss/discussions/5258#discussioncomment-1979394
-    "css.lint.unknownAtRules": "ignore"
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+        "strings": true
+    }
 }
