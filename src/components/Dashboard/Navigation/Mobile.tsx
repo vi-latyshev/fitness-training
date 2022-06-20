@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { Logo } from 'components/Logo';
+import { Button } from 'components/controls';
 
 import { NavBar } from './NavBar';
 
@@ -33,16 +34,12 @@ export const DashNavMobile = ({ links }: DashNavMobileProps) => {
                     </div>
                 </div>
             )}
-            <div className="lg:hidden z-20 fixed w-full px-5 py-2 bg-white flex items-center justify-between">
+            <div className="lg:hidden z-20 fixed w-full px-5 py-5 bg-white flex items-center justify-between">
                 <Logo />
                 <div>
-                    <button type="button" onClick={handleOpenMenu}>Menu</button>
-                    {/* <Button
-                        value="Menu"
-                        variant="secondary"
-                        icon="menu"
-                        action={handleMenu}
-                    /> */}
+                    <Button variant="soft" type="button" onClick={handleOpenMenu}>
+                        Menu
+                    </Button>
                 </div>
             </div>
         </>

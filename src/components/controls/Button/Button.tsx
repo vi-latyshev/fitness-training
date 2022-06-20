@@ -9,7 +9,9 @@ export type ButtonProps<T extends React.ElementType = 'button'> = React.Componen
      */
     as?: T;
     color?: 'default' | 'secondary' | 'success' | 'error';
-    variant?: 'text' | 'contained';
+    variant?: 'default' | 'soft' | 'text';
+    hover?: boolean;
+    rounded?: boolean;
     Icon?: (props: React.ComponentProps<'svg'>) => JSX.Element;
 };
 
@@ -19,8 +21,10 @@ export type ButtonComponent = <T extends React.ElementType = 'button'>(
 
 export const Button: ButtonComponent = forwardRef(<T extends React.ElementType = 'button'>({
     as,
-    variant = 'contained',
+    variant = 'default',
     color = 'default',
+    hover = true,
+    rounded,
     Icon,
     children,
     className,
@@ -31,20 +35,51 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
 
     const classes = clsx(
         className,
-        'flex items-start justify-center text-sm px-4 py-3 transition-all cursor-pointer',
+        'flex items-center justify-center text-sm font-medium leading-none px-6 py-3 space-x-3 transition-all cursor-pointer',
         {
-            ...(variant === 'text' && {
-                'hover:bg-gray-100': color === 'default',
-                'text-secondaryDark hover:bg-secondary/20': color === 'secondary',
-                'text-green-600 hover:bg-green-200/20': color === 'success',
-                'text-red-600 hover:bg-red-200/20': color === 'error',
-            }),
-            ...(variant === 'contained' && {
-                'text-white bg-primary hover:bg-primaryDark focus:ring-primaryDark': color === 'default',
-                'text-white bg-secondary hover:bg-secondaryDark/80 focus:bg-secondaryDark/80': color === 'secondary',
-                'text-white bg-green-400 hover:bg-green-500 focus:bg-green-500': color === 'success',
-                'text-white bg-red-400 hover:bg-red-500 focus:bg-red-500': color === 'error',
-            }),
+            // default
+            'text-white': variant === 'default',
+
+            'bg-primary': variant === 'default' && color === 'default',
+            'hover:bg-primaryWhite focus:outline-none': variant === 'default' && color === 'default' && hover,
+
+            'bg-secondary': variant === 'default' && color === 'secondary',
+            'hover:bg-secondaryWhite focus:bg-secondaryWhite': variant === 'default' && color === 'secondary' && hover,
+
+            'bg-success': variant === 'default' && color === 'success',
+            'hover:bg-successWhite focus:bg-successWhite': variant === 'default' && color === 'success' && hover,
+
+            'bg-error': variant === 'default' && color === 'error',
+            'text-white bg-error hover:bg-errorWhite focus:bg-errorWhite': variant === 'default' && color === 'error' && hover,
+
+            // text
+            'text-primary': variant === 'text' && color === 'default',
+            'hover:bg-grayPrimary': variant === 'text' && color === 'default' && hover,
+
+            'text-secondary': variant === 'text' && color === 'secondary',
+            'hover:bg-secondaryWhite/10': variant === 'text' && color === 'secondary' && hover,
+
+            'text-success': variant === 'text' && color === 'success',
+            'hover:bg-successWhite/10': variant === 'text' && color === 'success' && hover,
+
+            'text-error': variant === 'text' && color === 'error',
+            'hover:bg-errorWhite/10': variant === 'text' && color === 'error' && hover,
+
+            // soft
+            'text-primary bg-primarySoftWhite': variant === 'soft' && color === 'default',
+            'hover:bg-primarySoft': variant === 'soft' && color === 'default' && hover,
+
+            'text-secondary bg-secondarySoftWhite': variant === 'soft' && color === 'secondary',
+            'hover:bg-secondarySoft': variant === 'soft' && color === 'secondary' && hover,
+
+            'text-success bg-successSoftWhite': variant === 'soft' && color === 'success',
+            'hover:bg-successSoft': variant === 'soft' && color === 'success' && hover,
+
+            'text-error bg-errorSoftWhite': variant === 'soft' && color === 'error',
+            'hover:bg-errorSoft': variant === 'soft' && color === 'error' && hover,
+
+            // other
+            'rounded-full': rounded,
             'opacity-50 cursor-default pointer-events-none': disabled,
         },
     );

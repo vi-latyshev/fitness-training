@@ -1,15 +1,16 @@
 import { UserRole } from 'lib/models/user';
 import { AdminBaseLayout } from 'views/admin';
-import { Dashboard } from 'components/Dashboard';
+import Dashboard from 'components/Dashboard';
+import Card from 'components/Card';
 
 import type { NextPageWithLayout } from 'views/home';
 
 export const AdminDashboard: NextPageWithLayout = () => (
     <>
         <Dashboard.Title>Обзор</Dashboard.Title>
-        <Dashboard.Main>
+        <Card.Container>
             админ
-        </Dashboard.Main>
+        </Card.Container>
     </>
 );
 

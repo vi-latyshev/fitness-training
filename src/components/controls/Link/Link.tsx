@@ -1,21 +1,22 @@
+import { forwardRef } from 'react';
 import { useRouter } from 'next/router';
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
-import clsx from 'clsx';
-import { forwardRef } from 'react';
 
 import { Button, ButtonProps } from '../Button';
+
+type ButtonPropsWithAnhor = ButtonProps<'a'>;
 
 export type LinkProps = {
     href: NextLinkProps['href'],
     as?: NextLinkProps['as'],
-    activeClassName?: string;
-} & NextLinkProps & Omit<React.ComponentPropsWithRef<'a'> & ButtonProps<'a'>, 'href'>;
+    activeVariant?: ButtonPropsWithAnhor['variant'];
+} & NextLinkProps & Omit<React.ComponentPropsWithRef<'a'> & ButtonPropsWithAnhor, 'href'>;
 
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(({
     href,
     as: linkAs,
-    className,
-    activeClassName,
+    variant,
+    activeVariant = 'default',
     ...props
 }, ref) => {
     const router = useRouter();
@@ -31,10 +32,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(({
         hrefLink = href.href;
     }
     const isActive = router.pathname === pathname;
-
-    const classes = clsx(className, {
-        [activeClassName ?? 'text-white bg-primary hover:bg-primary']: isActive,
-    });
+    const variantNow = isActive ? activeVariant : variant;
 
     const isExternal = hrefLink && (/^(http|mailto:|tel:)/.test(hrefLink));
 
@@ -43,7 +41,8 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(({
             <Button
                 as="a"
                 ref={ref}
-                className={classes}
+                hover={!isActive}
+                variant={variantNow}
                 {...props}
             />
         );
@@ -59,7 +58,8 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(({
                 as="a"
                 ref={ref}
                 href={href as string}
-                className={classes}
+                hover={!isActive}
+                variant={variantNow}
                 {...props}
             />
         </NextLink>

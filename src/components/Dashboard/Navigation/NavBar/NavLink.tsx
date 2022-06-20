@@ -10,10 +10,11 @@ export interface NavLinkProps extends LinkProps {
 export const NavLink = ({ href, text, Icon }: NavLinkProps) => (
     <li>
         <Link
+            rounded
             href={href}
             Icon={Icon}
             variant="text"
-            className="lg:justify-start px-12 space-x-3 rounded-3xl"
+            className="lg:justify-start px-12"
         >
             {text}
         </Link>

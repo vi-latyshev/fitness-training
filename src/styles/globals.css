@@ -32,7 +32,7 @@
 
   input,
   button {
-    @apply rounded-lg;
+    @apply rounded;
   }
 }
 

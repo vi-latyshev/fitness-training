@@ -57,6 +57,7 @@ export const useAuthMiddleware = ({ needRole }: UseAuthMiddlewareProps = {}): vo
         prefetch(redirectPage);
     }, [redirectPage]);
 
+    // redirect to main page by role (same with 404 page)
     useEffect(() => {
         if (loggedIn && needRole !== userRole) {
             push(redirectPage);

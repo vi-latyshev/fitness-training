@@ -1,6 +1,6 @@
 import { ChartPieIcon } from '@heroicons/react/outline';
 
-import { Dashboard } from 'components/Dashboard';
+import Dashboard from 'components/Dashboard';
 
 import type { NextLayout } from 'views/home';
 import type { DashboardLayoutProps } from 'components/Dashboard';

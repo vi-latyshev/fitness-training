@@ -42,7 +42,7 @@ export default class MyDocument extends Document {
 
                 {/* fonts */}
                 <link
-                    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&subset=cyrillic&display=swap"
+                    href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&subset=cyrillic&display=swap"
                     rel="stylesheet"
                 />
             </Head>
