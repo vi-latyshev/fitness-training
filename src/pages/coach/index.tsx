@@ -1,5 +1,7 @@
 import { UserRole } from 'lib/models/user';
+
 import { CoachBaseLayout } from 'views/coach';
+
 import Dashboard from 'components/Dashboard';
 import Card from 'components/Card';
 

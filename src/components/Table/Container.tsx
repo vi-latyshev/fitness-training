@@ -3,7 +3,5 @@ interface TableContainerProps {
 }
 
 export const TableContainer = ({ children }: TableContainerProps) => (
-    <div className="overflow-x-auto">
-        <table className="table border-separate border-spacing-y-3 whitespace-nowrap ">{children}</table>
-    </div>
+    <table className="table border-separate border-spacing-y-2">{children}</table>
 );

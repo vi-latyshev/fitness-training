@@ -6,7 +6,7 @@ interface CardContainerProps {
 }
 
 export const CardContainer = ({ className, children }: CardContainerProps) => (
-    <div className={clsx(className, 'grid auto-cols-fr gap-16 w-full')}>
+    <div className={clsx(className, 'grid gap-16 w-full')}>
         {children}
     </div>
 );

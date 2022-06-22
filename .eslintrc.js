@@ -41,12 +41,53 @@ module.exports = {
 
         // import/...
         'import/prefer-default-export': 'off',
-        // not supported 'import type'
-        'import/order': 'off',
+        'import/order': [
+            'error',
+            {
+                groups: [
+                    [
+                        'builtin',
+                        'external',
+                    ],
+                    'internal',
+                    'parent',
+                    'sibling',
+                    'type',
+                ],
+                pathGroups: [
+                    {
+                        pattern: 'lib/**',
+                        group: 'internal',
+                        position: 'before',
+                    },
+                    {
+                        pattern: 'layouts/**',
+                        group: 'internal',
+                        position: 'before',
+                    },
+                    {
+                        pattern: 'views/**',
+                        group: 'internal',
+                        position: 'before',
+                    },
+                    {
+                        pattern: '*(components|hooks)/**',
+                        group: 'internal',
+                    },
+                    {
+                        pattern: '*(icons|styles)/**',
+                        group: 'internal',
+                        position: 'after',
+                    },
+                ],
+                pathGroupsExcludedImportTypes: ['builtin', 'type'],
+                'newlines-between': 'always-and-inside-groups',
+            },
+        ],
         'import/no-extraneous-dependencies': [
             'error',
             {
-                devDependencies: ['next.config.js'],
+                devDependencies: ['next.config.js', 'tailwind.config.js'],
             },
         ],
 

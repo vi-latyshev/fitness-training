@@ -38,5 +38,5 @@
         "**/*.tsx",
         "next-plugins/**/*.js",
         "**/.eslintrc.js",
-    ]
+    ],
 }

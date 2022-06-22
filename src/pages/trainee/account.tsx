@@ -1,9 +1,9 @@
 import { UserRole } from 'lib/models/user';
+
 import { TraineeBaseLayout } from 'views/trainee';
+
 import Dashboard from 'components/Dashboard';
 import Card from 'components/Card';
-
-import { Table } from 'views/trainee/components/Table';
 
 import type { NextPageWithLayout } from 'views/home';
 
@@ -18,7 +18,6 @@ export const TraineeAccount: NextPageWithLayout = () => (
         <Dashboard.Title>Аккаунт</Dashboard.Title>
         <Card.Container>
             <Card.Title>test</Card.Title>
-            <Table />
         </Card.Container>
     </>
 );
