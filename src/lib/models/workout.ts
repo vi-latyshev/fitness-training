@@ -25,7 +25,6 @@ export interface Workout {
     counts: WorkoutsCountType;
     date: dayjs.Dayjs;
     status: WorkoutsStatus;
-    statusComment?: string;
 }
 
 // --------------------------------------------------------
@@ -86,7 +85,7 @@ export const workouts: Workout[] = [
             type: 'amount',
             value: 5,
         },
-        date: dayjs().startOf('day'), // .add(1, 'm'),
+        date: dayjs().startOf('day'),
         status: WorkoutsStatus.UnDone,
     },
     {
@@ -106,7 +105,7 @@ export const workouts: Workout[] = [
             type: 'amount',
             value: 10,
         },
-        date: dayjs().add(1, 'd').subtract(1, 'm'),
+        date: dayjs().startOf('day').add(1, 'd'),
         status: WorkoutsStatus.UnDone,
     },
     {
@@ -116,7 +115,7 @@ export const workouts: Workout[] = [
             type: 'time',
             value: 20,
         },
-        date: dayjs().add(1, 'd').add(1, 'm'),
+        date: dayjs().startOf('day').add(1, 'd'),
         status: WorkoutsStatus.UnDone,
     },
 ];

@@ -3,5 +3,5 @@ interface CardTitleProps {
 }
 
 export const CardTitle = ({ children }: CardTitleProps) => (
-    <div className="text-primary font-semibold text-lg">{children}</div>
+    <div className="font-semibold text-lg">{children}</div>
 );

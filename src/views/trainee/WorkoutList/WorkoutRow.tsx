@@ -68,7 +68,7 @@ export const WorkoutRow = ({ workout }: WorkoutRowProps) => {
                 onClick={handleChangeWorkout}
                 className={classesCell}
             >
-                {WorkoutTypeHuman[type]}
+                {WorkoutTypeHuman[type] ?? '-'}
             </Table.Cell>
             <Table.Cell disabled={isDisabled} onClick={handleChangeWorkout} className={classesCell}>
                 {workoutCountTypeToHuman(counts)}
