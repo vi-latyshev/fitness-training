@@ -20,5 +20,7 @@ declare namespace NodeJS {
          * @link https://github.com/vercel/next.js/tree/canary/packages/next-bundle-analyzer
          */
         readonly ANALYZE: boolean;
+
+        readonly REDIS_URL: string;
     }
 }

@@ -85,7 +85,7 @@ export const workouts: Workout[] = [
             type: 'amount',
             value: 5,
         },
-        date: dayjs().startOf('day'),
+        date: dayjs().startOf('day').subtract(1, 'd'),
         status: WorkoutsStatus.UnDone,
     },
     {
@@ -95,7 +95,7 @@ export const workouts: Workout[] = [
             type: 'amount',
             value: 10,
         },
-        date: dayjs().startOf('day').add(1, 'd'),
+        date: dayjs().startOf('day'),
         status: WorkoutsStatus.UnDone,
     },
     {

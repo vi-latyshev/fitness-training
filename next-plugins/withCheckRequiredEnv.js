@@ -1,7 +1,9 @@
 /**
  * @see NodeJS.ProcessEnv}
  */
-const REQUIRED_ENV = [];
+const REQUIRED_ENV = [
+    'REDIS_URL',
+];
 
 /**
  * Check required environment variables

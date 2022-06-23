@@ -17,7 +17,6 @@ const userRole: UserRole = UserRole.TRAINEE;
 const REDIRECT_MAIN_PAGE: RedirectMainPage = {
     [UserRole.TRAINEE]: '/trainee',
     [UserRole.COACH]: '/coach',
-    [UserRole.ADMIN]: '/admin',
 };
 const LOGGED_OUT_PAGE = 'login';
 
