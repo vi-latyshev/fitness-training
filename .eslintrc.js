@@ -79,6 +79,11 @@ module.exports = {
                         group: 'internal',
                         position: 'after',
                     },
+                    {
+                        pattern: '*(types)/**',
+                        group: 'internal',
+                        position: 'after',
+                    },
                 ],
                 pathGroupsExcludedImportTypes: ['builtin', 'type'],
                 'newlines-between': 'always-and-inside-groups',
@@ -96,6 +101,7 @@ module.exports = {
         'no-unused-vars': 'off',
         indent: 'off',
         semi: 'off',
+        // 'comma-dangle': 'off',
 
         // extends the base eslint/...
         '@typescript-eslint/no-duplicate-imports': 'error',
@@ -141,6 +147,19 @@ module.exports = {
                 'private-method',
             ],
         }],
+        '@typescript-eslint/comma-dangle': [
+            'error',
+            {
+                arrays: 'always-multiline',
+                objects: 'always-multiline',
+                imports: 'always-multiline',
+                exports: 'always-multiline',
+                functions: 'always-multiline',
+                enums: 'always-multiline',
+                generics: 'never',
+                tuples: 'always-multiline',
+            },
+        ],
 
         // react/
         'react/jsx-indent': [

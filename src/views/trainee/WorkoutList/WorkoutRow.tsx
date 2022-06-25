@@ -46,7 +46,7 @@ export const WorkoutRow = ({ workout }: WorkoutRowProps) => {
     });
     const isDisabled = status !== WorkoutsStatus.UnDone;
 
-    const handleUnDoneWorkout = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleUnDoneWorkout = useCallback((_e: React.ChangeEvent<HTMLInputElement>) => {
         console.log('undone workout', id);
     }, []);
 

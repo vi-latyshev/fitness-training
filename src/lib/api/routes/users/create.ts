@@ -1,13 +1,15 @@
 import sha1 from 'sha1';
 
+import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { createUser } from 'lib/api/db/users';
-import { APIError } from 'lib/api/error';
+import { signJWT } from 'lib/api/utils/jwt';
 import { handleApiError } from 'lib/api/error/handle-api-error';
-import { User, UserAuthData, UserRole } from 'lib/models/user';
+import { UserRole } from 'lib/models/user';
 
-import type { NextApiRequest as Req, NextApiResponse as Res } from 'next';
-
-interface CreateUserReqBody extends UserAuthData { }
+import type { NextApiResponse as Res } from 'next';
+import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
+import type { User, UserAuthData } from 'lib/models/user';
 
 export type CreateUserRes = User;
 
@@ -15,6 +17,7 @@ export type CreateUserRes = User;
  * hard code for validation
  *
  * - username:
+ *      - min-length - 5
  *      - max-length - 50
  * - password
  *      - min-length - 3
@@ -30,41 +33,45 @@ export type CreateUserRes = User;
  *      - max-length - 400
  * - no additional fields
  */
-const checkIsInvalidReqBody = ({
+const validateBody: Validator<UserAuthData> = ({
     auth: {
         username,
         password,
-    },
+        ...authRest
+    } = {},
     meta: {
-        role = UserRole.TRAINEE,
+        role,
         height,
         weight,
         ...metaRest
-    },
+    } = {},
     ...rest
-}: CreateUserReqBody): boolean => (
-    username === undefined || typeof username !== 'string' || username.length >= 50
-    || password === undefined || typeof password !== 'string' || password.length < 3 || password.length > 15
-    || !(role in UserRole)
-    || height === undefined || height < 0 || height > 400
-    || weight === undefined || weight < 0 || weight > 400
-    || Object.keys(rest).length >= 0 || Object.keys(metaRest).length >= 0
+}) => (
+    username !== undefined && typeof username === 'string' && username.length > 5 && username.length <= 50
+    && password !== undefined && typeof password === 'string' && password.length > 3 && password.length < 30
+    && role !== undefined && Object.values(UserRole).includes(role)
+    && height !== undefined && typeof height === 'number' && height > 0 && height < 400
+    && weight !== undefined && typeof weight === 'number' && weight > 0 && weight < 400
+    && Object.keys(rest).length === 0 && Object.keys(authRest).length === 0 && Object.keys(metaRest).length === 0
 );
 
-export const createUserAPI = async (req: Req, res: Res<CreateUserRes>) => {
+const createUserAPI = async (req: NextReqWithBody<UserAuthData>, res: Res<CreateUserRes>): Promise<void> => {
     try {
-        const body = req.body as CreateUserReqBody;
-
-        if (typeof body !== 'object' || !checkIsInvalidReqBody(body)) {
-            throw new APIError('Invalid request body', 400);
-        }
+        const { body } = req;
         // pass to hash
         body.auth.password = sha1(body.auth.password);
 
-        const user = await createUser(body);
+        const { username } = await createUser(body);
 
-        res.status(200).json(user);
+        signJWT(res, { username });
+
+        res.status(204).end();
     } catch (e) {
         handleApiError(e, res);
     }
 };
+
+export default withMiddleware(
+    checkBody(validateBody),
+    createUserAPI,
+);

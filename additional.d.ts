@@ -20,7 +20,22 @@ declare namespace NodeJS {
          * @link https://github.com/vercel/next.js/tree/canary/packages/next-bundle-analyzer
          */
         readonly ANALYZE: boolean;
+        /**
+         * Json Web Token expires in seconds
+         */
+        readonly JWT_EXPIRES_IN: string;
 
+        /**
+         * -------- .env
+         */
+
+        /**
+         * Redis url
+         */
         readonly REDIS_URL: string;
+        /**
+         * Json Web Token secret
+         */
+        readonly JWT_SECRET: string;
     }
 }

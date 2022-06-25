@@ -3,6 +3,7 @@
  */
 const REQUIRED_ENV = [
     'REDIS_URL',
+    'JWT_SECRET',
 ];
 
 /**

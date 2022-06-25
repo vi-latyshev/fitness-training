@@ -30,6 +30,8 @@ module.exports = (nextConfig, nextComposePlugins = {}) => {
                 HOST: process.env.HOST,
                 DOMAIN: `https://${process.env.HOST}`,
             }),
+
+            JWT_EXPIRES_IN: 1 * 24 * 60 * 60, // 1 day
         },
     };
 };

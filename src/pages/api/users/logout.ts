@@ -1,25 +1,27 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import createUserAPI from 'lib/api/routes/users/create';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
+import { logoutUserAPI } from 'lib/api/routes/users/logout';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { CreateUserRes } from 'lib/api/routes/users/create';
+import type { LogoutUserRes } from 'lib/api/routes/users/logout';
 
-const users = async (
+const usersLogout = async (
     req: NextApiRequest,
-    res: NextApiResponse<CreateUserRes>,
+    res: NextApiResponse<LogoutUserRes>,
 ): Promise<void> => {
     const { method } = req;
 
     switch (method) {
-        case 'POST':
-            await createUserAPI(req, res);
+        case 'GET':
+            await logoutUserAPI(req, res);
             break;
         default: break;
     }
 };
 
 export default withMiddleware(
-    allowMethods(['POST']),
-    users,
+    allowMethods(['GET']),
+    checkAuth,
+    usersLogout,
 );

@@ -3,17 +3,16 @@ import { combineKey } from './combine-key';
 // ------------- users
 
 const USERS = 'users';
-const USERS_IDX = 'u';
 const USERS_AUTH = 'auth';
 const USERS_METADATA = 'meta';
-const USERS_AUTH_TOKENS = 'tokens';
-const USERS_USERNAME_TO_ID = 'usernames';
-const USERS_ID_TO_USERNAME = 'ids';
-export const USERS_AUTH_KEY = (userId: string) => combineKey(USERS, USERS_IDX, userId, USERS_AUTH);
-export const USERS_METADATA_KEY = (userId: string) => combineKey(USERS, USERS_IDX, userId, USERS_METADATA);
-export const USERS_AUTH_TOKENS_KEY = (userId: string) => combineKey(USERS, USERS_IDX, userId, USERS_AUTH_TOKENS);
+// const USERS_AUTH_TOKENS = 'tokens';
+const USERS_USERNAME_TO_ID = 'username-to-id';
+const USERS_ID_TO_USERNAME = 'id-to-username';
+export const USERS_AUTH_KEY = (userId: string) => combineKey(USERS, userId, USERS_AUTH);
+export const USERS_METADATA_KEY = (userId: string) => combineKey(USERS, userId, USERS_METADATA);
 export const USERS_USERNAME_TO_ID_KEY = combineKey(USERS, USERS_USERNAME_TO_ID);
 export const USERS_ID_TO_USERNAME_KEY = combineKey(USERS, USERS_ID_TO_USERNAME);
+// export const USERS_AUTH_TOKENS_KEY = combineKey(USERS, USERS_AUTH_TOKENS);
 
 // ------------- trainee
 
