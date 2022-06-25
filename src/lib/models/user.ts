@@ -5,12 +5,23 @@ export enum UserRole {
 
 export type UserName = string;
 
-export type User = {
+export type UserBase<Role extends UserRole> = {
     username: UserName;
-    role: UserRole;
-    height: number;
-    weight: number;
+    role: Role;
 };
+
+export type Trainee = UserBase<UserRole.TRAINEE> & {
+    role: UserRole.TRAINEE;
+    coach: UserName;
+    height?: number;
+    weight?: number;
+};
+
+export type Coach = UserBase<UserRole.COACH> & {
+    trainees: UserName[];
+};
+
+export type User = Trainee | Coach;
 
 export type UserAuth = {
     username: UserName;
@@ -19,15 +30,5 @@ export type UserAuth = {
 
 export type UserAuthData = {
     auth: UserAuth;
-    meta: Omit<User, 'username'>;
+    meta: User;
 };
-
-// export type Trainee extends User = {
-//     role: UserRole.TRAINEE;
-//     coach: UserName;
-// }
-
-// export interface Coach extends User {
-//     role: UserRole.COACH;
-//     trainees: UserName[];
-// }

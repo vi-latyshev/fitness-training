@@ -23,14 +23,8 @@ export type CreateUserRes = User;
  *      - min-length - 3
  *      - max-length - 15
  * - role
- *      - wrong role
+ *      - no wrong role
  *      - default UserRole.TRAINEE
- * - height
- *      - min-length - 0
- *      - max-length - 400
- * - weight
- *      - min-length - 0
- *      - max-length - 400
  * - no additional fields
  */
 const validateBody: Validator<UserAuthData> = ({
@@ -40,27 +34,33 @@ const validateBody: Validator<UserAuthData> = ({
         ...authRest
     } = {},
     meta: {
-        role,
-        height,
-        weight,
+        role = UserRole.TRAINEE,
         ...metaRest
     } = {},
     ...rest
 }) => (
-    username !== undefined && typeof username === 'string' && username.length > 5 && username.length <= 50
-    && password !== undefined && typeof password === 'string' && password.length > 3 && password.length < 30
-    && role !== undefined && Object.values(UserRole).includes(role)
-    && height !== undefined && typeof height === 'number' && height > 0 && height < 400
-    && weight !== undefined && typeof weight === 'number' && weight > 0 && weight < 400
+    username !== undefined && typeof username === 'string' && username.length >= 5 && username.length <= 50
+    && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length < 30
+    && Object.values(UserRole).includes(role)
     && Object.keys(rest).length === 0 && Object.keys(authRest).length === 0 && Object.keys(metaRest).length === 0
 );
 
 const createUserAPI = async (req: NextReqWithBody<UserAuthData>, res: Res<CreateUserRes>): Promise<void> => {
     try {
         const { body } = req;
-        // pass to hash
-        body.auth.password = sha1(body.auth.password);
 
+        body.meta = {
+            ...body.meta,
+            username: body.auth.username,
+        };
+        // pass in sha1 hash
+        body.auth.password = sha1(body.auth.password);
+        body.meta.role = body.meta.role ?? UserRole.TRAINEE;
+
+        if (body.meta.role === UserRole.COACH) {
+            // init values
+            body.meta.trainees = [];
+        }
         const { username } = await createUser(body);
 
         signJWT(res, { username });

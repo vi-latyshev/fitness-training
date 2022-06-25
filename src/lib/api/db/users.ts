@@ -22,7 +22,7 @@ export const createUser = async (userAuth: UserAuthData): Promise<User> => {
     if (isExists === 1) {
         throw new APIError(`User (${username}) already exists`, 409);
     }
-    const user: User = { ...meta, username };
+    const user: User = meta;
     const userIternalID = uuidv4();
 
     const pipe = redis.pipeline();
@@ -31,7 +31,7 @@ export const createUser = async (userAuth: UserAuthData): Promise<User> => {
     pipe.hset(USERS_ID_TO_USERNAME_KEY, userIternalID, username);
 
     pipe.hset(USERS_AUTH_KEY(userIternalID), auth);
-    pipe.hset(USERS_METADATA_KEY(userIternalID), user);
+    pipe.hset(USERS_METADATA_KEY(userIternalID), Serializer.serialize(user));
 
     handlePipeline(await pipe.exec());
 

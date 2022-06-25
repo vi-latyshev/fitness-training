@@ -5,6 +5,7 @@ import { CheckIcon } from '@heroicons/react/solid';
 type PolymorphicRef = React.ComponentPropsWithRef<'input'>['ref'];
 
 export type CheckboxProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'children'> & {
+    label?: string;
     color?: 'default' | 'secondary' | 'success' | 'warning' | 'error';
     variant?: 'default' | 'soft';
     disabled?: boolean;
@@ -15,6 +16,7 @@ type CheckboxComponent = (
 ) => React.ReactElement | null;
 
 export const Checkbox: CheckboxComponent = forwardRef(({
+    label,
     color = 'default',
     variant = 'default',
     disabled,
@@ -23,9 +25,9 @@ export const Checkbox: CheckboxComponent = forwardRef(({
 }: CheckboxProps, ref: PolymorphicRef) => {
     const classesContainer = clsx(
         className,
-        'flex w-5 h-5 flex-shrink-0 items-center justify-center relative leading-none bg-grayPrimary rounded-sm cursor-pointer select-none',
+        'flex relative leading-none cursor-default',
         {
-            'opacity-50 cursor-default pointer-events-none': disabled,
+            'opacity-50 select-none pointer-events-none': disabled,
         },
     );
     const clessesBackground = clsx(
@@ -50,16 +52,23 @@ export const Checkbox: CheckboxComponent = forwardRef(({
 
     return (
         <div className={classesContainer}>
-            <input
-                {...props}
-                ref={ref}
-                disabled={disabled}
-                type="checkbox"
-                className="peer opacity-0 absolute cursor-pointer w-full h-full"
-            />
-            <div className={clessesBackground}>
-                <CheckIcon className="h-5 w-5" />
+            <div className="w-5 h-5 flex cursor-pointer items-center relative bg-grayPrimary rounded-sm">
+                <input
+                    {...props}
+                    ref={ref}
+                    disabled={disabled}
+                    type="checkbox"
+                    className="peer opacity-0 absolute cursor-pointer w-full h-full"
+                />
+                <div className={clessesBackground}>
+                    <CheckIcon className="h-5 w-5" />
+                </div>
             </div>
+            {label && (
+                <span className="text-sm pl-2">
+                    {label}
+                </span>
+            )}
         </div>
     );
 });
