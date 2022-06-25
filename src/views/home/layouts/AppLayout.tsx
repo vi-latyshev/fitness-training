@@ -38,7 +38,7 @@ export const AppLayout = ({ Component, pageProps }: AppPropsWithLayout) => {
     const BaseLayout = Layout ?? Fragment;
 
     return (
-        <BaseLayout {...Component.layoutProps}>
+        <BaseLayout {...(Layout ? Component.layoutProps : {})}>
             <Component {...pageProps} />
         </BaseLayout>
     );

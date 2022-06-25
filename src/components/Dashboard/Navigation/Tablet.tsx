@@ -15,7 +15,7 @@ export const DashNavTablet = ({ links }: DashNavTabletProps) => (
             <Logo />
             <NavBar links={links} />
         </div>
-        <Button rounded variant="text" className="px-12 w-full">
+        <Button full rounded variant="text">
             Выйти
         </Button>
     </aside>

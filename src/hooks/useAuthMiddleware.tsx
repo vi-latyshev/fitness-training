@@ -11,7 +11,7 @@ export type UseAuthMiddlewareProps = {
     needRole?: UserRole;
 };
 
-const loggedIn: boolean = true;
+const loggedIn: boolean = false;
 const userRole: UserRole = UserRole.TRAINEE;
 
 const REDIRECT_MAIN_PAGE: RedirectMainPage = {

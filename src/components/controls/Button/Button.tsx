@@ -12,6 +12,7 @@ export type ButtonProps<T extends React.ElementType = 'button'> = React.Componen
     variant?: 'default' | 'soft' | 'text';
     hover?: boolean;
     rounded?: boolean;
+    full?: boolean;
     Icon?: (props: React.ComponentProps<'svg'>) => JSX.Element;
 };
 
@@ -25,6 +26,7 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
     color = 'default',
     hover = true,
     rounded,
+    full,
     Icon,
     children,
     className,
@@ -35,7 +37,7 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
 
     const classes = clsx(
         className,
-        'flex items-center justify-center text-sm font-medium leading-none px-6 py-3 space-x-3 transition-all cursor-pointer select-none',
+        'flex items-center justify-center text-sm rounded font-medium leading-none px-6 py-3 space-x-3 transition-all cursor-pointer select-none',
         {
             // default
             'text-white': variant === 'default',
@@ -89,6 +91,7 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
 
             // other
             'rounded-full': rounded,
+            'w-full': full,
             'opacity-50 cursor-default pointer-events-none': disabled,
         },
     );
@@ -101,7 +104,7 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
             ref={ref}
         >
             {Icon && <Icon className="h-5 w-5" />}
-            {children && <div>{children}</div>}
+            {children && <span>{children}</span>}
         </Component>
     );
 });
