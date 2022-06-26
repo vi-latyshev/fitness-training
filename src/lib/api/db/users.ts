@@ -56,8 +56,19 @@ export const getAuthUser = async (username: string): Promise<UserAuth> => {
     if (userIternalID === null) {
         throw new APIError(`User (${username}) does not exist`, 404);
     }
-    const user = await redis.hgetall(USERS_AUTH_KEY(userIternalID))
+    const userAuth = await redis.hgetall(USERS_AUTH_KEY(userIternalID))
         .then<UserAuth>(Serializer.deserialize);
 
-    return user;
+    return userAuth;
+};
+
+export const setAuthUser = async (userAuth: UserAuth): Promise<void> => {
+    const { username } = userAuth;
+
+    const userIternalID = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
+
+    if (userIternalID === null) {
+        throw new APIError(`User (${username}) does not exist`, 404);
+    }
+    await redis.hset(USERS_AUTH_KEY(userIternalID), Serializer.serialize(userAuth));
 };

@@ -1,28 +1,28 @@
 import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { getMeAPI } from 'lib/api/routes/users/me';
+import setPasswordAPI from 'lib/api/routes/users/password';
 
 import type { NextApiResponse } from 'next';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { MeUserRes } from 'lib/api/routes/users/me';
 
-const me = async (
+const password = async (
     req: NextReqWithAuth,
     res: NextApiResponse<MeUserRes>,
 ): Promise<void> => {
     const { method } = req;
 
     switch (method) {
-        case 'GET':
-            await getMeAPI(req, res);
+        case 'PATCH':
+            await setPasswordAPI(req, res);
             break;
         default: break;
     }
 };
 
 export default withMiddleware(
-    allowMethods(['GET']),
+    allowMethods(['PATCH']),
     checkAuth,
-    me,
+    password,
 );

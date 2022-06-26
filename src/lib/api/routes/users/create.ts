@@ -26,6 +26,12 @@ export type CreateUserRes = void;
  * - role
  *      - no wrong role
  *      - default UserRole.TRAINEE
+ * - firstName
+ *      - min-length - 1
+ *      - max-length - 50
+ * - lastName
+ *      - min-length - 1
+ *      - max-length - 50
  * - no additional fields
  */
 const validateBody: Validator<UserRegisterData> = ({
@@ -36,12 +42,16 @@ const validateBody: Validator<UserRegisterData> = ({
     } = {},
     meta: {
         role = UserRole.TRAINEE,
+        firstName,
+        lastName,
         ...metaRest
     } = {},
     ...rest
 }) => (
     username !== undefined && typeof username === 'string' && /^[a-z.0-9_]{5,15}/
     && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length <= 30
+    && firstName !== undefined && typeof firstName === 'string' && firstName.length >= 1 && firstName.length <= 50
+    && lastName !== undefined && typeof password === 'string' && lastName.length >= 1 && lastName.length <= 50
     && Object.values(UserRole).includes(role)
     && Object.keys(rest).length === 0 && Object.keys(authRest).length === 0 && Object.keys(metaRest).length === 0
 );

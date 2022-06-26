@@ -2,12 +2,14 @@ import clsx from 'clsx';
 import { forwardRef } from 'react';
 
 export type InputProps = React.ComponentPropsWithoutRef<'input'> & {
+    label?: string;
     error?: string;
     full?: boolean;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({
     full,
+    label,
     error,
     disabled,
     className,
@@ -17,13 +19,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
         className,
         'block px-4 py-2 text-primary bg-white rounded border border-solid border-gray-300 focus:border-primary focus:outline-none placeholder:italic placeholder:text-sm placeholder:text-slate-400 transition',
         {
+            'border-error': error,
             'w-full': full,
             'opacity-50 cursor-default pointer-events-none': disabled,
         },
     );
 
     return (
-        <div className="flex flex-col">
+        <div className={clsx('flex flex-col', { 'w-full': full })}>
+            {label && <p className="text-sm font-semibold mb-1">{label}:</p>}
             <input
                 type="text"
                 {...props}

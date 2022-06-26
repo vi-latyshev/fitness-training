@@ -30,20 +30,24 @@ export interface UserContextValue {
 }
 
 export const UserContext = createContext<UserContextValue>({
-    user: {} as User,
+    user: {} as UserContextValue['user'],
     loggedIn: undefined,
     forceGetMe: async () => { },
     // updateUser: async (_user: UpdateUserParam, _onlyLocal?: boolean) => { },
     logout: async () => { },
 });
 
-export const useUser = () => useContext<UserContextValue>(UserContext);
+type UseUserCtx<U extends User = User> = Omit<UserContextValue, 'user'> & { user: U; };
+
+// @TODO dirty hack
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useUser = <U extends User = User>() => useContext<UseUserCtx<U>>(UserContext as any);
 
 /**
  * @TODO useSWR - change useState to useSWR
  */
 export const UserProvider = ({ children }: UserProviderProps) => {
-    const [user, setUser] = useState<User>({} as User);
+    const [user, setUser] = useState<UserContextValue['user']>({} as UserContextValue['user']);
     const userLoaded = useRef<boolean>(false);
 
     const loggedIn = useMemo(() => {

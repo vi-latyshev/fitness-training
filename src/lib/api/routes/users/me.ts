@@ -7,7 +7,7 @@ import type { User } from 'lib/models/user';
 
 export type MeUserRes = User;
 
-export const getMe = async (req: NextReqWithAuth, res: Res<MeUserRes>): Promise<void> => {
+export const getMeAPI = async (req: NextReqWithAuth, res: Res<MeUserRes>): Promise<void> => {
     try {
         const { username } = req.auth;
 

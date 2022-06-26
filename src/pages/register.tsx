@@ -36,7 +36,7 @@ const Register: NextPageWithLayout = () => {
 
     const handleFormSubmit: SubmitHandler<RegisterFields> = useCallback(async (data) => {
         try {
-            await axios.post<CreateUserRes>('api/users', data);
+            await axios.post<CreateUserRes>('/api/users', data);
             await forceGetMe();
         } catch (error) {
             try {
@@ -101,6 +101,40 @@ const Register: NextPageWithLayout = () => {
                         pattern: {
                             value: /^[a-z.0-9_]/,
                             message: 'Только буквы a-z, цифры и точки',
+                        },
+                    })}
+                />
+                <Input
+                    full
+                    placeholder="Ваше Имя"
+                    disabled={isSubmitting}
+                    error={errors.meta?.firstName?.message}
+                    {...register('meta.firstName', {
+                        required: 'Введите имя',
+                        minLength: {
+                            value: 1,
+                            message: 'Минимальная длина 1',
+                        },
+                        maxLength: {
+                            value: 50,
+                            message: 'Максимальная длина 50',
+                        },
+                    })}
+                />
+                <Input
+                    full
+                    placeholder="Ваша Фамилия"
+                    disabled={isSubmitting}
+                    error={errors.meta?.lastName?.message}
+                    {...register('meta.lastName', {
+                        required: 'Введите фамилию',
+                        minLength: {
+                            value: 1,
+                            message: 'Минимальная длина 1',
+                        },
+                        maxLength: {
+                            value: 50,
+                            message: 'Максимальная длина 50',
                         },
                     })}
                 />

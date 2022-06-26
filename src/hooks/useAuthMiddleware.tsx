@@ -37,5 +37,5 @@ export const useAuthMiddleware = ({ needRole }: UseAuthMiddlewareProps = {}): vo
         if (loggedIn && needRole !== user.role) {
             router.push(REDIRECT_MAIN_PAGE[user.role]);
         }
-    }, [loggedIn, needRole, user.role]);
+    }, [loggedIn, needRole, user]);
 };

@@ -25,7 +25,7 @@ const Login: NextPageWithLayout = () => {
 
     const handleFormSubmit: SubmitHandler<LoginFields> = useCallback(async (data) => {
         try {
-            await axios.post<LoginUserRes>('api/users/login', data);
+            await axios.post<LoginUserRes>('/api/users/login', data);
             await forceGetMe();
         } catch (error) {
             try {

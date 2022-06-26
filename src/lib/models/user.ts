@@ -8,10 +8,11 @@ export type UserName = string;
 export type UserBase<Role extends UserRole> = {
     username: UserName;
     role: Role;
+    firstName: string;
+    lastName: string;
 };
 
 export type Trainee = UserBase<UserRole.TRAINEE> & {
-    role: UserRole.TRAINEE;
     coach?: UserName;
     height?: number;
     weight?: number;
