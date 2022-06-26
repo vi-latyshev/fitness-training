@@ -9,25 +9,26 @@ import { UserRole } from 'lib/models/user';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
-import type { User, UserAuthData } from 'lib/models/user';
+import type { UserRegisterData } from 'lib/models/user';
 
-export type CreateUserRes = User;
+export type CreateUserRes = void;
 
 /**
  * hard code for validation
  *
  * - username:
  *      - min-length - 5
- *      - max-length - 50
- * - password
- *      - min-length - 3
  *      - max-length - 15
+ *      - symbols: a-z, numbers and dots
+ * - password
+ *      - min-length - 5
+ *      - max-length - 30
  * - role
  *      - no wrong role
  *      - default UserRole.TRAINEE
  * - no additional fields
  */
-const validateBody: Validator<UserAuthData> = ({
+const validateBody: Validator<UserRegisterData> = ({
     auth: {
         username,
         password,
@@ -39,13 +40,13 @@ const validateBody: Validator<UserAuthData> = ({
     } = {},
     ...rest
 }) => (
-    username !== undefined && typeof username === 'string' && username.length >= 5 && username.length <= 50
-    && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length < 30
+    username !== undefined && typeof username === 'string' && /^[a-z.0-9_]{5,15}/
+    && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length <= 30
     && Object.values(UserRole).includes(role)
     && Object.keys(rest).length === 0 && Object.keys(authRest).length === 0 && Object.keys(metaRest).length === 0
 );
 
-const createUserAPI = async (req: NextReqWithBody<UserAuthData>, res: Res<CreateUserRes>): Promise<void> => {
+const createUserAPI = async (req: NextReqWithBody<UserRegisterData>, res: Res<CreateUserRes>): Promise<void> => {
     try {
         const { body } = req;
 

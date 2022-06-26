@@ -4,7 +4,11 @@
  * @type {import('./plugins').NextPluginType}
  */
 module.exports = (nextConfig, _nextComposePlugins = {}) => ({
-    reactStrictMode: true,
+    /**
+     * @TODO research
+     * @link https://reactjs.org/blog/2022/03/29/react-v18.html#new-strict-mode-behaviors
+     */
+    reactStrictMode: false,
     poweredByHeader: false,
     eslint: {
         dirs: [

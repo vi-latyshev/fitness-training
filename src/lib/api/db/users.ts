@@ -11,9 +11,9 @@ import {
     USERS_ID_TO_USERNAME_KEY,
 } from 'lib/api/redis';
 
-import type { User, UserAuth, UserAuthData } from 'lib/models/user';
+import type { User, UserAuth, UserRegisterData } from 'lib/models/user';
 
-export const createUser = async (userAuth: UserAuthData): Promise<User> => {
+export const createUser = async (userAuth: UserRegisterData): Promise<User> => {
     const { auth, meta } = userAuth;
     const { username } = auth;
 

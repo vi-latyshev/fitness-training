@@ -18,10 +18,11 @@ export type LoginUserRes = void;
  *
  * - username:
  *      - min-length - 5
- *      - max-length - 50
- * - password
- *      - min-length - 3
  *      - max-length - 15
+ *      - symbols: a-z, numbers and dots
+ * - password
+ *      - min-length - 5
+ *      - max-length - 30
  * - no additional fields
  */
 const validateBody: Validator<UserAuth> = ({
@@ -29,8 +30,8 @@ const validateBody: Validator<UserAuth> = ({
     password,
     ...rest
 }) => (
-    username !== undefined && typeof username === 'string' && username.length >= 5 && username.length <= 50
-    && password !== undefined && typeof password === 'string' && password.length > 3 && password.length < 30
+    username !== undefined && typeof username === 'string' && /^[a-z.0-9_]{5,15}/
+    && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length <= 30
     && Object.keys(rest).length === 0
 );
 

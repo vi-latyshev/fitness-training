@@ -23,10 +23,10 @@ TraineeWorkout.layoutProps = {
     meta: {
         title: 'Тренировки',
     },
-    Layout: TraineeBaseLayout,
     auth: {
         needRole: UserRole.TRAINEE,
     },
+    Layout: TraineeBaseLayout,
 };
 
 export default TraineeWorkout;

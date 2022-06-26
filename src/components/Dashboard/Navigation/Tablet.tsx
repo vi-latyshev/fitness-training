@@ -1,7 +1,7 @@
-import { Button } from 'components/controls';
 import { Logo } from 'components/Logo';
 
 import { NavBar } from './NavBar';
+import { LogoutButton } from './Logout';
 
 import type { NavLinkProps } from './NavBar';
 
@@ -15,8 +15,6 @@ export const DashNavTablet = ({ links }: DashNavTabletProps) => (
             <Logo />
             <NavBar links={links} />
         </div>
-        <Button full rounded variant="text">
-            Выйти
-        </Button>
+        <LogoutButton />
     </aside>
 );

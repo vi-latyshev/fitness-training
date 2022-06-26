@@ -68,10 +68,10 @@ TraineeOverview.layoutProps = {
     meta: {
         title: 'Обзор',
     },
-    Layout: TraineeBaseLayout,
     auth: {
         needRole: UserRole.TRAINEE,
     },
+    Layout: TraineeBaseLayout,
 };
 
 export default TraineeOverview;

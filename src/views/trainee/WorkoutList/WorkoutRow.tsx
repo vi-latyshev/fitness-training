@@ -38,7 +38,7 @@ const getColorDate = (status: WorkoutsStatus, date: dayjs.Dayjs): ButtonProps['c
 
 export const WorkoutRow = ({ workout }: WorkoutRowProps) => {
     const {
-        id, type, counts, date, status,
+        /* id, */ type, counts, date, status,
     } = workout;
 
     const classesCell = clsx({
@@ -47,14 +47,14 @@ export const WorkoutRow = ({ workout }: WorkoutRowProps) => {
     const isDisabled = status !== WorkoutsStatus.UnDone;
 
     const handleUnDoneWorkout = useCallback((_e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('undone workout', id);
+        // console.log('undone workout', id);
     }, []);
 
     const handleChangeWorkout = useCallback(() => {
-        if (status === WorkoutsStatus.Done) {
-            return;
-        }
-        console.log('select workout', id);
+        // if (status === WorkoutsStatus.Done) {
+        //     return;
+        // }
+        // console.log('select workout', id);
     }, [status]);
 
     return (

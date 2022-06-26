@@ -12,7 +12,7 @@ export type UserBase<Role extends UserRole> = {
 
 export type Trainee = UserBase<UserRole.TRAINEE> & {
     role: UserRole.TRAINEE;
-    coach: UserName;
+    coach?: UserName;
     height?: number;
     weight?: number;
 };
@@ -28,7 +28,7 @@ export type UserAuth = {
     password: string;
 };
 
-export type UserAuthData = {
+export type UserRegisterData = {
     auth: UserAuth;
     meta: User;
 };

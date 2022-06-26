@@ -1,9 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import dayjs from 'dayjs';
-// import 'dayjs/locale/ru';
 import durationPluging from 'dayjs/plugin/duration';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
+
+import { UserProvider } from 'lib/context/user';
 
 import { AppLayout } from 'views/home';
 
@@ -11,7 +12,6 @@ import '../styles/globals.css';
 
 import type { AppPropsWithLayout, NextPageMeta } from 'views/home';
 
-// dayjs.locale('ru');
 dayjs.extend(durationPluging);
 dayjs.extend(isBetweenPlugin);
 
@@ -59,7 +59,9 @@ const App = (props: AppPropsWithLayout) => {
                 {/* links */}
                 {/* <link rel="canonical" href={fullPath} /> */}
             </Head>
-            <AppLayout {...props} />
+            <UserProvider>
+                <AppLayout {...props} />
+            </UserProvider>
         </>
     );
 };

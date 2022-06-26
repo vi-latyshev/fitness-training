@@ -65,7 +65,7 @@ export const Chart = ({ workouts }: ChartProps) => {
     }, [workouts]);
 
     return (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={250}>
             <AreaChart data={data}>
                 <defs>
                     <linearGradient

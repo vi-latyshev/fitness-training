@@ -1,21 +1,21 @@
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
-import { logoutUserAPI } from 'lib/api/routes/users/logout';
+import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import { getMe } from 'lib/api/routes/users/me';
 
 import type { NextApiResponse } from 'next';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { LogoutUserRes } from 'lib/api/routes/users/logout';
+import type { MeUserRes } from 'lib/api/routes/users/me';
 
-const usersLogout = async (
+const me = async (
     req: NextReqWithAuth,
-    res: NextApiResponse<LogoutUserRes>,
+    res: NextApiResponse<MeUserRes>,
 ): Promise<void> => {
     const { method } = req;
 
     switch (method) {
         case 'GET':
-            await logoutUserAPI(req, res);
+            await getMe(req, res);
             break;
         default: break;
     }
@@ -24,5 +24,5 @@ const usersLogout = async (
 export default withMiddleware(
     allowMethods(['GET']),
     checkAuth,
-    usersLogout,
+    me,
 );

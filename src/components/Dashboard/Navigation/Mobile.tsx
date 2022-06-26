@@ -5,6 +5,7 @@ import { Logo } from 'components/Logo';
 import { Button } from 'components/controls';
 
 import { NavBar } from './NavBar';
+import { LogoutButton } from './Logout';
 
 import type { NavLinkProps } from './NavBar';
 
@@ -29,16 +30,14 @@ export const DashNavMobile = ({ links }: DashNavMobileProps) => {
             {isMenuOpenned && (
                 <div className="fixed bg-white z-10 w-screen h-screen flex-col items-center py-20 px-5 justify-center text-center space-y-20">
                     <NavBar links={links} />
-                    <div className="text-primary cursor-pointer">
-                        Sign Out
-                    </div>
+                    <LogoutButton />
                 </div>
             )}
             <div className="lg:hidden z-20 fixed w-full px-5 py-5 bg-white flex items-center justify-between">
                 <Logo />
                 <div>
                     <Button variant="soft" type="button" onClick={handleOpenMenu}>
-                        Menu
+                        Меню
                     </Button>
                 </div>
             </div>
