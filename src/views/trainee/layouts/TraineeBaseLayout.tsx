@@ -9,17 +9,17 @@ const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
     {
         text: 'Обзор',
         href: '/trainee',
-        Icon: ChartPieIcon,
+        Icon: <ChartPieIcon />,
     },
     {
         text: 'Тренировки',
         href: '/trainee/workouts',
-        Icon: ClipboardCheckIcon,
+        Icon: <ClipboardCheckIcon />,
     },
     {
         text: 'Аккаунт',
         href: '/trainee/account',
-        Icon: UserIcon,
+        Icon: <UserIcon />,
     },
 ];
 

@@ -4,7 +4,6 @@ import type { LinkProps } from 'components/controls';
 
 export interface NavLinkProps extends LinkProps {
     text: string;
-    Icon: (props: React.ComponentProps<'svg'>) => JSX.Element;
 }
 
 export const NavLink = ({ href, text, Icon }: NavLinkProps) => (

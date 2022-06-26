@@ -9,7 +9,7 @@ const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
     {
         text: 'Обзор',
         href: '/coach',
-        Icon: ChartPieIcon,
+        Icon: <ChartPieIcon />,
     },
 ];
 

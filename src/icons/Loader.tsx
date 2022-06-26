@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 /* eslint-disable react/jsx-max-props-per-line */
 export const LoaderIcon = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => (
-    <svg className={clsx(className, 'animate-spin -ml-1 mr-3 text-primary')} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" {...props}>
+    <svg className={clsx(className, 'animate-spin text-primary')} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" {...props}>
         <circle
             className="opacity-25"
             cx="12"

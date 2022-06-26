@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, cloneElement } from 'react';
 import clsx from 'clsx';
 
 type PolymorphicRef<T extends React.ElementType = 'button'> = React.ComponentPropsWithRef<T>['ref'];
@@ -13,7 +13,7 @@ export type ButtonProps<T extends React.ElementType = 'button'> = React.Componen
     hover?: boolean;
     rounded?: boolean;
     full?: boolean;
-    Icon?: (props: React.ComponentProps<'svg'>) => JSX.Element;
+    Icon?: React.ReactElement;
 };
 
 export type ButtonComponent = <T extends React.ElementType = 'button'>(
@@ -37,7 +37,7 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
 
     const classes = clsx(
         className,
-        'flex items-center justify-center text-sm rounded font-medium leading-none px-6 py-3 space-x-3 transition-all cursor-pointer select-none',
+        'flex items-center justify-center relative text-sm rounded font-medium leading-none px-6 py-3 space-x-3 transition-all cursor-pointer select-none',
         {
             // default
             'text-white': variant === 'default',
@@ -103,7 +103,9 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
             className={classes}
             ref={ref}
         >
-            {Icon && <Icon className="h-5 w-5" />}
+            {Icon && cloneElement(Icon, {
+                className: clsx(Icon.props?.className, 'h-4 w-4 -ml-1'),
+            })}
             {children && <span>{children}</span>}
         </Component>
     );

@@ -8,6 +8,8 @@ import { AuthLayout } from 'views/home';
 
 import { Button, Input, Link } from 'components/controls';
 
+import { LoaderIcon } from 'icons/Loader';
+
 import type { SubmitHandler } from 'react-hook-form';
 import type { NextPageWithLayout } from 'views/home';
 import type { UserAuth } from 'lib/models/user';
@@ -18,7 +20,7 @@ type LoginFields = UserAuth;
 
 const Login: NextPageWithLayout = () => {
     const { forceGetMe } = useUser();
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginFields>();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFields>();
     const [serverError, setServerError] = useState<string | null>(null);
 
     const handleFormSubmit: SubmitHandler<LoginFields> = useCallback(async (data) => {
@@ -41,10 +43,11 @@ const Login: NextPageWithLayout = () => {
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="w-full space-y-8">
-            <div className="flex flex-col w-full space-y-4">
+            <div className="flex flex-col items-end w-full space-y-4">
                 <Input
                     full
                     placeholder="Ваше имя пользователя"
+                    disabled={isSubmitting}
                     error={errors.username?.message}
                     {...register('username', {
                         required: 'Введите имя пользователя',
@@ -66,6 +69,7 @@ const Login: NextPageWithLayout = () => {
                     full
                     type="password"
                     placeholder="Ваш пароль"
+                    disabled={isSubmitting}
                     error={errors.password?.message}
                     {...register('password', {
                         required: 'Введите пароль',
@@ -79,14 +83,22 @@ const Login: NextPageWithLayout = () => {
                         },
                     })}
                 />
-                <Button full type="submit">
+                <Button
+                    full
+                    type="submit"
+                    disabled={isSubmitting}
+                    Icon={(isSubmitting
+                        ? <LoaderIcon className="text-white" />
+                        : undefined
+                    )}
+                >
                     Войти
                 </Button>
-                {serverError && <p className="self-end text-error text-sm">{serverError}</p>}
+                {serverError && <p className="text-error text-sm">{serverError}</p>}
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-end text-sm text-center w-full">
                 <p className="pb-2 sm:mt-0 sm:pb-0 sm:pr-4">Еще нет аккаунта?</p>
-                <Link href="/register" variant="soft">Создать</Link>
+                <Link disabled={isSubmitting} href="/register" variant="soft">Создать</Link>
             </div>
         </form>
     );

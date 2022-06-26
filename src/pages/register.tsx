@@ -14,6 +14,8 @@ import {
     Checkbox,
 } from 'components/controls';
 
+import { LoaderIcon } from 'icons/Loader';
+
 import type { SubmitHandler } from 'react-hook-form';
 import type { NextPageWithLayout } from 'views/home';
 import type { UserRegisterData } from 'lib/models/user';
@@ -28,7 +30,7 @@ const Register: NextPageWithLayout = () => {
         setValue,
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm<RegisterFields>();
     const [serverError, setServerError] = useState<string | null>(null);
 
@@ -58,11 +60,12 @@ const Register: NextPageWithLayout = () => {
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="w-full space-y-8">
-            <div className="flex flex-col w-full space-y-4">
+            <div className="flex flex-col items-end w-full space-y-4">
                 <Input
                     full
                     placeholder="Имя пользователя"
                     error={errors.auth?.username?.message}
+                    disabled={isSubmitting}
                     {...register('auth.username', {
                         required: 'Введите имя пользователя',
                         minLength: {
@@ -83,6 +86,7 @@ const Register: NextPageWithLayout = () => {
                     full
                     type="password"
                     placeholder="Пароль"
+                    disabled={isSubmitting}
                     error={errors.auth?.password?.message}
                     {...register('auth.password', {
                         required: 'Введите имя пользователя',
@@ -103,16 +107,25 @@ const Register: NextPageWithLayout = () => {
                 <Checkbox
                     className="self-end"
                     label="Стать тренером"
+                    disabled={isSubmitting}
                     onChange={handleChangeCoach}
                 />
-                <Button full type="submit">
+                <Button
+                    full
+                    type="submit"
+                    disabled={isSubmitting}
+                    Icon={(isSubmitting
+                        ? <LoaderIcon className="text-white" />
+                        : undefined
+                    )}
+                >
                     Зарегистрироваться
                 </Button>
-                {serverError && <p className="self-end text-error text-sm">{serverError}</p>}
+                {serverError && <p className="text-error text-sm">{serverError}</p>}
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-end text-sm text-center w-full">
                 <p className="pb-2 sm:mt-0 sm:pb-0 sm:pr-4">Есть аккаунт?</p>
-                <Link href="/login" variant="soft">Войти</Link>
+                <Link disabled={isSubmitting} href="/login" variant="soft">Войти</Link>
             </div>
         </form>
     );

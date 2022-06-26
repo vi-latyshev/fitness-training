@@ -10,6 +10,7 @@ export type LinkProps = {
     href: NextLinkProps['href'],
     as?: NextLinkProps['as'],
     activeVariant?: ButtonPropsWithAnhor['variant'];
+    disabled?: boolean,
 } & NextLinkProps & Omit<React.ComponentPropsWithRef<'a'> & ButtonPropsWithAnhor, 'href'>;
 
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(({
