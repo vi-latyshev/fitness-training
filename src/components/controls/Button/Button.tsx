@@ -37,7 +37,7 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
 
     const classes = clsx(
         className,
-        'flex items-center justify-center relative text-sm rounded font-medium leading-none px-6 py-3 space-x-3 transition-all cursor-pointer select-none',
+        'flex items-center justify-center relative text-sm rounded font-medium leading-5 px-6 py-3 space-x-3 transition-all cursor-pointer select-none',
         {
             // default
             'text-white': variant === 'default',
@@ -96,6 +96,21 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
         },
     );
 
+    const classesIcon = Icon && clsx(
+        Icon.props?.className,
+        'h-4 w-4 -ml-1',
+        {
+            'text-white': variant === 'default',
+            ...((variant === 'text' || variant === 'soft') && {
+                'text-primary': color === 'default',
+                'text-secondary': color === 'secondary',
+                'text-success': color === 'success',
+                'text-warning': color === 'warning',
+                'text-error': color === 'error',
+            }),
+        },
+    );
+
     return (
         <Component
             {...props}
@@ -103,9 +118,7 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
             className={classes}
             ref={ref}
         >
-            {Icon && cloneElement(Icon, {
-                className: clsx(Icon.props?.className, 'h-4 w-4 -ml-1'),
-            })}
+            {Icon && cloneElement(Icon, { className: classesIcon })}
             {children && <span>{children}</span>}
         </Component>
     );

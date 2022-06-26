@@ -65,7 +65,7 @@ export const Checkbox: CheckboxComponent = forwardRef(({
                 </div>
             </div>
             {label && (
-                <span className="text-sm pl-2">
+                <span className="text-sm font-semibold pl-3">
                     {label}
                 </span>
             )}

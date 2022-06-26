@@ -59,8 +59,8 @@ export const TraineeAccount: NextPageWithLayout = () => {
     }, []);
 
     return (
-        <Card.Container className="grid-cols-1 md:grid-cols-3">
-            <Card.Card className="col-span-1 md:col-span-1">
+        <Card.Container className="grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+            <Card.Card className="col-span-1">
                 <Card.Title>Информация</Card.Title>
                 <Input
                     disabled
@@ -73,7 +73,7 @@ export const TraineeAccount: NextPageWithLayout = () => {
                     defaultValue={user.lastName}
                 />
             </Card.Card>
-            <Card.Card className="col-span-1 md:col-span-1">
+            <Card.Card>
                 <Card.Title>Безопастность</Card.Title>
                 <form onSubmit={handleSubmit(handleChangePass)} className="flex flex-col items-end w-full space-y-4">
                     <Input

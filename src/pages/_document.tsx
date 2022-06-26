@@ -7,10 +7,9 @@ import Document, {
 } from 'next/document';
 
 const IS_PROD = process.env.IS_PRODUCTION;
-const DOMAIN_URL = process.env.DOMAIN;
 
 const nowTime = Date.now();
-const v = (href: string) => `${DOMAIN_URL}${href}?v=${nowTime}`;
+const v = (href: string) => `${href}?v=${nowTime}`;
 
 export default class MyDocument extends Document {
     render = () => (
