@@ -1,28 +1,21 @@
 export enum UserRole {
+    ADMIN = 'admin',
     TRAINEE = 'trainee',
     COACH = 'coach',
 }
 
 export type UserName = string;
 
-export type UserBase<Role extends UserRole> = {
+export type User = {
     username: UserName;
-    role: Role;
+    role: UserRole;
     firstName: string;
     lastName: string;
-};
 
-export type Trainee = UserBase<UserRole.TRAINEE> & {
-    coach?: UserName;
     height?: number;
     weight?: number;
+    waistGirth?: number;
 };
-
-export type Coach = UserBase<UserRole.COACH> & {
-    trainees: UserName[];
-};
-
-export type User = Trainee | Coach;
 
 export type UserAuth = {
     username: UserName;
@@ -31,5 +24,9 @@ export type UserAuth = {
 
 export type UserRegisterData = {
     auth: UserAuth;
-    meta: User;
+    meta: Pick<User, 'firstName' | 'lastName'>;
+};
+
+export type UserRegisterDBData = UserRegisterData & {
+    meta: UserRegisterData['meta'] & Pick<User, 'username' | 'role'>;
 };

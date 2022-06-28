@@ -7,7 +7,7 @@ import { setCookie } from './set-cookie';
 import type { NextApiRequest as Req, NextApiResponse as Res } from 'next';
 import type { User } from 'lib/models/user';
 
-export type SignJWTPayload = Pick<User, 'username'>;
+export type SignJWTPayload = Pick<User, 'username' | 'role'>;
 
 const getExpDate = () => Date.now() + parseInt(process.env.JWT_EXPIRES_IN);
 
@@ -17,12 +17,7 @@ export const signJWT = (res: Res, payload: SignJWTPayload) => {
     const expiresIn = getExpDate();
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
-    setCookie(res, JWT_COOKIE_KEY, token, {
-        maxAge: expiresIn - 60, // -1 sec
-        httpOnly: true,
-        secure: process.env.IS_PRODUCTION,
-        path: '/api',
-    });
+    setCookie(res, JWT_COOKIE_KEY, token, { maxAge: expiresIn - 60 });
 };
 
 export const verifyJWT = (token: string): SignJWTPayload | null => {
@@ -66,10 +61,5 @@ export const checkAuthJWT = (req: Req): SignJWTPayload => {
 };
 
 export const removeJWT = (res: Res) => {
-    setCookie(res, JWT_COOKIE_KEY, '', {
-        maxAge: 0,
-        httpOnly: true,
-        secure: process.env.IS_PRODUCTION,
-        path: '/api',
-    });
+    setCookie(res, JWT_COOKIE_KEY, '', { maxAge: 0 });
 };

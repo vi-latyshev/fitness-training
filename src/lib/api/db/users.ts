@@ -11,10 +11,10 @@ import {
     USERS_ID_TO_USERNAME_KEY,
 } from 'lib/api/redis';
 
-import type { User, UserAuth, UserRegisterData } from 'lib/models/user';
+import type { User, UserAuth, UserRegisterDBData } from 'lib/models/user';
 
-export const createUser = async (userAuth: UserRegisterData): Promise<User> => {
-    const { auth, meta } = userAuth;
+export const createUser = async (userCreate: UserRegisterDBData): Promise<User> => {
+    const { auth, meta } = userCreate;
     const { username } = auth;
 
     const isExists = await redis.hexists(USERS_USERNAME_TO_ID_KEY, username);

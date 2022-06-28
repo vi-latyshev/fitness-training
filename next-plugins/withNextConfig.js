@@ -20,4 +20,13 @@ module.exports = (nextConfig, _nextComposePlugins = {}) => ({
     },
     /* @TODO remove after enabling as default in next.js */
     swcMinify: true,
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/login',
+                permanent: true,
+            },
+        ];
+    },
 });

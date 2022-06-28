@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import { UserRole } from 'lib/models/user';
-import { useUser } from 'lib/context/user';
+import { useUser } from 'lib/context/auth';
 
 type RedirectMainPage = {
     [P in UserRole]: string;
@@ -13,6 +13,7 @@ export type UseAuthMiddlewareProps = {
 };
 
 const REDIRECT_MAIN_PAGE: RedirectMainPage = {
+    [UserRole.ADMIN]: '/admin',
     [UserRole.TRAINEE]: '/trainee',
     [UserRole.COACH]: '/coach',
 };

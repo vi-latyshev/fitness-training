@@ -4,14 +4,14 @@ import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { APIError } from 'lib/api/error';
 import { signJWT } from 'lib/api/utils/jwt';
-import { getAuthUser } from 'lib/api/db/users';
+import { getAuthUser, getUser } from 'lib/api/db/users';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
-import type { UserAuth } from 'lib/models/user';
+import type { User, UserAuth } from 'lib/models/user';
 
-export type LoginUserRes = void;
+export type LoginUserRes = User;
 
 /**
  * hard code for validation
@@ -37,17 +37,19 @@ const validateBody: Validator<UserAuth> = ({
 
 const loginUserAPI = async (req: NextReqWithBody<UserAuth>, res: Res<LoginUserRes>): Promise<void> => {
     try {
-        const { body } = req;
-        const { username } = body;
+        const { username, password } = req.body;
 
-        const { password } = await getAuthUser(username);
+        const { password: currPassDB } = await getAuthUser(username);
 
-        if (sha1(body.password) !== password) {
+        if (sha1(password) !== currPassDB) {
             throw new APIError('Incorrect credentials', 403);
         }
-        signJWT(res, { username });
+        const user = await getUser(username);
+        const { role } = user;
 
-        res.status(204).end();
+        signJWT(res, { username, role });
+
+        res.status(200).json(user);
     } catch (e) {
         handleApiError(e, res);
     }

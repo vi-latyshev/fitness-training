@@ -17,5 +17,11 @@ export const setCookie = (
         options.expires = new Date(Date.now() + options.maxAge * 1000);
     }
 
-    res.setHeader('Set-Cookie', serialize(name, stringValue, options));
+    res.setHeader('Set-Cookie', serialize(name, stringValue, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== 'development',
+        sameSite: 'strict',
+        path: '/api',
+        ...options,
+    }));
 };

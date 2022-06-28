@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 import { UserRole } from 'lib/models/user';
-import { useUser } from 'lib/context/user';
+import { useUser } from 'lib/context/auth';
 
 import { TraineeBaseLayout } from 'views/trainee';
 
@@ -14,7 +14,7 @@ import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { NextPageWithLayout } from 'views/home';
-import type { SetPasswordData, SetPasswordRes } from 'lib/api/routes/users/password';
+import type { SetPasswordData } from 'lib/api/routes/users/password';
 import type { APIErrorJSON } from 'lib/api/error';
 
 type SecurityFields = SetPasswordData;
@@ -24,7 +24,7 @@ type SecurityFields = SetPasswordData;
  * @TODO ??
  */
 export const TraineeAccount: NextPageWithLayout = () => {
-    const { user } = useUser();
+    const { user, changePassUser } = useUser();
 
     const {
         register,
@@ -41,7 +41,7 @@ export const TraineeAccount: NextPageWithLayout = () => {
 
     const handleChangePass: SubmitHandler<SecurityFields> = useCallback(async (data) => {
         try {
-            await axios.patch<SetPasswordRes>('/api/users/password', data);
+            await changePassUser(data);
             reset();
             setServerError(null);
         } catch (error) {

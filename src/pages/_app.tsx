@@ -3,8 +3,10 @@ import Head from 'next/head';
 import dayjs from 'dayjs';
 import durationPluging from 'dayjs/plugin/duration';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
+import { SWRConfig } from 'swr';
 
-import { UserProvider } from 'lib/context/user';
+import { AuthProvider } from 'lib/context/auth';
+import { fetcher } from 'lib/fetcher';
 
 import { AppLayout } from 'views/home';
 
@@ -59,9 +61,17 @@ const App = (props: AppPropsWithLayout) => {
                 {/* links */}
                 {/* <link rel="canonical" href={fullPath} /> */}
             </Head>
-            <UserProvider>
-                <AppLayout {...props} />
-            </UserProvider>
+            <SWRConfig
+                value={{
+                    fetcher,
+                    errorRetryCount: 3,
+                    focusThrottleInterval: 10000,
+                }}
+            >
+                <AuthProvider>
+                    <AppLayout {...props} />
+                </AuthProvider>
+            </SWRConfig>
         </>
     );
 };

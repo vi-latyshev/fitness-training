@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 
-import { useUser } from 'lib/context/user';
+import { useUser } from 'lib/context/auth';
 
 import { PageLoader } from 'components/PageLoader';
 

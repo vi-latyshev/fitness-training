@@ -2,42 +2,31 @@ import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import { useUser } from 'lib/context/user';
-import { UserRole } from 'lib/models/user';
+import { useUser } from 'lib/context/auth';
 
 import { AuthLayout } from 'views/home';
 
-import {
-    Link,
-    Input,
-    Button,
-    Checkbox,
-} from 'components/controls';
+import { Link, Input, Button } from 'components/controls';
 
 import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { NextPageWithLayout } from 'views/home';
 import type { UserRegisterData } from 'lib/models/user';
-import type { CreateUserRes } from 'lib/api/routes/users/create';
 import type { APIErrorJSON } from 'lib/api/error';
 
-type RegisterFields = UserRegisterData;
-
 const Register: NextPageWithLayout = () => {
-    const { forceGetMe } = useUser();
+    const { registerUser } = useUser();
     const {
-        setValue,
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
-    } = useForm<RegisterFields>();
+    } = useForm<UserRegisterData>();
     const [serverError, setServerError] = useState<string | null>(null);
 
-    const handleFormSubmit: SubmitHandler<RegisterFields> = useCallback(async (data) => {
+    const handleFormSubmit: SubmitHandler<UserRegisterData> = useCallback(async (data) => {
         try {
-            await axios.post<CreateUserRes>('/api/users', data);
-            await forceGetMe();
+            await registerUser(data);
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {
@@ -50,12 +39,6 @@ const Register: NextPageWithLayout = () => {
                 throw new Error(`Handling response error: ${err}`);
             }
         }
-    }, []);
-
-    const handleChangeCoach = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const { checked } = e.target;
-
-        setValue('meta.role', checked ? UserRole.COACH : UserRole.TRAINEE);
     }, []);
 
     return (
@@ -137,12 +120,6 @@ const Register: NextPageWithLayout = () => {
                             message: 'Максимальная длина 50',
                         },
                     })}
-                />
-                <Checkbox
-                    className="self-end"
-                    label="Стать тренером"
-                    disabled={isSubmitting}
-                    onChange={handleChangeCoach}
                 />
                 <Button
                     full

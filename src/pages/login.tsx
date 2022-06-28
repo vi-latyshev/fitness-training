@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import { useUser } from 'lib/context/user';
+import { useUser } from 'lib/context/auth';
 
 import { AuthLayout } from 'views/home';
 
@@ -13,20 +13,16 @@ import { LoaderIcon } from 'icons/Loader';
 import type { SubmitHandler } from 'react-hook-form';
 import type { NextPageWithLayout } from 'views/home';
 import type { UserAuth } from 'lib/models/user';
-import type { LoginUserRes } from 'lib/api/routes/users/login';
 import type { APIErrorJSON } from 'lib/api/error';
 
-type LoginFields = UserAuth;
-
 const Login: NextPageWithLayout = () => {
-    const { forceGetMe } = useUser();
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFields>();
+    const { loginUser } = useUser();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserAuth>();
     const [serverError, setServerError] = useState<string | null>(null);
 
-    const handleFormSubmit: SubmitHandler<LoginFields> = useCallback(async (data) => {
+    const handleFormSubmit: SubmitHandler<UserAuth> = useCallback(async (data) => {
         try {
-            await axios.post<LoginUserRes>('/api/users/login', data);
-            await forceGetMe();
+            await loginUser(data);
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {

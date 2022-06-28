@@ -5,13 +5,13 @@ import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { createUser } from 'lib/api/db/users';
 import { signJWT } from 'lib/api/utils/jwt';
 import { handleApiError } from 'lib/api/error/handle-api-error';
-import { UserRole } from 'lib/models/user';
+import { User, UserRole } from 'lib/models/user';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
-import type { UserRegisterData } from 'lib/models/user';
+import type { UserRegisterData, UserRegisterDBData } from 'lib/models/user';
 
-export type CreateUserRes = void;
+export type CreateUserRes = User;
 
 /**
  * hard code for validation
@@ -41,7 +41,6 @@ const validateBody: Validator<UserRegisterData> = ({
         ...authRest
     } = {},
     meta: {
-        role = UserRole.TRAINEE,
         firstName,
         lastName,
         ...metaRest
@@ -52,7 +51,6 @@ const validateBody: Validator<UserRegisterData> = ({
     && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length <= 30
     && firstName !== undefined && typeof firstName === 'string' && firstName.length >= 1 && firstName.length <= 50
     && lastName !== undefined && typeof password === 'string' && lastName.length >= 1 && lastName.length <= 50
-    && Object.values(UserRole).includes(role)
     && Object.keys(rest).length === 0 && Object.keys(authRest).length === 0 && Object.keys(metaRest).length === 0
 );
 
@@ -60,23 +58,21 @@ const createUserAPI = async (req: NextReqWithBody<UserRegisterData>, res: Res<Cr
     try {
         const { body } = req;
 
-        body.meta = {
+        const auth: UserRegisterDBData['auth'] = {
+            ...body.auth,
+            password: sha1(body.auth.password), // pass in sha1 hash
+        };
+        const meta: UserRegisterDBData['meta'] = {
             ...body.meta,
             username: body.auth.username,
+            role: UserRole.TRAINEE,
         };
-        // pass in sha1 hash
-        body.auth.password = sha1(body.auth.password);
-        body.meta.role = body.meta.role ?? UserRole.TRAINEE;
+        const user = await createUser({ auth, meta });
+        const { username, role } = user;
 
-        if (body.meta.role === UserRole.COACH) {
-            // init values
-            body.meta.trainees = [];
-        }
-        const { username } = await createUser(body);
+        signJWT(res, { username, role });
 
-        signJWT(res, { username });
-
-        res.status(204).end();
+        res.status(200).json(user);
     } catch (e) {
         handleApiError(e, res);
     }

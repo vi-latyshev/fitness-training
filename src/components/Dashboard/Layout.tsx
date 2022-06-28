@@ -1,4 +1,4 @@
-import { useUser } from 'lib/context/user';
+import { useUser } from 'lib/context/auth';
 
 import { PageLoader } from 'components/PageLoader';
 
