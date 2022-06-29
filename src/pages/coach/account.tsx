@@ -1,6 +1,6 @@
 import { UserRole } from 'lib/models/user';
 
-import { TraineeBaseLayout } from 'views/trainee';
+import { CoachBaseLayout } from 'views/coach';
 
 import { AccountBio, AccountSecurity } from 'views/base/components/Account';
 
@@ -11,21 +11,21 @@ import type { NextPageWithLayout } from 'views/base';
 /**
  * @TODO ??
  */
-const TraineeAccount: NextPageWithLayout = () => (
+const CoachAccount: NextPageWithLayout = () => (
     <Card.Container className="grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
         <AccountBio />
         <AccountSecurity />
     </Card.Container>
 );
 
-TraineeAccount.layoutProps = {
+CoachAccount.layoutProps = {
     meta: {
         title: 'Аккаунт',
     },
     auth: {
-        needRole: UserRole.TRAINEE,
+        needRole: UserRole.COACH,
     },
-    Layout: TraineeBaseLayout,
+    Layout: CoachBaseLayout,
 };
 
-export default TraineeAccount;
+export default CoachAccount;

@@ -8,11 +8,11 @@ import { SWRConfig } from 'swr';
 import { AuthProvider } from 'lib/context/auth';
 import { fetcher } from 'lib/fetcher';
 
-import { AppLayout } from 'views/home';
+import { AppLayout } from 'views/base';
 
 import '../styles/globals.css';
 
-import type { AppPropsWithLayout, NextPageMeta } from 'views/home';
+import type { AppPropsWithLayout, NextPageMeta } from 'views/base';
 
 dayjs.extend(durationPluging);
 dayjs.extend(isBetweenPlugin);

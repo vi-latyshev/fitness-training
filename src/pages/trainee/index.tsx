@@ -9,12 +9,12 @@ import { Checkbox } from 'components/controls/Checkbox';
 
 import { LoaderIcon } from 'icons/Loader';
 
-import type { NextPageWithLayout } from 'views/home';
+import type { NextPageWithLayout } from 'views/base';
 
 /**
  * @TODO Полный обзор пользователя
  */
-export const TraineeOverview: NextPageWithLayout = () => (
+const TraineeOverview: NextPageWithLayout = () => (
     <>
         <Dashboard.Title>Cards</Dashboard.Title>
         <Card.Container className="grid-cols-1 xl:grid-cols-4">

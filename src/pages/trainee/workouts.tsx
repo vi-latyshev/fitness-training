@@ -7,9 +7,9 @@ import { WorkoutList } from 'views/trainee/WorkoutList';
 import Card from 'components/Card';
 import { Stats } from 'components/Stats';
 
-import type { NextPageWithLayout } from 'views/home';
+import type { NextPageWithLayout } from 'views/base';
 
-export const TraineeWorkout: NextPageWithLayout = () => (
+const TraineeWorkout: NextPageWithLayout = () => (
     <Card.Container className="grid-cols-1 md:grid-cols-5">
         <Card.Card className="col-span-1 md:col-span-3">
             <Card.Title>Список тренировок</Card.Title>

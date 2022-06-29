@@ -31,8 +31,8 @@ const handlesByRole: HandlesByRole = {
 const listUsersAPI = async (req: NextReqWithAuth, res: Res<ListUsersRes>): Promise<void> => {
     try {
         const { role } = req.auth;
-
         const handle = handlesByRole[role];
+
         if (!handle) {
             throw new APIError('Not enough rights', 403);
         }

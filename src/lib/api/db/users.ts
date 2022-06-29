@@ -88,7 +88,7 @@ export const getUsers = async (params: ListUsersDBParams = {}): Promise<ListUser
         filter,
         offset = 0,
         limit = 20,
-        expiration = 5000, // 10000
+        expiration = 30000,
     } = params;
 
     const key = USERS_IDX_KEY;

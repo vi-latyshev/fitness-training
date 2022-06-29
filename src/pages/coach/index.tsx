@@ -2,21 +2,20 @@ import { UserRole } from 'lib/models/user';
 
 import { CoachBaseLayout } from 'views/coach';
 
-import Dashboard from 'components/Dashboard';
 import Card from 'components/Card';
 
-import type { NextPageWithLayout } from 'views/home';
+import type { NextPageWithLayout } from 'views/base';
 
-export const CoachDashboard: NextPageWithLayout = () => (
-    <>
-        <Dashboard.Title>Обзор</Dashboard.Title>
-        <Card.Container>
-            тренер
-        </Card.Container>
-    </>
+const CoachDashboard: NextPageWithLayout = () => (
+    <Card.Container>
+        тренер
+    </Card.Container>
 );
 
 CoachDashboard.layoutProps = {
+    meta: {
+        title: 'Обзор',
+    },
     auth: {
         needRole: UserRole.COACH,
     },

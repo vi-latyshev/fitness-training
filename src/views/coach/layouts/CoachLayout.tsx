@@ -1,15 +1,22 @@
-import { ChartPieIcon } from '@heroicons/react/outline';
+import { ChartPieIcon, UserIcon } from '@heroicons/react/outline';
 
 import Dashboard from 'components/Dashboard';
 
-import type { NextLayout } from 'views/home';
+import type { NextLayout } from 'views/base';
 import type { DashboardLayoutProps } from 'components/Dashboard';
+
+const ROOT = '/coach';
 
 const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
     {
         text: 'Обзор',
-        href: '/coach',
-        Icon: <ChartPieIcon className="w-5 h-5" />,
+        href: ROOT,
+        Icon: ChartPieIcon,
+    },
+    {
+        text: 'Аккаунт',
+        href: `${ROOT}/account`,
+        Icon: UserIcon,
     },
 ];
 

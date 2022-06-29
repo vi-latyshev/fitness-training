@@ -5,7 +5,7 @@ import { PageLoader } from 'components/PageLoader';
 import { DashNav } from './Navigation/DashNav';
 import { DashboardTitle } from './Title';
 
-import type { NextLayout } from 'views/home';
+import type { NextLayout } from 'views/base';
 import type { NavLinkProps } from './Navigation/NavBar';
 
 export interface DashboardLayoutProps {

@@ -2,24 +2,26 @@ import { ChartPieIcon, UserIcon, ClipboardCheckIcon } from '@heroicons/react/out
 
 import Dashboard from 'components/Dashboard';
 
-import type { NextLayout } from 'views/home';
+import type { NextLayout } from 'views/base';
 import type { DashboardLayoutProps } from 'components/Dashboard';
+
+const ROOT = '/trainee';
 
 const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
     {
         text: 'Обзор',
-        href: '/trainee',
-        Icon: <ChartPieIcon className="w-5 h-5" />,
+        href: ROOT,
+        Icon: ChartPieIcon,
     },
     {
         text: 'Тренировки',
-        href: '/trainee/workouts',
-        Icon: <ClipboardCheckIcon className="w-5 h-5" />,
+        href: `${ROOT}/workouts`,
+        Icon: ClipboardCheckIcon,
     },
     {
         text: 'Аккаунт',
-        href: '/trainee/account',
-        Icon: <UserIcon className="w-5 h-5" />,
+        href: `${ROOT}/account`,
+        Icon: UserIcon,
     },
 ];
 

@@ -5,11 +5,11 @@ import setPasswordAPI from 'lib/api/routes/users/password';
 
 import type { NextApiResponse } from 'next';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { MeUserRes } from 'lib/api/routes/users/me';
+import type { SetPasswordRes } from 'lib/api/routes/users/password';
 
 const password = async (
     req: NextReqWithAuth,
-    res: NextApiResponse<MeUserRes>,
+    res: NextApiResponse<SetPasswordRes>,
 ): Promise<void> => {
     const { method } = req;
 

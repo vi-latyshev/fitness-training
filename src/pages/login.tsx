@@ -4,14 +4,14 @@ import axios from 'axios';
 
 import { useUser } from 'lib/context/auth';
 
-import { AuthLayout } from 'views/home';
+import { AuthLayout } from 'views/base';
 
 import { Button, Input, Link } from 'components/controls';
 
 import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { NextPageWithLayout } from 'views/home';
+import type { NextPageWithLayout } from 'views/base';
 import type { UserAuth } from 'lib/models/user';
 import type { APIErrorJSON } from 'lib/api/error';
 
