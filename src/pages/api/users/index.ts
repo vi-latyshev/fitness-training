@@ -1,5 +1,6 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
+import listUsersAPI from 'lib/api/routes/users/list';
 import createUserAPI from 'lib/api/routes/users/create';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -12,6 +13,9 @@ const users = async (
     const { method } = req;
 
     switch (method) {
+        case 'GET':
+            await listUsersAPI(req, res);
+            break;
         case 'POST':
             await createUserAPI(req, res);
             break;
@@ -20,6 +24,6 @@ const users = async (
 };
 
 export default withMiddleware(
-    allowMethods(['POST']),
+    allowMethods(['GET', 'POST']),
     users,
 );

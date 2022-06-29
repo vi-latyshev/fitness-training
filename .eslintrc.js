@@ -154,7 +154,7 @@ module.exports = {
                 objects: 'always-multiline',
                 imports: 'always-multiline',
                 exports: 'always-multiline',
-                functions: 'always-multiline',
+                functions: 'only-multiline',
                 enums: 'always-multiline',
                 generics: 'never',
                 tuples: 'always-multiline',

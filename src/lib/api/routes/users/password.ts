@@ -26,7 +26,7 @@ const validateBody: Validator<SetPasswordData> = ({
     passwordRepeat,
     ...rest
 }) => (
-    username !== undefined && typeof username === 'string' && /^[a-z.0-9_]{5,15}/
+    username !== undefined && typeof username === 'string' && /^[a-z.0-9_]{5,15}/.test(username)
     && currentPassword !== undefined && typeof currentPassword === 'string' && currentPassword.length >= 5 && currentPassword.length <= 30
     && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length <= 30
     && passwordRepeat !== undefined && typeof passwordRepeat === 'string' && passwordRepeat.length >= 5 && passwordRepeat.length <= 30

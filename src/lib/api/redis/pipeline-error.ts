@@ -1,4 +1,4 @@
-type ExecResult<RT = string> = [Error | null, RT];
+type ExecResult<RT = unknown> = [Error | null, RT];
 
 export const handlePipeline = <RT = string>(execResults: ExecResult<RT>[] | null): RT[] => {
     if (execResults === null) {

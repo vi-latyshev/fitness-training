@@ -9,6 +9,7 @@ export type UserName = string;
 export type User = {
     username: UserName;
     role: UserRole;
+    createdAt: number;
     firstName: string;
     lastName: string;
 
@@ -28,5 +29,5 @@ export type UserRegisterData = {
 };
 
 export type UserRegisterDBData = UserRegisterData & {
-    meta: UserRegisterData['meta'] & Pick<User, 'username' | 'role'>;
+    meta: User;
 };

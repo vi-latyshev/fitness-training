@@ -30,7 +30,7 @@ const validateBody: Validator<UserAuth> = ({
     password,
     ...rest
 }) => (
-    username !== undefined && typeof username === 'string' && /^[a-z.0-9_]{5,15}/
+    username !== undefined && typeof username === 'string' && /^[a-z.0-9_]{5,15}/.test(username)
     && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length <= 30
     && Object.keys(rest).length === 0
 );

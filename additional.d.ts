@@ -37,5 +37,9 @@ declare namespace NodeJS {
          * Json Web Token secret
          */
         readonly JWT_SECRET: string;
+
+        // readonly ADMIN_USERNAME: string;
+
+        // readonly ADMIN_PASS: string;
     }
 }

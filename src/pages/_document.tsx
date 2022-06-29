@@ -60,8 +60,8 @@ export default class MyDocument extends Document {
     );
 }
 
-MyDocument.getInitialProps = async (ctx) => {
-    const initialProps = await Document.getInitialProps(ctx);
+// MyDocument.getInitialProps = async (ctx) => {
+//     const initialProps = await Document.getInitialProps(ctx);
 
-    return { ...initialProps };
-};
+//     return { ...initialProps };
+// };
