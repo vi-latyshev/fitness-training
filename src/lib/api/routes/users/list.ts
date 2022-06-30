@@ -5,39 +5,48 @@ import { getUsers } from 'lib/api/db/users';
 import { UserRole } from 'lib/models/user';
 import { APIError } from 'lib/api/error';
 
-import type { NextApiResponse as Res } from 'next';
+import type { NextApiRequest, NextApiResponse as Res } from 'next';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { ListUsersDBParams, ListUsersDBRes } from 'lib/api/db/users';
 
-export type ListUsersRes = ListUsersDBRes;
-
-type HandlesByRole = {
-    [Role in UserRole]?: () => Promise<ListUsersRes>;
+type ListUsersReq = NextReqWithAuth & {
+    query: NextApiRequest['query'] & ListUsersDBParams;
 };
 
-const handlesByRole: HandlesByRole = {
-    [UserRole.ADMIN]: async () => getUsers(),
-    [UserRole.COACH]: async () => {
-        const params: ListUsersDBParams = {
-            filter: {
-                role: UserRole.TRAINEE,
-            },
-        };
+export type ListUsersRes = ListUsersDBRes;
 
-        return getUsers(params);
+type RightsByRole = {
+    [Role in UserRole]?: ListUsersDBParams;
+};
+
+const rightsByRole: RightsByRole = {
+    [UserRole.ADMIN]: {},
+    [UserRole.COACH]: {
+        filter: {
+            role: UserRole.TRAINEE,
+        },
     },
 };
 
-const listUsersAPI = async (req: NextReqWithAuth, res: Res<ListUsersRes>): Promise<void> => {
+const listUsersAPI = async (req: ListUsersReq, res: Res<ListUsersRes>): Promise<void> => {
     try {
         const { role } = req.auth;
-        const handle = handlesByRole[role];
+        const rightsOpts = rightsByRole[role];
 
-        if (!handle) {
+        if (!rightsOpts) {
             throw new APIError('Not enough rights', 403);
         }
-        const data = await handle();
+        const params: ListUsersDBParams = {
+            ...req.query,
+            ...rightsOpts,
+            filter: {
+                ...req.query.filter,
+                ...rightsOpts.filter,
+            },
+        };
+        const data = await getUsers(params);
 
+        res.setHeader('Cache-Control', 'max-age=59, s-maxage=60');
         res.status(200).json(data);
     } catch (e) {
         handleApiError(e, res);

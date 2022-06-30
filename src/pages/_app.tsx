@@ -3,6 +3,8 @@ import Head from 'next/head';
 import dayjs from 'dayjs';
 import durationPluging from 'dayjs/plugin/duration';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import 'dayjs/locale/ru';
 import { SWRConfig } from 'swr';
 
 import { AuthProvider } from 'lib/context/auth';
@@ -14,8 +16,10 @@ import '../styles/globals.css';
 
 import type { AppPropsWithLayout, NextPageMeta } from 'views/base';
 
+dayjs.extend(localizedFormat);
 dayjs.extend(durationPluging);
 dayjs.extend(isBetweenPlugin);
+dayjs.locale('ru');
 
 const DEFAULT_META: NextPageMeta = {
     title: 'Fitness Trainging',

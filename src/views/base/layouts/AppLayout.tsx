@@ -42,7 +42,7 @@ export const AppLayout = ({ Component, pageProps }: AppPropsWithLayout) => {
     useAuthMiddleware(auth);
 
     if (loggedIn === undefined) {
-        return <PageLoader />;
+        return <PageLoader full />;
     }
 
     const BaseLayout = Layout ?? Fragment;

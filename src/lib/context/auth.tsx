@@ -8,7 +8,7 @@ import {
     createContext,
 } from 'react';
 import axios from 'axios';
-import useSWR from 'swr';
+import useSWR, { mutate as mutateGlob } from 'swr';
 
 import type { User, UserAuth, UserRegisterData } from 'lib/models/user';
 import type { CreateUserRes } from 'lib/api/routes/users/create';
@@ -85,9 +85,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             : param;
 
         await mutate(updated, loggedIn === undefined);
-        // if (updated.username) {
-        //     await mutateGlob(`/api/users/${updated.username}`, updated, false);
-        // }
+
+        if (updated.username) {
+            await mutateGlob(`/api/users/${updated.username}`, updated, false);
+        }
     }, [user]);
 
     const logoutUser = useCallback<AuthContextValue['logoutUser']>(async () => {

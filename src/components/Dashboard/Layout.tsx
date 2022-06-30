@@ -16,7 +16,7 @@ export const DashboardLayout: NextLayout<DashboardLayoutProps> = ({ links, meta,
     const { loggedIn } = useUser();
 
     if (!loggedIn) {
-        return <PageLoader />;
+        return <PageLoader full />;
     }
 
     return (

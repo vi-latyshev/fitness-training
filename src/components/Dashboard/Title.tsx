@@ -1,9 +1,16 @@
-interface DashboardTitleProps {
-    children: string;
-}
+import clsx from 'clsx';
 
-export const DashboardTitle = ({ children }: DashboardTitleProps) => (
-    <div className="flex space-x-10">
-        <h1 className="text-4xl font-bold">{children}</h1>
+interface DashboardTitleProps extends React.HTMLAttributes<HTMLTableCellElement> { }
+
+export const DashboardTitle = ({
+    children,
+    className,
+    ...props
+}: DashboardTitleProps) => (
+    <div
+        className={clsx('flex flex-row items-center space-x-5 text-primary text-4xl font-bold', className)}
+        {...props}
+    >
+        {children}
     </div>
 );

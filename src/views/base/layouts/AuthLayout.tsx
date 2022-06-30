@@ -10,7 +10,7 @@ export const AuthLayout: NextLayout = ({ meta, children }) => {
     const { loggedIn } = useUser();
 
     if (loggedIn === undefined || loggedIn) {
-        return <PageLoader />;
+        return <PageLoader full />;
     }
 
     return (

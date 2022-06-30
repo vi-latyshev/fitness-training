@@ -119,7 +119,7 @@ export const Button: ButtonComponent = forwardRef(<T extends React.ElementType =
             ref={ref}
         >
             {Icon && cloneElement(Icon, { className: classesIcon })}
-            {children && <span>{children}</span>}
+            {children && <div>{children}</div>}
         </Component>
     );
 });

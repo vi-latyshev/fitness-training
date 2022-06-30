@@ -86,10 +86,16 @@ export const getUsers = async (params: ListUsersDBParams = {}): Promise<ListUser
         sortBy = 'createdAt',
         order = 'DESC',
         filter,
-        offset = 0,
-        limit = 20,
-        expiration = 30000,
+        offset: offsetRaw = 0,
+        limit: limitRaw = 20,
+        expiration: expirationRaw = 10 * 60 * 1000, // 10 min cache
     } = params;
+    // @ts-ignore @TODO valide & parse to type
+    const offset = parseInt(offsetRaw);
+    // @ts-ignore @TODO valide & parse to type
+    const limit = parseInt(limitRaw);
+    // @ts-ignore @TODO valide & parse to type
+    const expiration = parseInt(expirationRaw);
 
     const key = USERS_IDX_KEY;
     const metaKey = USERS_METADATA_KEY('*');

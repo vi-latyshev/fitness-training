@@ -7,6 +7,9 @@ export enum UserRole {
 export type UserName = string;
 
 export type User = {
+    /**
+     * unique
+     */
     username: UserName;
     role: UserRole;
     createdAt: number;

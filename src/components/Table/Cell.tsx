@@ -15,7 +15,7 @@ export const TableCell = ({
 }: TableCellProps) => {
     const classes = clsx(className, 'table-cell px-5 first:rounded-l last:rounded-r', {
         'w-full': full,
-        'opacity-60 bg-grayPrimary/30': disabled,
+        'opacity-60 bg-grayPrimary/30 select-none pointer-events-none': disabled,
     });
 
     return (
