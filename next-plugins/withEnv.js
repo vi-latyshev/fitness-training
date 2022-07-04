@@ -34,8 +34,8 @@ module.exports = (nextConfig, nextComposePlugins = {}) => {
             JWT_EXPIRES_IN: 1 * 24 * 60 * 60, // 1 day
 
             // root admin
-            // ADMIN_USERNAME: process.env.ADMIN_USERNAME ?? 'admin',
-            // ADMIN_PASS: process.env.ADMIN_PASS ?? 'admin',
+            ADMIN_USERNAME: process.env.ADMIN_USERNAME ?? 'admin',
+            ADMIN_PASS: process.env.ADMIN_PASS ?? 'admin',
         },
     };
 };
