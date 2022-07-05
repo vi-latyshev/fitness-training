@@ -77,9 +77,9 @@ export const setAuthUser = async (userAuth: UserAuth): Promise<void> => {
     await redis.hset(USERS_AUTH_KEY(userIternalID), Serializer.serialize(userAuth));
 };
 
-export type ListUsersDBParams = Pagination<User>;
+type ListUsersDBParams = Pagination<User>;
 
-export type ListUsersDBRes = PaginationResp<User>;
+type ListUsersDBRes = PaginationResp<User>;
 
 export const getUsers = async (params: ListUsersDBParams = {}): Promise<ListUsersDBRes> => {
     const {

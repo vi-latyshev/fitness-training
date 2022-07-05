@@ -5,11 +5,12 @@ import createUserAPI from 'lib/api/routes/users/create';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { CreateUserRes } from 'lib/api/routes/users/create';
-import type { ListUsersRes } from 'lib/api/routes/users/list';
+import type { PaginationResp } from 'lib/api/redis/types';
+import type { User } from 'lib/models/user';
 
 const users = async (
     req: NextApiRequest,
-    res: NextApiResponse<CreateUserRes | ListUsersRes>,
+    res: NextApiResponse<CreateUserRes | PaginationResp<User>>,
 ): Promise<void> => {
     const { method } = req;
 

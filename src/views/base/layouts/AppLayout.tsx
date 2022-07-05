@@ -2,9 +2,9 @@ import { Fragment } from 'react';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 
-import { useUser } from 'lib/context/auth';
+import { useUser } from 'context/auth';
 
-import { PageLoader } from 'components/PageLoader';
+import { PageLoader } from 'components/Loader';
 
 import { useAuthMiddleware } from 'hooks/useAuthMiddleware';
 
@@ -42,7 +42,9 @@ export const AppLayout = ({ Component, pageProps }: AppPropsWithLayout) => {
     useAuthMiddleware(auth);
 
     if (loggedIn === undefined) {
-        return <PageLoader full />;
+        return (
+            <PageLoader />
+        );
     }
 
     const BaseLayout = Layout ?? Fragment;

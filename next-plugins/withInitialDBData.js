@@ -2,11 +2,11 @@ const waitOn = require('wait-on');
 const Log = require('next/dist/build/output/log');
 const { default: axios } = require('axios');
 
-const CREATE_USER_API_URL = (basePath) => `${basePath}/api/users`;
+const CREATE_USERS_API_URL = (basePath) => `${basePath}/api/users`;
 
 const addUsers = async (basePath, username, password) => {
     try {
-        await axios.post(CREATE_USER_API_URL(basePath), {
+        await axios.post(CREATE_USERS_API_URL(basePath), {
             auth: {
                 username,
                 password,
@@ -22,14 +22,13 @@ const addUsers = async (basePath, username, password) => {
 };
 
 const waitOnInitialData = async (basePath) => {
-    console.log([
-        CREATE_USER_API_URL(basePath),
-    ].map((url) => url.replace(/(:\/\/)/, '-get://')), 'CREATE_USER_API_URL(basePath)');
+    const resources = [
+        CREATE_USERS_API_URL(basePath),
+    ].map((url) => url.replace(/(:\/\/)/, '-get://'));
+
     const waitOnOptions = {
-        resources: [
-            CREATE_USER_API_URL(basePath),
-        ].map((url) => url.replace(/(:\/\/)/, '-get://')),
-        interval: 2000,
+        resources,
+        interval: 5000,
         validateStatus: () => true,
     };
     await waitOn(waitOnOptions);

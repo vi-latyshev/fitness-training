@@ -1,6 +1,6 @@
-import { useUser } from 'lib/context/auth';
+import { useUser } from 'context/auth';
 
-import { PageLoader } from 'components/PageLoader';
+import { PageLoader } from 'components/Loader';
 import Card from 'components/Card';
 import { Logo } from 'components/Logo';
 
@@ -10,7 +10,9 @@ export const AuthLayout: NextLayout = ({ meta, children }) => {
     const { loggedIn } = useUser();
 
     if (loggedIn === undefined || loggedIn) {
-        return <PageLoader full />;
+        return (
+            <PageLoader />
+        );
     }
 
     return (

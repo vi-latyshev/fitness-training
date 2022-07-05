@@ -1,6 +1,6 @@
-import { useUser } from 'lib/context/auth';
+import { useUser } from 'context/auth';
 
-import { PageLoader } from 'components/PageLoader';
+import { PageLoader } from 'components/Loader';
 
 import { DashNav } from './Navigation/DashNav';
 import { DashboardTitle } from './Title';
@@ -16,7 +16,9 @@ export const DashboardLayout: NextLayout<DashboardLayoutProps> = ({ links, meta,
     const { loggedIn } = useUser();
 
     if (!loggedIn) {
-        return <PageLoader full />;
+        return (
+            <PageLoader />
+        );
     }
 
     return (

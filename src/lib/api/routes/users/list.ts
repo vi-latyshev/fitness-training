@@ -7,16 +7,17 @@ import { APIError } from 'lib/api/error';
 
 import type { NextApiRequest, NextApiResponse as Res } from 'next';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { ListUsersDBParams, ListUsersDBRes } from 'lib/api/db/users';
+import type { User } from 'lib/models/user';
+import type { Pagination, PaginationResp } from 'lib/api/redis/types';
 
 type ListUsersReq = NextReqWithAuth & {
-    query: NextApiRequest['query'] & ListUsersDBParams;
+    query: NextApiRequest['query'] & Pagination<User>;
 };
 
-export type ListUsersRes = ListUsersDBRes;
+type ListUsersRes = PaginationResp<User>;
 
 type RightsByRole = {
-    [Role in UserRole]?: ListUsersDBParams;
+    [Role in UserRole]?: Pagination<User>;
 };
 
 const rightsByRole: RightsByRole = {
@@ -36,7 +37,7 @@ const listUsersAPI = async (req: ListUsersReq, res: Res<ListUsersRes>): Promise<
         if (!rightsOpts) {
             throw new APIError('Not enough rights', 403);
         }
-        const params: ListUsersDBParams = {
+        const params: Pagination<User> = {
             ...req.query,
             ...rightsOpts,
             filter: {

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import { useUser } from 'lib/context/auth';
+import { useUser } from 'context/auth';
 
 import Card from 'components/Card';
 import { Button, Input } from 'components/controls';
@@ -10,11 +10,19 @@ import { Button, Input } from 'components/controls';
 import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { SetPasswordData } from 'lib/api/routes/users/password';
+import type { SetPasswordData, SetPasswordRes } from 'lib/api/routes/users/password';
 import type { APIErrorJSON } from 'lib/api/error';
 
-export const AccountSecurity = () => {
-    const { user, loggedIn, changePassUser } = useUser();
+interface AccountSecurityProps {
+    username?: string;
+}
+
+export const AccountSecurity = ({
+    username: usernameProp,
+}: AccountSecurityProps) => {
+    const { user, loggedIn } = useUser();
+
+    const username = usernameProp ?? user.username;
 
     const {
         register,
@@ -24,14 +32,14 @@ export const AccountSecurity = () => {
         formState: { isDirty, errors, isSubmitting },
     } = useForm<SetPasswordData>({
         defaultValues: {
-            username: user.username,
+            username,
         },
     });
     const [serverError, setServerError] = useState<string | null>(null);
 
     const handleChangePass: SubmitHandler<SetPasswordData> = useCallback(async (data) => {
         try {
-            await changePassUser(data);
+            await axios.patch<SetPasswordRes>('/api/users/password', data);
             reset();
             setServerError(null);
         } catch (error) {
@@ -60,7 +68,7 @@ export const AccountSecurity = () => {
                     full
                     disabled
                     label="Имя пользователя"
-                    defaultValue={user.username}
+                    defaultValue={username}
                 />
                 <Input
                     full

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import { useUser } from 'lib/context/auth';
+import { useUser } from 'context/auth';
 
 import { AuthLayout } from 'views/base';
 

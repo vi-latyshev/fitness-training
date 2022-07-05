@@ -5,9 +5,11 @@ import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { APIError } from 'lib/api/error';
 import { getAuthUser, setAuthUser } from 'lib/api/db/users';
 import { handleApiError } from 'lib/api/error/handle-api-error';
+import { UserRole } from 'lib/models/user';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
+import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { UserAuth } from 'lib/models/user';
 
 export type SetPasswordData = {
@@ -17,6 +19,7 @@ export type SetPasswordData = {
     passwordRepeat: UserAuth['password'];
 };
 
+type SetPasswordReq = NextReqWithAuth & NextReqWithBody<SetPasswordData>;
 export type SetPasswordRes = void;
 
 const validateBody: Validator<SetPasswordData> = ({
@@ -33,11 +36,15 @@ const validateBody: Validator<SetPasswordData> = ({
     && passwordRepeat === password && Object.keys(rest).length === 0
 );
 
-const setPasswordAPI = async (req: NextReqWithBody<SetPasswordData>, res: Res<SetPasswordRes>): Promise<void> => {
+const setPasswordAPI = async (req: SetPasswordReq, res: Res<SetPasswordRes>): Promise<void> => {
     try {
-        const { body } = req;
+        const { body, auth } = req;
         const { username, password: newPassword, currentPassword } = body;
 
+        // only self acc or admin
+        if (username !== auth.username && auth.role !== UserRole.ADMIN) {
+            throw new APIError('Not enough rights', 403);
+        }
         const { password: currPassDB } = await getAuthUser(username);
 
         if (currPassDB !== sha1(currentPassword)) {

@@ -3,5 +3,5 @@ interface TableContainerProps {
 }
 
 export const TableContainer = ({ children }: TableContainerProps) => (
-    <table className="table border-separate border-spacing-y-2 w-full">{children}</table>
+    <div className="flex flex-col relative">{children}</div>
 );

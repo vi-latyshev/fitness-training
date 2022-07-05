@@ -4,18 +4,29 @@ import { handleApiError } from 'lib/api/error/handle-api-error';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithQueryId } from 'lib/api/middleware/plugins/check-query-id';
+import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { User } from 'lib/models/user';
 
+type FetchUserReq = NextReqWithAuth & NextReqWithQueryId;
 export type FetchUserRes = User;
 
-const fetchUserAPI = async (req: NextReqWithQueryId, res: Res<FetchUserRes>): Promise<void> => {
+const responseUser = async (res: Res<FetchUserRes>, username: string) => {
+    const user = await getUser(username);
+
+    res.setHeader('Cache-Control', 'max-age=59, s-maxage=60');
+    res.status(200).json(user);
+};
+
+const fetchUserAPI = async (req: FetchUserReq, res: Res<FetchUserRes>): Promise<void> => {
     try {
         const { id: username } = req.query;
 
-        const user = await getUser(username);
+        if (username === 'me') {
+            await responseUser(res, req.auth.username);
 
-        res.setHeader('Cache-Control', 'max-age=59, s-maxage=60');
-        res.status(200).json(user);
+            return;
+        }
+        await responseUser(res, username);
     } catch (e) {
         handleApiError(e, res);
     }

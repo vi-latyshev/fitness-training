@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 
-import { useUser } from 'lib/context/auth';
+import { useUser } from 'context/auth';
 
 import Table from 'components/Table';
 
@@ -41,6 +41,7 @@ export const UsersRow = ({ user }: UsersRowProps) => {
                 className="w-1/5 cursor-pointer"
             >
                 {username}
+                {isCurrUser ? ' (Это Вы)' : null}
             </Table.Cell>
             <Table.Cell
                 disabled={isCurrUser}
@@ -56,7 +57,6 @@ export const UsersRow = ({ user }: UsersRowProps) => {
                 className="cursor-pointer"
             >
                 {lastName}
-                {isCurrUser ? ' (Это Вы)' : null}
             </Table.Cell>
             <Table.Cell disabled={isCurrUser}>
                 {role}

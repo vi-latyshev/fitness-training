@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { useUser } from 'lib/context/auth';
+import { useUser } from 'context/auth';
 
 import { Button } from 'components/controls';
 

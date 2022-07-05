@@ -1,20 +1,19 @@
 import {
     useRef,
     useMemo,
-    // useState,
-    // useEffect,
     useContext,
     useCallback,
     createContext,
 } from 'react';
 import axios from 'axios';
-import useSWR, { mutate as mutateGlob } from 'swr';
+import { mutate as mutateGlob } from 'swr';
+
+import { useUserByUsername } from 'hooks/useUserByUsername';
 
 import type { User, UserAuth, UserRegisterData } from 'lib/models/user';
 import type { CreateUserRes } from 'lib/api/routes/users/create';
 import type { LoginUserRes } from 'lib/api/routes/users/login';
-import type { MeUserRes } from 'lib/api/routes/users/me';
-import type { SetPasswordData, SetPasswordRes } from 'lib/api/routes/users/password';
+import type { LogoutUserRes } from 'lib/api/routes/users/logout';
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -27,7 +26,6 @@ export interface AuthContextValue {
     loggedIn: boolean | undefined;
     registerUser: (data: UserRegisterData) => Promise<void>;
     loginUser: (data: UserAuth) => Promise<void>;
-    changePassUser: (data: SetPasswordData) => Promise<void>;
     updateUser: (user: UpdateUserParam) => Promise<void>;
     logoutUser: () => Promise<void>;
 }
@@ -37,16 +35,15 @@ export const AuthContext = createContext<AuthContextValue>({
     loggedIn: undefined,
     updateUser: async (_user: UpdateUserParam) => { },
     registerUser: async () => { },
-    changePassUser: async () => { },
     loginUser: async () => { },
     logoutUser: async () => { },
 });
 
 export const useUser = () => useContext<AuthContextValue>(AuthContext);
 
-// @TODO remove context
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const { data: user = {} as User, error, mutate } = useSWR<MeUserRes>('/api/users/me', { shouldRetryOnError: false });
+    const { user, error, mutate } = useUserByUsername('me');
+
     const userLoaded = useRef<boolean>(false);
 
     const loggedIn = useMemo(() => {
@@ -75,10 +72,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         mutate(resp.data, false);
     }, []);
 
-    const changePassUser = useCallback<AuthContextValue['changePassUser']>(async (data) => {
-        await axios.patch<SetPasswordRes>('/api/users/password', data);
-    }, [loggedIn]);
-
     const updateUser = useCallback(async (param: UpdateUserParam) => {
         const updated: User = typeof param === 'function'
             ? param(user)
@@ -93,7 +86,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const logoutUser = useCallback<AuthContextValue['logoutUser']>(async () => {
         try {
-            await axios.get<MeUserRes>('/api/users/logout');
+            await axios.get<LogoutUserRes>('/api/users/logout');
             mutate({} as User, false);
         } catch (e) {
             // @TODO SWR
@@ -106,10 +99,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         loggedIn,
         registerUser,
         loginUser,
-        changePassUser,
         updateUser,
         logoutUser,
-    }), [user, loggedIn, changePassUser]);
+    }), [user, loggedIn]);
 
     return (
         <AuthContext.Provider value={userValue}>

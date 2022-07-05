@@ -7,7 +7,8 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/ru';
 import { SWRConfig } from 'swr';
 
-import { AuthProvider } from 'lib/context/auth';
+import { AuthProvider } from 'context/auth';
+
 import { fetcher } from 'lib/fetcher';
 
 import { AppLayout } from 'views/base';
