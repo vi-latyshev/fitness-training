@@ -14,19 +14,10 @@ export const USERS_IDX_KEY = combineKey(USERS, USERS_IDX);
 export const USERS_USERNAME_TO_ID_KEY = combineKey(USERS, USERS_USERNAME_TO_ID);
 export const USERS_ID_TO_USERNAME_KEY = combineKey(USERS, USERS_ID_TO_USERNAME);
 
-// ------------- trainee
-
-const TRAINEE = 'trainee';
-const TRAINEE_WORKOUTS = 'workouts';
-export const USERS_WORKOUTS_LIST_KEY = (userId: string) => combineKey(TRAINEE, TRAINEE_WORKOUTS, userId);
-
-// ------------- coach
-
-const COACH = 'coach';
-const COACH_TRAINEES = 'trainees';
-export const COACH_TRAINEES_LIST_KEY = (userId: string) => combineKey(COACH, COACH_TRAINEES, userId);
-
 // ------------- workouts
 
-export const WORKOUTS = 'workouts';
-export const WORKOUTS_INDEX_KEY = (workoutId: string) => combineKey(WORKOUTS, workoutId);
+const WORKOUTS = 'workouts';
+const WORKOUTS_LIST = 'list';
+const WORKOUTS_BY_USER = 'u';
+export const WORKOUTS_ITEM_KEY = (workoutId: string) => combineKey(WORKOUTS, WORKOUTS_LIST, workoutId);
+export const WORKOUTS_BY_USER_KEY = (userId: string) => combineKey(WORKOUTS, WORKOUTS_BY_USER, userId);

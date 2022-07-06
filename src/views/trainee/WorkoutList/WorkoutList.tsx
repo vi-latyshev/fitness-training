@@ -9,8 +9,8 @@ export const WorkoutList = () => {
 
     return (
         <div className="space-y-6">
-            <ListTabs filter={filter} handleChange={setWorkoutFilter} />
             <Table.Container>
+                <ListTabs filter={filter} handleChange={setWorkoutFilter} />
                 <Table.Body>
                     {workouts.map((workout) => (
                         <WorkoutRow key={workout.id} workout={workout} />

@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 
+import type { User } from './user';
+
 export enum WorkoutType {
     PushUpsFloor,
     PushUpsWideArm,
@@ -14,18 +16,23 @@ export enum WorkoutsStatus {
     Done = 'done',
 }
 
-export interface WorkoutsCountType {
+export type WorkoutsCountType = {
     type: 'amount' | 'time';
     value: number;
-}
+};
 
-export interface Workout {
+export type Workout = {
     id: string;
+    owner: User['username'];
     type: WorkoutType;
     counts: WorkoutsCountType;
     date: dayjs.Dayjs;
     status: WorkoutsStatus;
-}
+};
+
+export type WorkoutCreateDataDB = Omit<Workout, 'id'>;
+
+export type WorkoutCreateData = Omit<WorkoutCreateDataDB, 'status'>;
 
 // --------------------------------------------------------
 // @TODO move to another file

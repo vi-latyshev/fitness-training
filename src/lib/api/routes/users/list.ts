@@ -47,7 +47,7 @@ const listUsersAPI = async (req: ListUsersReq, res: Res<ListUsersRes>): Promise<
         };
         const data = await getUsers(params);
 
-        res.setHeader('Cache-Control', 'max-age=59, s-maxage=60');
+        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         res.status(200).json(data);
     } catch (e) {
         handleApiError(e, res);

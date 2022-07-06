@@ -2,8 +2,7 @@ import { useRouter } from 'next/router';
 
 import { UserRole } from 'lib/models/user';
 
-import { AccountSecurity } from 'views/base/components/Account';
-import { AdminBaseLayout } from 'views/admin';
+import { CoachBaseLayout } from 'views/coach';
 
 import { useUserByUsername } from 'hooks/useUserByUsername';
 import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
@@ -12,7 +11,7 @@ import Card from 'components/Card';
 
 import type { NextPageWithLayout } from 'views/base';
 
-const AdminUserPick: NextPageWithLayout = () => {
+const CoachTraineePick: NextPageWithLayout = () => {
     const router = useRouter();
     const { query } = router;
 
@@ -25,18 +24,20 @@ const AdminUserPick: NextPageWithLayout = () => {
             <Dashboard.Title>
                 {firstName} {lastName} ({username})
             </Dashboard.Title>
-            <Card.Container className="grid-cols-3">
-                <AccountSecurity username={username} />
+            <Card.Container className="grid-cols-1 md:grid-cols-5">
+                <Card.Card className="col-span-1 md:col-span-3">
+                    <Card.Title>Список тренировок</Card.Title>
+                </Card.Card>
             </Card.Container>
         </SwrLoadingHandle>
     );
 };
 
-AdminUserPick.layoutProps = {
+CoachTraineePick.layoutProps = {
     auth: {
-        needRole: UserRole.ADMIN,
+        needRole: UserRole.COACH,
     },
-    Layout: AdminBaseLayout,
+    Layout: CoachBaseLayout,
 };
 
-export default AdminUserPick;
+export default CoachTraineePick;

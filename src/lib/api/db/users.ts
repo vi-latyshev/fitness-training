@@ -26,16 +26,16 @@ export const createUser = async (userCreate: UserRegisterDBData): Promise<User> 
         throw new APIError(`User (${username}) already exists`, 409);
     }
     const user: User = meta;
-    const userIternalID = uuidv4();
+    const userInternalID = uuidv4();
 
     const pipe = redis.pipeline();
 
-    pipe.sadd(USERS_IDX_KEY, userIternalID);
-    pipe.hset(USERS_USERNAME_TO_ID_KEY, username, userIternalID);
-    pipe.hset(USERS_ID_TO_USERNAME_KEY, userIternalID, username);
+    pipe.sadd(USERS_IDX_KEY, userInternalID);
+    pipe.hset(USERS_USERNAME_TO_ID_KEY, username, userInternalID);
+    pipe.hset(USERS_ID_TO_USERNAME_KEY, userInternalID, username);
 
-    pipe.hset(USERS_AUTH_KEY(userIternalID), auth);
-    pipe.hset(USERS_METADATA_KEY(userIternalID), Serializer.serialize(user));
+    pipe.hset(USERS_AUTH_KEY(userInternalID), auth);
+    pipe.hset(USERS_METADATA_KEY(userInternalID), Serializer.serialize(user));
 
     handlePipeline(await pipe.exec());
 
@@ -43,24 +43,34 @@ export const createUser = async (userCreate: UserRegisterDBData): Promise<User> 
 };
 
 export const getUser = async (username: string): Promise<User> => {
-    const userIternalID = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
+    const userInternalID = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
 
-    if (userIternalID === null) {
+    if (userInternalID === null) {
         throw new APIError(`User (${username}) does not exist`, 404);
     }
-    const user = await redis.hgetall(USERS_METADATA_KEY(userIternalID))
+    const user = await redis.hgetall(USERS_METADATA_KEY(userInternalID))
         .then<User>(Serializer.deserialize);
 
     return user;
 };
 
-export const getAuthUser = async (username: string): Promise<UserAuth> => {
-    const userIternalID = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
+export const getInternalUserId = async (username: string): Promise<string> => {
+    const userInternalID = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
 
-    if (userIternalID === null) {
+    if (userInternalID === null) {
         throw new APIError(`User (${username}) does not exist`, 404);
     }
-    const userAuth = await redis.hgetall(USERS_AUTH_KEY(userIternalID))
+
+    return userInternalID;
+};
+
+export const getAuthUser = async (username: string): Promise<UserAuth> => {
+    const userInternalID = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
+
+    if (userInternalID === null) {
+        throw new APIError(`User (${username}) does not exist`, 404);
+    }
+    const userAuth = await redis.hgetall(USERS_AUTH_KEY(userInternalID))
         .then<UserAuth>(Serializer.deserialize);
 
     return userAuth;
@@ -69,12 +79,12 @@ export const getAuthUser = async (username: string): Promise<UserAuth> => {
 export const setAuthUser = async (userAuth: UserAuth): Promise<void> => {
     const { username } = userAuth;
 
-    const userIternalID = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
+    const userInternalID = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
 
-    if (userIternalID === null) {
+    if (userInternalID === null) {
         throw new APIError(`User (${username}) does not exist`, 404);
     }
-    await redis.hset(USERS_AUTH_KEY(userIternalID), Serializer.serialize(userAuth));
+    await redis.hset(USERS_AUTH_KEY(userInternalID), Serializer.serialize(userAuth));
 };
 
 type ListUsersDBParams = Pagination<User>;

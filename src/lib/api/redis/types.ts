@@ -10,13 +10,21 @@ export type RedisFSortRawFilter = {
     any?: string[] | RedisFSortRawFilter[];
     some?: string[];
     exists?: boolean;
+    match?: string;
+};
+
+export type RedisFSortFilter<T> = {
+    '#multi'?: {
+        fields: (keyof T)[];
+        match: string;
+    };
 };
 
 export type PaginationOrderType = 'ASC' | 'DESC' | undefined;
 
 export type Pagination<T> = {
-    filter?: {
-        [key in keyof T]?: string | RedisFSortRawFilter
+    filter?: RedisFSortFilter<T> & {
+        [key in keyof T]?: string | RedisFSortRawFilter;
     };
     sortBy?: string;
     order?: PaginationOrderType;

@@ -70,7 +70,7 @@ const App = (props: AppPropsWithLayout) => {
                 value={{
                     fetcher,
                     errorRetryCount: 3,
-                    focusThrottleInterval: 10000,
+                    focusThrottleInterval: 5 * 60 * 1000,
                 }}
             >
                 <AuthProvider>
