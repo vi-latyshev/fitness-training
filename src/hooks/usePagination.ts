@@ -12,9 +12,9 @@ export interface UsePaginationResult<T> extends PaginationResp<T> {
     handleChangeQuery: (query: Pagination<T>) => void;
 }
 
-export const usePagination = <T extends Object>(
+export const usePagination = <T extends Object, InitQuery extends Object = {}>(
     key: string,
-    initialQuery: Pagination<T>,
+    initialQuery: Pagination<T> & InitQuery,
 ): UsePaginationResult<T> => {
     const [query, setQuery] = useState<Pagination<T>>(initialQuery);
     const { data, error } = useSWR<PaginationResp<T>, APIErrorJSON>(`${key}?${qs.stringify(query)}`);

@@ -1,15 +1,14 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { checkAuth, NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import fetchUserAPI from 'lib/api/routes/users/fetch';
 
 import type { NextApiResponse } from 'next';
-import type { NextReqWithQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import type { FetchUserRes } from 'lib/api/routes/users/fetch';
+import type { FetchUserReq, FetchUserRes } from 'lib/api/routes/users/fetch';
 
 const user = async (
-    req: NextReqWithQueryId & NextReqWithAuth,
+    req: FetchUserReq,
     res: NextApiResponse<FetchUserRes>,
 ): Promise<void> => {
     const { method } = req;
@@ -24,7 +23,7 @@ const user = async (
 
 export default withMiddleware(
     allowMethods(['GET']),
-    verifyQueryId,
+    verifyQueryId<['username']>(['username']),
     checkAuth,
     user,
 );
