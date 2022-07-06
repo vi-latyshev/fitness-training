@@ -1,20 +1,21 @@
 import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import listWorkoutsAPI from 'lib/api/routes/workouts/list';
 import createWorkoutAPI from 'lib/api/routes/workouts/create';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+import type { ListUsersRes } from 'lib/api/routes/workouts/list';
 import type { CreateWorkoutRes } from 'lib/api/routes/workouts/create';
-import type { ListWorkoutsDBRes } from 'lib/models/workout';
 
 const workouts = async (
     req: NextApiRequest,
-    res: NextApiResponse<CreateWorkoutRes | ListWorkoutsDBRes>,
+    res: NextApiResponse<ListUsersRes | CreateWorkoutRes>,
 ): Promise<void> => {
     const { method } = req;
 
     switch (method) {
         case 'GET':
-            // await listUsersAPI(req, res);
+            await listWorkoutsAPI(req, res);
             break;
         case 'POST':
             await createWorkoutAPI(req, res);

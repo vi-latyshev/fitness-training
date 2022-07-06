@@ -14,7 +14,7 @@ type ListWorkoutsReq = NextApiRequest & {
     query: NextApiRequest['query'] & ListWorkoutsQuery;
 };
 
-type ListUsersRes = ListWorkoutsDBRes;
+export type ListUsersRes = ListWorkoutsDBRes;
 
 const listWorkoutsAPI = async (req: ListWorkoutsReq, res: Res<ListUsersRes>): Promise<void> => {
     try {
