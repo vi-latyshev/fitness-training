@@ -16,7 +16,7 @@ const AdminUserPick: NextPageWithLayout = () => {
     const router = useRouter();
     const { query } = router;
 
-    const { user, isLoading, error } = useUserByUsername(query.id);
+    const { user, isLoading, error } = useUserByUsername(query.username);
 
     const { username, firstName, lastName } = user;
 

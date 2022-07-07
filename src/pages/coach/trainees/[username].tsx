@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { UserRole } from 'lib/models/user';
 
 import { CoachBaseLayout } from 'views/coach';
+import { AddWorkout } from 'views/coach/components';
 
 import { useUserByUsername } from 'hooks/useUserByUsername';
 import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
@@ -15,7 +16,7 @@ const CoachTraineePick: NextPageWithLayout = () => {
     const router = useRouter();
     const { query } = router;
 
-    const { user, isLoading, error } = useUserByUsername(query.id);
+    const { user, isLoading, error } = useUserByUsername(query.username);
 
     const { username, firstName, lastName } = user;
 
@@ -27,6 +28,7 @@ const CoachTraineePick: NextPageWithLayout = () => {
             <Card.Container className="grid-cols-1 md:grid-cols-5">
                 <Card.Card className="col-span-1 md:col-span-3">
                     <Card.Title>Список тренировок</Card.Title>
+                    <AddWorkout username={username} />
                 </Card.Card>
             </Card.Container>
         </SwrLoadingHandle>

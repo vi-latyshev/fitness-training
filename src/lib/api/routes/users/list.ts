@@ -46,6 +46,15 @@ const listUsersAPI = async (req: ListUsersReq, res: Res<ListUsersRes>): Promise<
             },
         };
         const data = await getUsers(params);
+        // // @TODO fix it
+        // if (data.items.length === 0) {
+        //     console.warn('users empty'); // eslint-disable-line no-console
+        //     await getUsers({ expiration: 0 });
+        //     await new Promise((resolve) => {
+        //         setTimeout(resolve, 500);
+        //     });
+        //     data = await getUsers(params);
+        // }
 
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         res.status(200).json(data);

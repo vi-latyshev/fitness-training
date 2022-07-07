@@ -4,14 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import type { Pagination, PaginationResp } from 'lib/api/redis/types';
 import type { User } from './user';
 
-export enum WorkoutType {
-    PushUpsFloor,
-    PushUpsWideArm,
-    PushUpsKnee,
-    JumpJack,
-    // @TODO
-}
-
 export enum WorkoutsStatus {
     UnDone = 'undone',
     Done = 'done',
@@ -29,9 +21,9 @@ export type WorkoutsCounts = {
 
 export type Workout = {
     id: string;
-    type: WorkoutType;
+    name: string;
     counts: WorkoutsCounts;
-    date: dayjs.Dayjs;
+    date: number;
     status: WorkoutsStatus;
 };
 
@@ -48,16 +40,16 @@ export type ListWorkoutsDBRes = PaginationResp<Workout>;
 // --------------------------------------------------------
 // @TODO move to another file
 
-type WorkoutTypeHumanType = {
-    [T in WorkoutType]: string;
-};
+// type WorkoutTypeHumanType = {
+//     [T in WorkoutType]: string;
+// };
 
-export const WorkoutTypeHuman: WorkoutTypeHumanType = {
-    [WorkoutType.PushUpsFloor]: 'Отжимание от пола',
-    [WorkoutType.PushUpsWideArm]: 'Отжимание с широким упором',
-    [WorkoutType.PushUpsKnee]: 'Отжимание с упором на колени',
-    [WorkoutType.JumpJack]: 'Прыжки',
-};
+// export const WorkoutTypeHuman: WorkoutTypeHumanType = {
+//     [WorkoutType.PushUpsFloor]: 'Отжимание от пола',
+//     [WorkoutType.PushUpsWideArm]: 'Отжимание с широким упором',
+//     [WorkoutType.PushUpsKnee]: 'Отжимание с упором на колени',
+//     [WorkoutType.JumpJack]: 'Прыжки',
+// };
 
 type WorkoutStatusHumanType = {
     [T in WorkoutsStatus]: string;
@@ -88,52 +80,52 @@ export const workoutCountTypeToHuman = (countType: WorkoutsCounts): string => {
 export const workouts: Workout[] = [
     {
         id: uuidv4(),
-        type: WorkoutType.PushUpsFloor,
+        name: 'Отжимание от пола',
         counts: {
             type: WorkoutsCountType.Amount,
             value: 20,
         },
-        date: dayjs().subtract(1, 'd'),
+        date: dayjs().subtract(1, 'd').valueOf(),
         status: WorkoutsStatus.Done,
     },
     {
         id: uuidv4(),
-        type: WorkoutType.PushUpsKnee,
+        name: 'Отжимание с упором на колени',
         counts: {
             type: WorkoutsCountType.Amount,
             value: 5,
         },
-        date: dayjs().startOf('day').subtract(1, 'd'),
+        date: dayjs().startOf('day').subtract(1, 'd').valueOf(),
         status: WorkoutsStatus.UnDone,
     },
     {
         id: uuidv4(),
-        type: WorkoutType.PushUpsWideArm,
+        name: 'Отжимание с широким упором',
         counts: {
             type: WorkoutsCountType.Amount,
             value: 10,
         },
-        date: dayjs().startOf('day'),
+        date: dayjs().startOf('day').valueOf(),
         status: WorkoutsStatus.UnDone,
     },
     {
         id: uuidv4(),
-        type: WorkoutType.PushUpsWideArm,
+        name: 'Отжимание с широким упором',
         counts: {
             type: WorkoutsCountType.Amount,
             value: 10,
         },
-        date: dayjs().startOf('day').add(1, 'd'),
+        date: dayjs().startOf('day').add(1, 'd').valueOf(),
         status: WorkoutsStatus.UnDone,
     },
     {
         id: uuidv4(),
-        type: WorkoutType.JumpJack,
+        name: 'Прыжки',
         counts: {
             type: WorkoutsCountType.Time,
             value: 20,
         },
-        date: dayjs().startOf('day').add(1, 'd'),
+        date: dayjs().startOf('day').add(1, 'd').valueOf(),
         status: WorkoutsStatus.UnDone,
     },
 ];

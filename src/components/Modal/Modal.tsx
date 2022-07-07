@@ -35,7 +35,7 @@ export const Modal = ({
                     >
                         &#8203;
                     </span>
-                    <div className="inline-block align-bottom text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-fit">
+                    <div className="inline-block align-bottom text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
                         {children}
                     </div>
                 </div>
