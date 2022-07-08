@@ -72,18 +72,14 @@ const Register: NextPageWithLayout = () => {
                     disabled={isSubmitting}
                     error={errors.auth?.password?.message}
                     {...register('auth.password', {
-                        required: 'Введите имя пользователя',
+                        required: 'Введите пароль',
                         minLength: {
                             value: 5,
                             message: 'Минимальная длина 5',
                         },
                         maxLength: {
-                            value: 15,
-                            message: 'Максимальная длина 15',
-                        },
-                        pattern: {
-                            value: /^[a-z.0-9_]/,
-                            message: 'Только буквы a-z, цифры и точки',
+                            value: 30,
+                            message: 'Максимальная длина 30',
                         },
                     })}
                 />

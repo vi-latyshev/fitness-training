@@ -13,7 +13,6 @@ export type FetchUserRes = User;
 const responseUser = async (res: Res<FetchUserRes>, username: string) => {
     const user = await getUser(username);
 
-    res.setHeader('Cache-Control', 'max-age=59, s-maxage=60');
     res.status(200).json(user);
 };
 

@@ -39,7 +39,7 @@ export const AccountSecurity = ({
 
     const handleChangePass: SubmitHandler<SetPasswordData> = useCallback(async (data) => {
         try {
-            await axios.patch<SetPasswordRes>('/api/users/password', data);
+            await axios.patch<SetPasswordRes>(`/api/users/u/${username}/password`, data);
             reset();
             setServerError(null);
         } catch (error) {
