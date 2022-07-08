@@ -16,7 +16,7 @@ export interface UsePaginationResult<T> extends PaginationResp<T> {
     handleChangeQuery: (query: Pagination<T>) => void;
 }
 
-const DEFAULT_LIMIT = 1;
+const DEFAULT_LIMIT = 15;
 
 export const usePagination = <T extends Object>(
     key: string,
@@ -25,8 +25,7 @@ export const usePagination = <T extends Object>(
     const router = useRouter();
     const [query, setQuery] = useState<Pagination<T>>({ limit: DEFAULT_LIMIT, ...initialQuery });
     const { data, error, mutate } = useSWR<PaginationResp<T>, APIErrorJSON>(`${key}?${qs.stringify(query)}`);
-    console.log(data, 'data usePagination');
-    console.log(error, 'data error');
+
     const {
         items = [],
         cursor = query.limit ?? 1,
@@ -35,9 +34,6 @@ export const usePagination = <T extends Object>(
         pages = 1,
     } = data ?? {};
 
-    console.log(router, 'router');
-
-    // @TODO check it
     const handleChangeQuery = useCallback((newQuery: Pagination<T>) => {
         setQuery((currQuery) => ({
             ...currQuery,

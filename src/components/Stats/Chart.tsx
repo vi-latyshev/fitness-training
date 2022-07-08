@@ -8,7 +8,7 @@ import {
 } from 'recharts';
 import dayjs from 'dayjs';
 
-import { Workout, WorkoutsStatus } from 'lib/models/workout';
+import { Workout } from 'lib/models/workout';
 
 interface ChartDate {
     point: string;
@@ -39,10 +39,7 @@ export const Chart = ({ workouts }: ChartProps) => {
         };
 
         const addWorkoutsPerMonth = () => {
-            workouts.forEach(({ date, status }) => {
-                if (status === WorkoutsStatus.UnDone) {
-                    return;
-                }
+            workouts.forEach(({ date }) => {
                 const point = dayjs(date).format('D.MM');
                 const index = points.indexOf(point);
 

@@ -1,7 +1,5 @@
 import clsx from 'clsx';
 
-import { WorkoutsStatus } from 'lib/models/workout';
-
 import Card from 'components/Card';
 
 import { Chart } from './Chart';
@@ -25,13 +23,13 @@ export const Stats = ({ workouts, className }: StatsProps) => (
         <div className="space-y-1">
             <div className="text-sm">Выполнено</div>
             <div className="font-bold text-6xl">
-                {workouts.filter((workout) => workout.status === WorkoutsStatus.Done).length}
+                {workouts.filter((workout) => workout.isDone === true).length}
             </div>
         </div>
         <div className="space-y-1">
             <div className="text-sm">Осталось</div>
             <div className="font-bold text-6xl">
-                {workouts.filter((workout) => workout.status === WorkoutsStatus.UnDone).length}
+                {workouts.filter((workout) => !workout.isDone).length}
             </div>
         </div>
         <Chart workouts={workouts} />

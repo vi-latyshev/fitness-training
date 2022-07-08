@@ -5,14 +5,14 @@ import clsx from 'clsx';
 import {
     getColorDate,
     workoutCountTypeToHuman,
-    WorkoutTypeHuman,
+    // WorkoutTypeHuman,
 } from 'lib/models/workout';
 
 import Table from 'components/Table';
 import { Button, Checkbox } from 'components/controls';
 
 import type { Workout } from 'lib/models/workout';
-import type { ButtonProps } from 'components/controls';
+// import type { ButtonProps } from 'components/controls';
 
 interface WorkoutRowProps {
     workout: Workout;
@@ -20,13 +20,13 @@ interface WorkoutRowProps {
 
 export const WorkoutRow = ({ workout }: WorkoutRowProps) => {
     const {
-        /* id, */ type, counts, date, status,
+        /* id, */ name, countsType, countsValue, date, isDone,
     } = workout;
 
     const classesCell = clsx({
-        'cursor-pointer': status === WorkoutsStatus.UnDone,
+        'cursor-pointer': !isDone,
     });
-    const isDisabled = status !== WorkoutsStatus.UnDone;
+    const isDisabled = isDone;
 
     const handleUnDoneWorkout = useCallback((_e: React.ChangeEvent<HTMLInputElement>) => {
         // console.log('undone workout', id);
@@ -37,7 +37,7 @@ export const WorkoutRow = ({ workout }: WorkoutRowProps) => {
         //     return;
         // }
         // console.log('select workout', id);
-    }, [status]);
+    }, [isDone]);
 
     return (
         <Table.Row disabled={isDisabled}>
@@ -50,19 +50,19 @@ export const WorkoutRow = ({ workout }: WorkoutRowProps) => {
                 onClick={handleChangeWorkout}
                 className={classesCell}
             >
-                {WorkoutTypeHuman[type] ?? '-'}
+                {name}
             </Table.Cell>
             <Table.Cell disabled={isDisabled} onClick={handleChangeWorkout} className={classesCell}>
-                {workoutCountTypeToHuman(counts)}
+                {workoutCountTypeToHuman(countsType, countsValue)}
             </Table.Cell>
             <Table.Cell disabled={isDisabled} onClick={handleChangeWorkout}>
                 <Button
                     hover={false}
                     variant="soft"
                     disabled={isDisabled}
-                    color={getColorDate(status, date)}
+                    color={getColorDate(date, isDone)}
                 >
-                    {date.format('DD.MM HH:mm')}
+                    {dayjs(date).format('DD.MM HH:mm')}
                 </Button>
             </Table.Cell>
         </Table.Row>

@@ -1,14 +1,14 @@
 import { useCallback, useState } from 'react';
 
-import { workouts, Workout, WorkoutsStatus } from 'lib/models/workout';
+import { Workout } from 'lib/models/workout';
 
 export const useWorkoutFilter = () => {
-    const [workoutsList, setWorkoutsList] = useState<Workout[]>(workouts);
-    const [workoutsStatusFilter, setWorkoutsStatusFilter] = useState<WorkoutsStatus | null>(null);
+    const [workoutsList, setWorkoutsList] = useState<Workout[]>([]);
+    const [workoutsStatusFilter, setWorkoutsStatusFilter] = useState<boolean>(false);
 
-    const handleChangeFilter = useCallback((status: WorkoutsStatus | null) => {
-        const filtered = workouts.filter((workout) => (
-            status === null ? true : workout.status === status
+    const handleChangeFilter = useCallback((status: boolean) => {
+        const filtered = workoutsList.filter((workout) => (
+            status === null ? true : workout.isDone
         ));
 
         setWorkoutsStatusFilter(status);

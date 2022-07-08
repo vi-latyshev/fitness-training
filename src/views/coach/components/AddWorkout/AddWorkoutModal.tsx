@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { mutate } from 'swr';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -11,20 +10,20 @@ import {
     workoutCountTimeValidate,
 } from 'lib/models/workout';
 
+import { useWorkouts } from 'hooks/useWorkouts';
 import Card from 'components/Card';
 import { Button, Input, Select } from 'components/controls';
 
 import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { User } from 'lib/models/user';
-import type { WorkoutCreateData } from 'lib/models/workout';
+import type { Workout, WorkoutCreateData } from 'lib/models/workout';
 import type { APIErrorJSON } from 'lib/api/error';
 import type { SelectItemValue } from 'components/controls';
 import type { CreateWorkoutRes } from 'lib/api/routes/workouts/create';
 
 interface AddWorkoutModalProps {
-    owner: User['username'];
+    owner: Workout['owner'];
     onCreated: () => void;
 }
 
@@ -34,6 +33,7 @@ const WORKOUT_COUNT_TYPE_SELECTOR: SelectItemValue[] = Object.values(WorkoutsCou
 }));
 
 export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
+    const { mutate } = useWorkouts(owner);
     const {
         register, handleSubmit, resetField, watch, formState: { errors, isSubmitting },
     } = useForm<WorkoutCreateData>({
@@ -49,9 +49,9 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
             data.countsValue = workoutCountTimeParse(data.countsType, data.countsValue);
             data.date = dayjs(data.date).unix();
 
-            const resp = await axios.post<CreateWorkoutRes>(`/api/workouts/${owner}`, data);
-            await mutate(`/api/workouts/${owner}`, resp.data);
+            await axios.post<CreateWorkoutRes>(`/api/workouts/${owner}`, data);
             onCreated();
+            mutate();
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {
@@ -86,8 +86,8 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                             message: 'Максимальная длина 30',
                         },
                         pattern: {
-                            value: /^[а-я]{3,30}/,
-                            message: 'Только буквы а-я',
+                            value: /^[а-яА-Я]{3,30}/,
+                            message: 'Только буквы а-я, А-Я',
                         },
                     })}
                 />

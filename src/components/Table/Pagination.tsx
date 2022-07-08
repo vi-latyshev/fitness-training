@@ -4,11 +4,10 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { Button } from 'components/controls';
 
 import type { UsePaginationResult } from 'hooks/usePagination';
-import type { Pagination } from 'lib/api/redis/types';
 
-interface TablePaginationProps<T, Additional> extends UsePaginationResult<T, Additional> { }
+interface TablePaginationProps<T> extends UsePaginationResult<T> { }
 
-export const TablePagination = <T extends Object, Additional = null>({
+export const TablePagination = <T extends Object>({
     query,
     error,
     isLoading,
@@ -16,17 +15,17 @@ export const TablePagination = <T extends Object, Additional = null>({
     page,
     pages,
     handleChangeQuery,
-}: TablePaginationProps<T, Additional>) => {
+}: TablePaginationProps<T>) => {
     const handlePrevList = useCallback(() => {
         handleChangeQuery({
             offset: (page - 2) * (query.limit ?? 1),
-        } as Pagination<T, Additional>);
+        });
     }, [page, query.limit]);
 
     const handleNextList = useCallback(() => {
         handleChangeQuery({
             offset: page * (query.limit ?? 1),
-        } as Pagination<T, Additional>);
+        });
     }, [page, query.limit]);
 
     return (

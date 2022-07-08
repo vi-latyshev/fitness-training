@@ -1,16 +1,14 @@
 import { useCallback } from 'react';
 
-import { WorkoutsStatus } from 'lib/models/workout';
-
 import { Button } from 'components/controls';
 
 interface ListTabsProps {
-    filter: WorkoutsStatus | null;
-    handleChange: (status: WorkoutsStatus | null) => void;
+    filter: boolean;
+    handleChange: (status: boolean) => void;
 }
 
 export const ListTabs = ({ filter, handleChange }: ListTabsProps) => {
-    const handleChangeTab = useCallback((status: WorkoutsStatus | null) => () => {
+    const handleChangeTab = useCallback((status: boolean) => () => {
         handleChange(status);
     }, []);
 
@@ -21,21 +19,21 @@ export const ListTabs = ({ filter, handleChange }: ListTabsProps) => {
                     variant={filter === null ? 'soft' : 'text'}
                     rounded
                     hover={false}
-                    onClick={handleChangeTab(null)}
+                    onClick={handleChangeTab(false)}
                 >
                     Все
                 </Button>
                 <Button
-                    variant={filter === WorkoutsStatus.UnDone ? 'soft' : 'text'}
+                    variant={filter === true ? 'soft' : 'text'}
                     rounded
-                    onClick={handleChangeTab(WorkoutsStatus.UnDone)}
+                    onClick={handleChangeTab(false)}
                 >
                     Не сделано
                 </Button>
                 <Button
-                    variant={filter === WorkoutsStatus.Done ? 'soft' : 'text'}
+                    variant={filter === true ? 'soft' : 'text'}
                     rounded
-                    onClick={handleChangeTab(WorkoutsStatus.Done)}
+                    onClick={handleChangeTab(true)}
                 >
                     Завершенные
                 </Button>

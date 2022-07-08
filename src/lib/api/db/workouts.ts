@@ -30,13 +30,13 @@ export const createWorkout = async (workoutCreate: WorkoutCreateDataDB): Promise
         ...workoutCreate,
         id: workoutId,
     };
-    // const pipe = redis.pipeline();
+    const pipe = redis.pipeline();
 
-    // pipe.hset(WORKOUTS_ITEM_KEY(workoutId), Serializer.serialize(workout));
-    // pipe.sadd(WORKOUTS_BY_USER_KEY(userId), workoutId);
+    pipe.hset(WORKOUTS_ITEM_KEY(workoutId), Serializer.serialize(workout));
+    pipe.sadd(WORKOUTS_BY_USER_KEY(userId), workoutId);
 
-    // handlePipeline(await pipe.exec());
-    // await redis.fsortBust(WORKOUTS_BY_USER_KEY(userId), Date.now(), 0);
+    handlePipeline(await pipe.exec());
+    await redis.fsortBust(WORKOUTS_BY_USER_KEY(userId), Date.now(), 0);
 
     return workout;
 };
@@ -63,13 +63,19 @@ export const removeWorkout = async (owner: User['username'], workoutId: Workout[
     if (isExists === 0) {
         throw new APIError(`Workout (${workoutId}) of (${owner}) does not exist`, 404);
     }
-    await redis.del(WORKOUTS_ITEM_KEY(workoutId), WORKOUTS_BY_USER_KEY(userId));
+    const pipe = redis.pipeline();
+
+    pipe.del(WORKOUTS_ITEM_KEY(workoutId));
+    pipe.srem(WORKOUTS_BY_USER_KEY(userId), workoutId);
+
+    handlePipeline(await pipe.exec());
+    await redis.fsortBust(WORKOUTS_BY_USER_KEY(userId), Date.now(), 0);
 };
 
 export const getWorkouts = async (owner: User['username'], params: ListWorkoutsDBParams): Promise<ListWorkoutsDBRes> => {
     const {
         sortBy = 'date',
-        order = 'DESC',
+        order = 'ASC',
         filter,
         offset: offsetRaw = 0,
         limit: limitRaw = 20,

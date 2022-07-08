@@ -1,22 +1,20 @@
-import { usePagination } from 'hooks/usePagination';
+import { useWorkouts } from 'hooks/useWorkouts';
 
 import Table from 'components/Table';
 import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
 
 import { WorkoutRow } from './WorkoutRow';
 
-import type { User } from 'lib/models/user';
 import type { Workout } from 'lib/models/workout';
 
 interface WorkoutListProps {
-    owner: User['username'];
+    owner: Workout['owner'];
 }
 
 export const WorkoutList = ({ owner }: WorkoutListProps) => {
-    const pagination = usePagination<Workout>(`/api/workouts/${owner}`);
+    const pagination = useWorkouts(owner);
 
     const { items, isLoading, error } = pagination;
-    console.log(items, 'items');
 
     return (
         <Table.Container>

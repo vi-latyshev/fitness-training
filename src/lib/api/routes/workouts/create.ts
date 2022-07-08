@@ -23,7 +23,7 @@ const validateBody: Validator<WorkoutCreateData> = ({
     date,
     ...rest
 }): boolean => (
-    name !== undefined && typeof name === 'string' && /^[а-я]{3,30}/.test(name)
+    name !== undefined && typeof name === 'string' && /^[а-яА-Я]{3,30}/.test(name)
     && countsType !== undefined && Object.values(WorkoutsCountType).includes(countsType)
     && typeof countsValue === 'number' && countsValue > 0
     && typeof date === 'number' && dayjs.unix(date).isValid()

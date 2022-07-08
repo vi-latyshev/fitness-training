@@ -1,10 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 
 import { WorkoutsCountType } from './model';
 
 import type { ButtonProps } from 'components/controls';
-import type { Workout } from './model';
 
 // type WorkoutTypeHumanType = {
 //     [T in WorkoutType]: string;
@@ -85,43 +83,3 @@ export const getColorDate = (date: number, isDone?: boolean): ButtonProps['color
 
     return 'default';
 };
-
-// @TODO to server
-export const workouts: Workout[] = [
-    {
-        id: uuidv4(),
-        name: 'Отжимание от пола',
-        countsType: WorkoutsCountType.Amount,
-        countsValue: 20,
-        date: dayjs().subtract(1, 'd').valueOf(),
-        isDone: true,
-    },
-    {
-        id: uuidv4(),
-        name: 'Отжимание с упором на колени',
-        countsType: WorkoutsCountType.Amount,
-        countsValue: 5,
-        date: dayjs().startOf('day').subtract(1, 'd').valueOf(),
-    },
-    {
-        id: uuidv4(),
-        name: 'Отжимание с широким упором',
-        countsType: WorkoutsCountType.Amount,
-        countsValue: 10,
-        date: dayjs().startOf('day').valueOf(),
-    },
-    {
-        id: uuidv4(),
-        name: 'Отжимание с широким упором',
-        countsType: WorkoutsCountType.Amount,
-        countsValue: 10,
-        date: dayjs().startOf('day').add(1, 'd').valueOf(),
-    },
-    {
-        id: uuidv4(),
-        name: 'Прыжки',
-        countsType: WorkoutsCountType.Time,
-        countsValue: 20,
-        date: dayjs().startOf('day').add(1, 'd').valueOf(),
-    },
-];
