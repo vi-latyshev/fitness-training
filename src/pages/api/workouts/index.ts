@@ -4,12 +4,12 @@ import listWorkoutsAPI from 'lib/api/routes/workouts/list';
 import createWorkoutAPI from 'lib/api/routes/workouts/create';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { ListUsersRes } from 'lib/api/routes/workouts/list';
+import type { ListWorkoutsRes } from 'lib/api/routes/workouts/list';
 import type { CreateWorkoutRes } from 'lib/api/routes/workouts/create';
 
 const workouts = async (
     req: NextApiRequest,
-    res: NextApiResponse<ListUsersRes | CreateWorkoutRes>,
+    res: NextApiResponse<ListWorkoutsRes | CreateWorkoutRes>,
 ): Promise<void> => {
     const { method } = req;
 

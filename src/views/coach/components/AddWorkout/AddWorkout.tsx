@@ -21,7 +21,7 @@ export const AddWorkout = ({ username }: AddWorkoutProps) => {
     return (
         <>
             <Modal open={isModelOpen} onClose={handleToggleModal}>
-                <AddWorkoutModal username={username} />
+                <AddWorkoutModal onCreated={handleToggleModal} username={username} />
             </Modal>
             <Button className="self-end" onClick={handleToggleModal}>Добавить тренировоку</Button>
         </>

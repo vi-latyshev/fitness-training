@@ -2,7 +2,11 @@ import { useCallback } from 'react';
 import dayjs from 'dayjs';
 import clsx from 'clsx';
 
-import { workoutCountTypeToHuman, WorkoutsStatus, WorkoutTypeHuman } from 'lib/models/workout';
+import {
+    getColorDate,
+    workoutCountTypeToHuman,
+    WorkoutTypeHuman,
+} from 'lib/models/workout';
 
 import Table from 'components/Table';
 import { Button, Checkbox } from 'components/controls';
@@ -13,28 +17,6 @@ import type { ButtonProps } from 'components/controls';
 interface WorkoutRowProps {
     workout: Workout;
 }
-
-/**
- * yesterday+ = red
- * today = green
- * tomorrow+ = default
- */
-const getColorDate = (status: WorkoutsStatus, date: dayjs.Dayjs): ButtonProps['color'] => {
-    if (status === WorkoutsStatus.Done) {
-        return 'default';
-    }
-    const dateNow = dayjs().startOf('day');
-    const dateDayjs = dayjs(date);
-
-    if (dateDayjs.isBefore(dateNow, 'day')) {
-        return 'error';
-    }
-    if (dateDayjs.isSame(dateNow, 'day')) {
-        return 'success';
-    }
-
-    return 'default';
-};
 
 export const WorkoutRow = ({ workout }: WorkoutRowProps) => {
     const {

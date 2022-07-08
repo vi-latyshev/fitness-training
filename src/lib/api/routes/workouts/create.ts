@@ -4,7 +4,7 @@ import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 
-import { WorkoutsCountType, WorkoutsStatus } from 'lib/models/workout';
+import { WorkoutsCountType } from 'lib/models/workout';
 import { createWorkout } from 'lib/api/db/workouts';
 
 import type { NextApiResponse as Res } from 'next';
@@ -16,29 +16,28 @@ export type CreateWorkoutRes = Workout;
 const validateBody: Validator<WorkoutCreateData> = ({
     owner,
     name,
-    counts,
+    countsType,
+    countsValue,
     date,
+    ...rest
 }): boolean => (
     owner !== undefined && typeof owner === 'string' && /^[a-z.0-9_]{5,15}/.test(owner)
     && name !== undefined && typeof name === 'string' && /^[а-я]{3,30}/.test(name)
-    && typeof counts === 'object'
-    && counts.type !== undefined && Object.values(WorkoutsCountType).includes(counts.type)
-    && typeof counts.value !== 'number' && counts > 0
-    && typeof date !== 'number' && dayjs(date).isValid()
+    && countsType !== undefined && Object.values(WorkoutsCountType).includes(countsType)
+    && typeof countsValue === 'number' && countsValue > 0
+    && typeof date === 'number' && dayjs.unix(date).isValid()
+    && Object.keys(rest).length === 0
 );
 
 const createWorkoutAPI = async (req: NextReqWithBody<WorkoutCreateData>, res: Res<CreateWorkoutRes>): Promise<void> => {
     try {
         const { body } = req;
 
-        const workoutCreate: WorkoutCreateDataDB = {
-            ...body,
-            date: dayjs(body.date).valueOf(),
-            status: WorkoutsStatus.UnDone,
-        };
-        const workout = await createWorkout(workoutCreate);
+        const workoutCreate: WorkoutCreateDataDB = body;
 
-        res.status(200).json(workout);
+        // const workout = await createWorkout(workoutCreate);
+
+        res.status(200).json(workoutCreate);
     } catch (e) {
         handleApiError(e, res);
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import durationPluging from 'dayjs/plugin/duration';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -17,6 +18,7 @@ import '../styles/globals.css';
 
 import type { AppPropsWithLayout, NextPageMeta } from 'views/base';
 
+dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.extend(durationPluging);
 dayjs.extend(isBetweenPlugin);

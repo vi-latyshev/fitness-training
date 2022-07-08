@@ -29,10 +29,13 @@ export const createWorkout = async (workoutCreate: WorkoutCreateDataDB): Promise
         ...workoutData,
         id: workoutId,
     };
-    const pipe = redis.pipeline();
+    // const pipe = redis.pipeline();
 
-    pipe.hset(WORKOUTS_ITEM_KEY(workoutId), Serializer.serialize(workout));
-    pipe.sadd(WORKOUTS_BY_USER_KEY(userId), workoutId);
+    // pipe.hset(WORKOUTS_ITEM_KEY(workoutId), Serializer.serialize(workout));
+    // pipe.sadd(WORKOUTS_BY_USER_KEY(userId), workoutId);
+
+    // handlePipeline(await pipe.exec());
+    // await redis.fsortBust(WORKOUTS_BY_USER_KEY(userId), Date.now(), 0);
 
     return workout;
 };
@@ -62,8 +65,9 @@ export const removeWorkout = async (owner: string, workoutId: string): Promise<v
     await redis.del(WORKOUTS_ITEM_KEY(workoutId), WORKOUTS_BY_USER_KEY(userId));
 };
 
-export const getWorkouts = async (owner: string, params: ListWorkoutsDBParams): Promise<ListWorkoutsDBRes> => {
+export const getWorkouts = async (params: ListWorkoutsDBParams): Promise<ListWorkoutsDBRes> => {
     const {
+        owner,
         sortBy = 'date',
         order = 'DESC',
         filter,

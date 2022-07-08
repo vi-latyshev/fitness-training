@@ -35,4 +35,12 @@ declare module 'redis-filtered-sort' {
             aggregates: string,
         );
     };
+
+    export type WithFListBust = {
+        fsortBust(
+            idSet: string,
+            curTime: number,
+            expiration?: number,
+        );
+    };
 }

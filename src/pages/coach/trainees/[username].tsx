@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { UserRole } from 'lib/models/user';
 
 import { CoachBaseLayout } from 'views/coach';
-import { AddWorkout } from 'views/coach/components';
+import { AddWorkout, WorkoutList } from 'views/coach/components';
 
 import { useUserByUsername } from 'hooks/useUserByUsername';
 import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
@@ -29,6 +29,7 @@ const CoachTraineePick: NextPageWithLayout = () => {
                 <Card.Card className="col-span-1 md:col-span-3">
                     <Card.Title>Список тренировок</Card.Title>
                     <AddWorkout username={username} />
+                    <WorkoutList username={username} />
                 </Card.Card>
             </Card.Container>
         </SwrLoadingHandle>

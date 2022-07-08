@@ -6,10 +6,8 @@ import { TraineesRow } from './TraineesRow';
 
 import type { User } from 'lib/models/user';
 
-const LIMIT = 15;
-
 export const TraineesList = () => {
-    const pagination = usePagination<User>('/api/users', { limit: LIMIT });
+    const pagination = usePagination<User>('/api/users');
 
     const { items, isLoading, error } = pagination;
 

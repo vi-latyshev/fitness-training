@@ -1,35 +1,58 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { mutate } from 'swr';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
+import {
+    WorkoutsCountType,
+    WotkoutCountTypeHuman,
+    workoutCountTimeParse,
+    workoutCountTimeValidate,
+} from 'lib/models/workout';
+
 import Card from 'components/Card';
-import { Button, Input } from 'components/controls';
+import { Button, Input, Select } from 'components/controls';
 
 import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { User } from 'lib/models/user';
-import type { WorkoutCreateData } from 'lib/models/workout';
+import type { WorkoutCreateData, ListWorkoutsDBRes } from 'lib/models/workout';
 import type { APIErrorJSON } from 'lib/api/error';
+import type { SelectItemValue } from 'components/controls';
+import type { CreateWorkoutRes } from 'lib/api/routes/workouts/create';
 
 interface AddWorkoutModalProps {
     username: User['username'];
+    onCreated: () => void;
 }
 
-export const AddWorkoutModal = ({ username }: AddWorkoutModalProps) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<WorkoutCreateData>({
+const WORKOUT_COUNT_TYPE_SELECTOR: SelectItemValue[] = Object.values(WorkoutsCountType).map((value) => ({
+    value,
+    humanValue: WotkoutCountTypeHuman[value],
+}));
+
+export const AddWorkoutModal = ({ username, onCreated }: AddWorkoutModalProps) => {
+    const {
+        register, handleSubmit, resetField, watch, formState: { errors, isSubmitting },
+    } = useForm<WorkoutCreateData>({
         defaultValues: {
             owner: username,
+            countsType: WorkoutsCountType.Amount,
         },
     });
     const [serverError, setServerError] = useState<string | null>(null);
+    const workoutType = watch('countsType');
 
     const handleFormSubmit: SubmitHandler<WorkoutCreateData> = useCallback(async (data) => {
         try {
-            console.log(dayjs(data.date).isValid());
-            console.log(data, 'data');
-            // await axios.post('/api/workouts', data);
+            data.countsValue = workoutCountTimeParse(data.countsType, data.countsValue);
+            data.date = dayjs(data.date).unix();
+
+            const resp = await axios.post<CreateWorkoutRes>('/api/workouts', data);
+            await mutate('/api/workouts', resp.data);
+            onCreated();
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {
@@ -69,34 +92,61 @@ export const AddWorkoutModal = ({ username }: AddWorkoutModalProps) => {
                         },
                     })}
                 />
-                {/* @TODO selector counts type */}
-                <Input
+                <Select
                     full
-                    type="number"
-                    label="Кол-во повторений"
-                    disabled={isSubmitting}
-                    error={errors.name?.message}
-                    {...register('counts.value', {
-                        required: 'Введите название',
-                        minLength: {
-                            value: 1,
-                            message: 'Минимальная длина 1',
-                        },
+                    label="Тип"
+                    items={WORKOUT_COUNT_TYPE_SELECTOR}
+                    {...register('countsType', {
+                        required: 'Выберите тип',
+                        onChange: () => resetField('countsValue'),
                     })}
                 />
-                <Input
-                    full
-                    type="datetime-local"
-                    label="Время выполнения"
-                    disabled={isSubmitting}
-                    error={errors.date?.message}
-                    defaultValue={dayjs.duration({ minutes: 5 }).format('mm:ss')}
-                    {...register('date', {
-                        required: 'Введите время',
-                        validate: (value) => dayjs(value).isValid() || 'Неверное время',
-                        setValueAs: (value) => dayjs(value).valueOf(),
-                    })}
-                />
+                {workoutType === WorkoutsCountType.Amount && (
+                    <Input
+                        full
+                        key="amout"
+                        type="number"
+                        label="Кол-во повторений"
+                        min="1"
+                        disabled={isSubmitting}
+                        error={errors.countsValue?.message}
+                        defaultValue="5"
+                        {...register('countsValue', {
+                            valueAsNumber: true,
+                            required: 'Введите кол-во',
+                            min: {
+                                value: 1,
+                                message: 'Минимальное значение 1',
+                            },
+                            minLength: {
+                                value: 1,
+                                message: 'Минимальная длина 1',
+                            },
+                            pattern: undefined,
+                        })}
+                    />
+                )}
+                {workoutType === WorkoutsCountType.Time && (
+                    <Input
+                        full
+                        key="time"
+                        type="text"
+                        label="Время выполнения"
+                        disabled={isSubmitting}
+                        error={errors.countsValue?.message}
+                        pattern="[0-9]{2}:[0-9]{2}"
+                        defaultValue={dayjs.duration(5 * 60 * 1000).format('mm:ss')}
+                        {...register('countsValue', {
+                            valueAsNumber: false,
+                            required: 'Введите время',
+                            validate: (value) => workoutCountTimeValidate(value) || 'Неверное время',
+                            pattern: {
+                                value: /^[0-9]{2}:[0-9]{2}/,
+                                message: 'Неверный формат',
+                            },
+                        })}
+                    />
+                )}
                 <Input
                     full
                     type="datetime-local"
@@ -107,7 +157,6 @@ export const AddWorkoutModal = ({ username }: AddWorkoutModalProps) => {
                     {...register('date', {
                         required: 'Введите дату',
                         validate: (value) => dayjs(value).isValid() || 'Неверная дата',
-                        setValueAs: (value) => dayjs(value).valueOf(),
                     })}
                 />
                 <Button

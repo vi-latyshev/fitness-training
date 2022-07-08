@@ -1,7 +1,7 @@
 import type { Cluster, Redis } from 'ioredis';
-import type { WithFAggregate, WithFsort } from 'redis-filtered-sort';
+import type { WithFAggregate, WithFListBust, WithFsort } from 'redis-filtered-sort';
 
-export type RedisWithFsort = (Redis | Cluster) & WithFsort & WithFAggregate;
+export type RedisWithFsort = (Redis | Cluster) & WithFsort & WithFAggregate & WithFListBust;
 
 export type RedisFSortRawFilter = {
     gte?: number;
@@ -22,7 +22,7 @@ export type RedisFSortFilter<T> = {
 
 export type PaginationOrderType = 'ASC' | 'DESC' | undefined;
 
-export type Pagination<T> = {
+export type Pagination<T, Additional = null> = {
     filter?: RedisFSortFilter<T> & {
         [key in keyof T]?: string | RedisFSortRawFilter;
     };
@@ -31,7 +31,7 @@ export type Pagination<T> = {
     offset?: number;
     limit?: number;
     expiration?: number;
-};
+} & (Additional extends null ? {} : Additional);
 
 export type PaginationResp<T> = {
     items: T[];
