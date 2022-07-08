@@ -12,6 +12,7 @@ import {
 
 import { getUserId } from './users';
 
+import type { User } from 'lib/models/user';
 import type {
     ListWorkoutsDBParams,
     ListWorkoutsDBRes,
@@ -20,13 +21,13 @@ import type {
 } from 'lib/models/workout';
 
 export const createWorkout = async (workoutCreate: WorkoutCreateDataDB): Promise<Workout> => {
-    const { owner, ...workoutData } = workoutCreate;
+    const { owner } = workoutCreate;
 
     const userId = await getUserId(owner);
     const workoutId = uuidv4();
 
     const workout: Workout = {
-        ...workoutData,
+        ...workoutCreate,
         id: workoutId,
     };
     // const pipe = redis.pipeline();
@@ -40,7 +41,7 @@ export const createWorkout = async (workoutCreate: WorkoutCreateDataDB): Promise
     return workout;
 };
 
-export const getWorkout = async (owner: string, workoutId: string): Promise<Workout> => {
+export const getWorkout = async (owner: User['username'], workoutId: Workout['id']): Promise<Workout> => {
     const userId = await getUserId(owner);
 
     const isExists = await redis.sismember(WORKOUTS_BY_USER_KEY(userId), workoutId);
@@ -54,7 +55,7 @@ export const getWorkout = async (owner: string, workoutId: string): Promise<Work
     return workout;
 };
 
-export const removeWorkout = async (owner: string, workoutId: string): Promise<void> => {
+export const removeWorkout = async (owner: User['username'], workoutId: Workout['id']): Promise<void> => {
     const userId = await getUserId(owner);
 
     const isExists = await redis.sismember(WORKOUTS_BY_USER_KEY(userId), workoutId);
@@ -65,9 +66,8 @@ export const removeWorkout = async (owner: string, workoutId: string): Promise<v
     await redis.del(WORKOUTS_ITEM_KEY(workoutId), WORKOUTS_BY_USER_KEY(userId));
 };
 
-export const getWorkouts = async (params: ListWorkoutsDBParams): Promise<ListWorkoutsDBRes> => {
+export const getWorkouts = async (owner: User['username'], params: ListWorkoutsDBParams): Promise<ListWorkoutsDBRes> => {
     const {
-        owner,
         sortBy = 'date',
         order = 'DESC',
         filter,

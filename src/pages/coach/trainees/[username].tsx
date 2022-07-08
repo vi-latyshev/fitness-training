@@ -28,8 +28,8 @@ const CoachTraineePick: NextPageWithLayout = () => {
             <Card.Container className="grid-cols-1 md:grid-cols-5">
                 <Card.Card className="col-span-1 md:col-span-3">
                     <Card.Title>Список тренировок</Card.Title>
-                    <AddWorkout username={username} />
-                    <WorkoutList username={username} />
+                    <AddWorkout owner={username} />
+                    <WorkoutList owner={username} />
                 </Card.Card>
             </Card.Container>
         </SwrLoadingHandle>

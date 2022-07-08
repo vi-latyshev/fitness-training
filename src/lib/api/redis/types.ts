@@ -22,7 +22,7 @@ export type RedisFSortFilter<T> = {
 
 export type PaginationOrderType = 'ASC' | 'DESC' | undefined;
 
-export type Pagination<T, Additional = null> = {
+export type Pagination<T> = {
     filter?: RedisFSortFilter<T> & {
         [key in keyof T]?: string | RedisFSortRawFilter;
     };
@@ -31,7 +31,7 @@ export type Pagination<T, Additional = null> = {
     offset?: number;
     limit?: number;
     expiration?: number;
-} & (Additional extends null ? {} : Additional);
+};
 
 export type PaginationResp<T> = {
     items: T[];

@@ -8,10 +8,10 @@ import { AddWorkoutModal } from './AddWorkoutModal';
 import type { User } from 'lib/models/user';
 
 interface AddWorkoutProps {
-    username: User['username'];
+    owner: User['username'];
 }
 
-export const AddWorkout = ({ username }: AddWorkoutProps) => {
+export const AddWorkout = ({ owner }: AddWorkoutProps) => {
     const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
 
     const handleToggleModal = useCallback(() => {
@@ -21,7 +21,7 @@ export const AddWorkout = ({ username }: AddWorkoutProps) => {
     return (
         <>
             <Modal open={isModelOpen} onClose={handleToggleModal}>
-                <AddWorkoutModal onCreated={handleToggleModal} username={username} />
+                <AddWorkoutModal onCreated={handleToggleModal} owner={owner} />
             </Modal>
             <Button className="self-end" onClick={handleToggleModal}>Добавить тренировоку</Button>
         </>

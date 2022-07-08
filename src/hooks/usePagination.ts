@@ -6,23 +6,24 @@ import qs from 'qs';
 import type { KeyedMutator } from 'swr';
 import type { Pagination, PaginationResp } from 'lib/api/redis/types';
 import type { APIErrorJSON } from 'lib/api/error';
+import type { ParsedUrlQueryInput } from 'node:querystring';
 
-export interface UsePaginationResult<T, Additional = null> extends PaginationResp<T> {
-    query: Pagination<T, Additional>;
+export interface UsePaginationResult<T> extends PaginationResp<T> {
+    query: Pagination<T>;
     error?: APIErrorJSON;
     isLoading: boolean;
     mutate: KeyedMutator<PaginationResp<T>>;
-    handleChangeQuery: (query: Pagination<T, Additional>) => void;
+    handleChangeQuery: (query: Pagination<T>) => void;
 }
 
 const DEFAULT_LIMIT = 1;
 
-export const usePagination = <T extends Object, Additional = null>(
+export const usePagination = <T extends Object>(
     key: string,
-    initialQuery: Pagination<T, Additional> = {} as Pagination<T, Additional>,
-): UsePaginationResult<T, Additional> => {
+    initialQuery: Pagination<T> = {},
+): UsePaginationResult<T> => {
     const router = useRouter();
-    const [query, setQuery] = useState<Pagination<T, Additional>>({ limit: DEFAULT_LIMIT, ...initialQuery });
+    const [query, setQuery] = useState<Pagination<T>>({ limit: DEFAULT_LIMIT, ...initialQuery });
     const { data, error, mutate } = useSWR<PaginationResp<T>, APIErrorJSON>(`${key}?${qs.stringify(query)}`);
     console.log(data, 'data usePagination');
     console.log(error, 'data error');
@@ -36,7 +37,8 @@ export const usePagination = <T extends Object, Additional = null>(
 
     console.log(router, 'router');
 
-    const handleChangeQuery = useCallback((newQuery: Pagination<T, Additional>) => {
+    // @TODO check it
+    const handleChangeQuery = useCallback((newQuery: Pagination<T>) => {
         setQuery((currQuery) => ({
             ...currQuery,
             ...newQuery,
@@ -47,10 +49,14 @@ export const usePagination = <T extends Object, Additional = null>(
         router.replace({
             query: {
                 ...router.query,
-                ...query,
+                ...query as ParsedUrlQueryInput,
             },
         }, undefined, { shallow: true });
     }, [query]);
+
+    useEffect(() => {
+        handleChangeQuery(router.query);
+    }, []);
 
     return {
         items,

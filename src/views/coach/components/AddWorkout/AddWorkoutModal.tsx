@@ -18,13 +18,13 @@ import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { User } from 'lib/models/user';
-import type { WorkoutCreateData, ListWorkoutsDBRes } from 'lib/models/workout';
+import type { WorkoutCreateData } from 'lib/models/workout';
 import type { APIErrorJSON } from 'lib/api/error';
 import type { SelectItemValue } from 'components/controls';
 import type { CreateWorkoutRes } from 'lib/api/routes/workouts/create';
 
 interface AddWorkoutModalProps {
-    username: User['username'];
+    owner: User['username'];
     onCreated: () => void;
 }
 
@@ -33,12 +33,11 @@ const WORKOUT_COUNT_TYPE_SELECTOR: SelectItemValue[] = Object.values(WorkoutsCou
     humanValue: WotkoutCountTypeHuman[value],
 }));
 
-export const AddWorkoutModal = ({ username, onCreated }: AddWorkoutModalProps) => {
+export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
     const {
         register, handleSubmit, resetField, watch, formState: { errors, isSubmitting },
     } = useForm<WorkoutCreateData>({
         defaultValues: {
-            owner: username,
             countsType: WorkoutsCountType.Amount,
         },
     });
@@ -50,8 +49,8 @@ export const AddWorkoutModal = ({ username, onCreated }: AddWorkoutModalProps) =
             data.countsValue = workoutCountTimeParse(data.countsType, data.countsValue);
             data.date = dayjs(data.date).unix();
 
-            const resp = await axios.post<CreateWorkoutRes>('/api/workouts', data);
-            await mutate('/api/workouts', resp.data);
+            const resp = await axios.post<CreateWorkoutRes>(`/api/workouts/${owner}`, data);
+            await mutate(`/api/workouts/${owner}`, resp.data);
             onCreated();
         } catch (error) {
             try {

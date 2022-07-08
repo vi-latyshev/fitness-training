@@ -1,11 +1,13 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { getWorkouts } from 'lib/api/db/workouts';
 
-import type { NextApiRequest, NextApiResponse as Res } from 'next';
+import type { NextApiResponse as Res } from 'next';
+import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
 import type { ListWorkoutsDBParams, ListWorkoutsDBRes } from 'lib/models/workout';
 
-type ListWorkoutsReq = NextApiRequest & {
+export type ListWorkoutsReq = NextReqWithQueryIds<['owner']> & {
     query: ListWorkoutsDBParams;
 };
 
@@ -13,7 +15,9 @@ export type ListWorkoutsRes = ListWorkoutsDBRes;
 
 const listWorkoutsAPI = async (req: ListWorkoutsReq, res: Res<ListWorkoutsRes>): Promise<void> => {
     try {
-        const workouts = await getWorkouts(req.query);
+        const { owner, ...params } = req.query;
+
+        const workouts = await getWorkouts(owner, params);
 
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         res.status(200).json(workouts);
@@ -23,5 +27,6 @@ const listWorkoutsAPI = async (req: ListWorkoutsReq, res: Res<ListWorkoutsRes>):
 };
 
 export default withMiddleware(
+    verifyQueryId<['owner']>(['owner']),
     listWorkoutsAPI,
 );

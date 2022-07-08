@@ -6,14 +6,14 @@ import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
 import { WorkoutRow } from './WorkoutRow';
 
 import type { User } from 'lib/models/user';
-import type { Workout, WorkoutOwner } from 'lib/models/workout';
+import type { Workout } from 'lib/models/workout';
 
 interface WorkoutListProps {
-    username: User['username'];
+    owner: User['username'];
 }
 
-export const WorkoutList = ({ username: owner }: WorkoutListProps) => {
-    const pagination = usePagination<Workout, WorkoutOwner>('/api/workouts', { owner });
+export const WorkoutList = ({ owner }: WorkoutListProps) => {
+    const pagination = usePagination<Workout>(`/api/workouts/${owner}`);
 
     const { items, isLoading, error } = pagination;
     console.log(items, 'items');
