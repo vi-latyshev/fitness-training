@@ -5,10 +5,10 @@ import { useUser } from 'context/auth';
 import { Button } from 'components/controls';
 
 export const LogoutButton = () => {
-    const { logoutUser: logout } = useUser();
+    const { logoutUser } = useUser();
 
     const handleLogout = useCallback(async () => {
-        await logout();
+        await logoutUser();
     }, []);
 
     return (

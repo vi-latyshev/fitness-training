@@ -24,7 +24,7 @@ export const DashboardLayout: NextLayout<DashboardLayoutProps> = ({ links, meta,
     return (
         <div className="lg:flex w-screen min-h-screen h-full bg-grayPrimary">
             <DashNav links={links} />
-            <main className="bg-gray-100 w-full space-y-10 px-5 py-10 pt-28 lg:px-20 lg:pt-10 flex items-start justify-start flex-col">
+            <main className="bg-gray-100 w-full space-y-10 px-5 py-10 pt-32 lg:px-20 lg:pt-10 flex items-start justify-start flex-col">
                 {meta?.title && <DashboardTitle>{meta.title}</DashboardTitle>}
                 {children}
             </main>

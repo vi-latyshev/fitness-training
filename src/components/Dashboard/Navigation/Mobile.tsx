@@ -28,13 +28,13 @@ export const DashNavMobile = ({ links }: DashNavMobileProps) => {
     return (
         <>
             {isMenuOpenned && (
-                <div className="fixed bg-white z-10 w-screen h-screen flex-col items-center py-20 px-5 justify-center text-center space-y-20">
+                <div className="fixed bg-white z-10 w-screen h-screen flex-col items-center pt-28 pb-20 px-5 justify-center text-center space-y-20">
                     <NavBar links={links} />
                     <LogoutButton />
                 </div>
             )}
-            <div className="lg:hidden z-20 fixed w-full px-5 py-5 bg-white flex items-center justify-between">
-                <Logo />
+            <div className="lg:hidden z-20 fixed w-full px-5 з py-5 bg-white flex items-center justify-between">
+                <Logo height={64} width={64} />
                 <div>
                     <Button variant="soft" type="button" onClick={handleOpenMenu}>
                         Меню

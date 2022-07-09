@@ -1,4 +1,4 @@
-import { Logo } from 'components/Logo';
+import { Logo, SupportLogo } from 'components/Logo';
 
 import { NavBar } from './NavBar';
 import { LogoutButton } from './Logout';
@@ -11,10 +11,13 @@ interface DashNavTabletProps {
 
 export const DashNavTablet = ({ links }: DashNavTabletProps) => (
     <aside className="hidden h-screen sticky top-0 lg:flex bg-white px-4 2xl:px-12 pt-20 pb-10 flex-col items-center justify-between">
-        <div className="space-y-20 flex flex-col items-center">
+        <div className="space-y-16 flex flex-col items-center">
             <Logo />
             <NavBar links={links} />
         </div>
-        <LogoutButton />
+        <div>
+            <LogoutButton />
+            <SupportLogo />
+        </div>
     </aside>
 );
