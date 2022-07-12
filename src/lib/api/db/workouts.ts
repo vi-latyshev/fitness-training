@@ -12,12 +12,14 @@ import {
 
 import { getUserId } from './users';
 
-import type { User } from 'lib/models/user';
+import type { UserName } from 'lib/models/user';
 import type {
-    ListWorkoutsDBParams,
-    ListWorkoutsDBRes,
     Workout,
+    WorkoutId,
+    WorkoutUpdateData,
     WorkoutCreateDataDB,
+    ListWorkoutsDBRes,
+    ListWorkoutsDBParams,
 } from 'lib/models/workout';
 
 export const createWorkout = async (workoutCreate: WorkoutCreateDataDB): Promise<Workout> => {
@@ -35,13 +37,13 @@ export const createWorkout = async (workoutCreate: WorkoutCreateDataDB): Promise
     pipe.hset(WORKOUTS_ITEM_KEY(workoutId), Serializer.serialize(workout));
     pipe.sadd(WORKOUTS_BY_USER_KEY(userId), workoutId);
 
-    handlePipeline(await pipe.exec());
     await redis.fsortBust(WORKOUTS_BY_USER_KEY(userId), Date.now(), 0);
+    handlePipeline(await pipe.exec());
 
     return workout;
 };
 
-export const getWorkout = async (owner: User['username'], workoutId: Workout['id']): Promise<Workout> => {
+export const getWorkout = async (owner: UserName, workoutId: Workout['id']): Promise<Workout> => {
     const userId = await getUserId(owner);
 
     const isExists = await redis.sismember(WORKOUTS_BY_USER_KEY(userId), workoutId);
@@ -55,7 +57,22 @@ export const getWorkout = async (owner: User['username'], workoutId: Workout['id
     return workout;
 };
 
-export const removeWorkout = async (owner: User['username'], workoutId: Workout['id']): Promise<void> => {
+export const updateWorkout = async (
+    owner: UserName,
+    workoutId: WorkoutId,
+    workoutUpdate: WorkoutUpdateData
+): Promise<void> => {
+    const userId = await getUserId(owner);
+
+    const isExists = await redis.sismember(WORKOUTS_BY_USER_KEY(userId), workoutId);
+
+    if (isExists === 0) {
+        throw new APIError(`Workout (${workoutId}) of (${owner}) does not exist`, 404);
+    }
+    await redis.hset(WORKOUTS_ITEM_KEY(workoutId), Serializer.serialize(workoutUpdate));
+};
+
+export const removeWorkout = async (owner: UserName, workoutId: Workout['id']): Promise<void> => {
     const userId = await getUserId(owner);
 
     const isExists = await redis.sismember(WORKOUTS_BY_USER_KEY(userId), workoutId);
@@ -68,13 +85,13 @@ export const removeWorkout = async (owner: User['username'], workoutId: Workout[
     pipe.del(WORKOUTS_ITEM_KEY(workoutId));
     pipe.srem(WORKOUTS_BY_USER_KEY(userId), workoutId);
 
-    handlePipeline(await pipe.exec());
     await redis.fsortBust(WORKOUTS_BY_USER_KEY(userId), Date.now(), 0);
+    handlePipeline(await pipe.exec());
 };
 
-export const getWorkouts = async (owner: User['username'], params: ListWorkoutsDBParams): Promise<ListWorkoutsDBRes> => {
+export const getWorkouts = async (owner: UserName, params: ListWorkoutsDBParams): Promise<ListWorkoutsDBRes> => {
     const {
-        sortBy = 'date',
+        sortBy = 'createdAt',
         order = 'ASC',
         filter,
         offset: offsetRaw = 0,

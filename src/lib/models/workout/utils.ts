@@ -2,19 +2,6 @@ import dayjs from 'dayjs';
 
 import { WorkoutsCountType } from './model';
 
-import type { ButtonProps } from 'components/controls';
-
-// type WorkoutTypeHumanType = {
-//     [T in WorkoutType]: string;
-// };
-
-// export const WorkoutTypeHuman: WorkoutTypeHumanType = {
-//     [WorkoutType.PushUpsFloor]: 'Отжимание от пола',
-//     [WorkoutType.PushUpsWideArm]: 'Отжимание с широким упором',
-//     [WorkoutType.PushUpsKnee]: 'Отжимание с упором на колени',
-//     [WorkoutType.JumpJack]: 'Прыжки',
-// };
-
 type WotkoutCountTypeHumanType = {
     [T in WorkoutsCountType]: string;
 };
@@ -60,26 +47,4 @@ export const workoutCountTypeToHuman = (countType: WorkoutsCountType, countValue
         }
         default: throw new Error(`Not implemented count type: ${countType}`);
     }
-};
-
-/**
- * yesterday+ = red
- * today = green
- * tomorrow+ = default
- */
-export const getColorDate = (date: number, isDone?: boolean): ButtonProps['color'] => {
-    if (isDone) {
-        return 'default';
-    }
-    const dateNow = dayjs().startOf('day');
-    const dateDayjs = dayjs.unix(date);
-
-    if (dateDayjs.isBefore(dateNow, 'day')) {
-        return 'error';
-    }
-    if (dateDayjs.isSame(dateNow, 'day')) {
-        return 'success';
-    }
-
-    return 'default';
 };

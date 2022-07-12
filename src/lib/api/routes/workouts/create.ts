@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
@@ -13,20 +11,19 @@ import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query
 import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
 import type { Workout, WorkoutCreateData, WorkoutCreateDataDB } from 'lib/models/workout';
 
-export type CreateWorkoutReq = NextReqWithQueryIds<['owner']> & NextReqWithBody<WorkoutCreateData>;
+// @TODO create type with generic as Query & Body
+export type CreateWorkoutReq = Omit<NextReqWithQueryIds<['owner']>, 'body'> & NextReqWithBody<WorkoutCreateData>;
 export type CreateWorkoutRes = Workout;
 
 const validateBody: Validator<WorkoutCreateData> = ({
     name,
     countsType,
     countsValue,
-    date,
     ...rest
 }): boolean => (
     name !== undefined && typeof name === 'string' && /^[а-яА-Я]{3,30}/.test(name)
     && countsType !== undefined && Object.values(WorkoutsCountType).includes(countsType)
     && typeof countsValue === 'number' && countsValue > 0
-    && typeof date === 'number' && dayjs.unix(date).isValid()
     && Object.keys(rest).length === 0
 );
 
@@ -37,6 +34,7 @@ const createWorkoutAPI = async (req: CreateWorkoutReq, res: Res<CreateWorkoutRes
         const workoutCreate: WorkoutCreateDataDB = {
             ...body,
             owner: query.owner,
+            createdAt: Date.now(),
         };
 
         const workout = await createWorkout(workoutCreate);

@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
-import clsx from 'clsx';
-import dayjs from 'dayjs';
 import { XIcon } from '@heroicons/react/outline';
 import axios from 'axios';
 
-import { getColorDate, Workout, workoutCountTypeToHuman } from 'lib/models/workout';
+import { Workout, workoutCountTypeToHuman } from 'lib/models/workout';
 
 import { useWorkouts } from 'hooks/useWorkouts';
 
@@ -21,30 +19,14 @@ export const WorkoutRow = ({
     name,
     countsType,
     countsValue,
-    date,
     isDone,
 }: WorkoutRowProps) => {
     const { mutate } = useWorkouts(owner);
 
-    const classesCell = clsx({
-        'cursor-pointer': isDone,
-    });
-
-    const handleUnDoneWorkout = useCallback((_e: React.ChangeEvent<HTMLInputElement>) => {
-        // console.log('undone workout', id);
-    }, []);
-
-    const handleChangeWorkout = useCallback(() => {
-        // if (status === WorkoutsStatus.Done) {
-        //     return;
-        // }
-        // console.log('select workout', id);
-    }, [isDone]);
-
     const handleRemoveWorkout = useCallback(async () => {
         try {
             await axios.delete<RemoveWorkoutRes>(`/api/workouts/${owner}/${id}`);
-            mutate();
+            await mutate();
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {
@@ -58,29 +40,14 @@ export const WorkoutRow = ({
 
     return (
         <Table.Row disabled={isDone}>
-            <Table.Cell onClick={handleChangeWorkout} className={classesCell}>
-                <Checkbox disabled checked={isDone} onChange={handleUnDoneWorkout} />
+            <Table.Cell>
+                <Checkbox disabled defaultChecked={isDone} />
             </Table.Cell>
-            <Table.Cell
-                full
-                disabled={isDone}
-                onClick={handleChangeWorkout}
-                className={classesCell}
-            >
+            <Table.Cell full disabled={isDone}>
                 {name}
             </Table.Cell>
-            <Table.Cell disabled={isDone} onClick={handleChangeWorkout} className={classesCell}>
+            <Table.Cell disabled={isDone}>
                 {workoutCountTypeToHuman(countsType, countsValue)}
-            </Table.Cell>
-            <Table.Cell disabled={isDone} onClick={handleChangeWorkout} className="px-0">
-                <Button
-                    hover={false}
-                    variant="soft"
-                    disabled={isDone}
-                    color={getColorDate(date, isDone)}
-                >
-                    {dayjs.unix(date).format('DD.MM.YY HH:mm')}
-                </Button>
             </Table.Cell>
             <Table.Cell className="px-1">
                 <Button

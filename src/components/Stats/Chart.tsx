@@ -39,18 +39,18 @@ export const Chart = ({ workouts }: ChartProps) => {
         };
 
         const addWorkoutsPerMonth = () => {
-            workouts.forEach(({ date }) => {
-                const point = dayjs(date).format('D.MM');
-                const index = points.indexOf(point);
+            // workouts.forEach(({ date }) => {
+            //     const point = dayjs(date).format('D.MM');
+            //     const index = points.indexOf(point);
 
-                if (index !== -1) {
-                    setData((chartData) => {
-                        chartData[index].amount += 1;
+            //     if (index !== -1) {
+            //         setData((chartData) => {
+            //             chartData[index].amount += 1;
 
-                        return chartData;
-                    });
-                }
-            });
+            //             return chartData;
+            //         });
+            //     }
+            // });
         };
 
         setData([]);

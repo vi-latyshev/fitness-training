@@ -18,15 +18,15 @@ export const TablePagination = <T extends Object>({
 }: TablePaginationProps<T>) => {
     const handlePrevList = useCallback(() => {
         handleChangeQuery({
-            offset: (page - 2) * (query.limit ?? 1),
+            offset: (page - 2) * (query?.limit ?? 1),
         });
-    }, [page, query.limit]);
+    }, [page, query?.limit]);
 
     const handleNextList = useCallback(() => {
         handleChangeQuery({
-            offset: page * (query.limit ?? 1),
+            offset: page * (query?.limit ?? 1),
         });
-    }, [page, query.limit]);
+    }, [page, query?.limit]);
 
     return (
         <div className="flex flex-row justify-end items-center space-x-8 mb-3">

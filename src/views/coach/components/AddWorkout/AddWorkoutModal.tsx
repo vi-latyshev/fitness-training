@@ -47,11 +47,10 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
     const handleFormSubmit: SubmitHandler<WorkoutCreateData> = useCallback(async (data) => {
         try {
             data.countsValue = workoutCountTimeParse(data.countsType, data.countsValue);
-            data.date = dayjs(data.date).unix();
 
             await axios.post<CreateWorkoutRes>(`/api/workouts/${owner}`, data);
+            await mutate();
             onCreated();
-            mutate();
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {
@@ -146,18 +145,6 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                         })}
                     />
                 )}
-                <Input
-                    full
-                    type="datetime-local"
-                    label="Дата выполнения"
-                    disabled={isSubmitting}
-                    error={errors.date?.message}
-                    defaultValue={dayjs().format('YYYY-MM-DDTHH:mm')}
-                    {...register('date', {
-                        required: 'Введите дату',
-                        validate: (value) => dayjs(value).isValid() || 'Неверная дата',
-                    })}
-                />
                 <Button
                     full
                     type="submit"

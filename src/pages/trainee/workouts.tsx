@@ -1,7 +1,7 @@
 import { UserRole } from 'lib/models/user';
 
 import { TraineeBaseLayout } from 'views/trainee';
-// import { WorkoutList } from 'views/trainee/WorkoutList';
+import { WorkoutList } from 'views/trainee/components';
 
 import Card from 'components/Card';
 // import { Stats } from 'components/Stats';
@@ -12,7 +12,7 @@ const TraineeWorkout: NextPageWithLayout = () => (
     <Card.Container className="grid-cols-1 md:grid-cols-5">
         <Card.Card className="col-span-1 md:col-span-3">
             <Card.Title>Список тренировок</Card.Title>
-            {/* <WorkoutList /> */}
+            <WorkoutList />
         </Card.Card>
         {/* <Stats workouts={workouts} className="col-span-1 md:col-span-2" /> */}
     </Card.Container>

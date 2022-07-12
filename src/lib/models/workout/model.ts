@@ -6,19 +6,23 @@ export enum WorkoutsCountType {
     Time = 'time',
 }
 
+export type WorkoutId = string;
+
 export type Workout = {
-    id: string;
+    id: WorkoutId;
     name: string;
     owner: User['username'],
     countsType: WorkoutsCountType,
     countsValue: number;
-    date: number;
+    createdAt: number;
     isDone?: boolean;
 };
 
 export type WorkoutCreateDataDB = Omit<Workout, 'id'>;
 
-export type WorkoutCreateData = Omit<WorkoutCreateDataDB, 'owner' | 'isDone'>;
+export type WorkoutCreateData = Omit<WorkoutCreateDataDB, 'owner' | 'createdAt'>;
+
+export type WorkoutUpdateData = Partial<Omit<WorkoutCreateDataDB, 'name' | 'owner' | 'createdAt'>>;
 
 export type ListWorkoutsDBParams = Pagination<Workout>;
 

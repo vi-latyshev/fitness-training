@@ -37,8 +37,8 @@ export const createUser = async (userCreate: UserRegisterDBData): Promise<User> 
     pipe.hset(USERS_AUTH_KEY(userId), auth);
     pipe.hset(USERS_METADATA_KEY(userId), Serializer.serialize(user));
 
+    await redis.fsortBust(USERS_IDX_KEY, Date.now(), 0);
     handlePipeline(await pipe.exec());
-    redis.fsortBust(USERS_IDX_KEY, Date.now(), 1);
 
     return user;
 };
