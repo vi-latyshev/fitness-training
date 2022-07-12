@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { Logo } from 'components/Logo';
+import { Logo, SupportLogo } from 'components/Logo';
 import { Button } from 'components/controls';
 
 import { NavBar } from './NavBar';
@@ -28,13 +28,16 @@ export const DashNavMobile = ({ links }: DashNavMobileProps) => {
     return (
         <>
             {isMenuOpenned && (
-                <div className="fixed bg-white z-10 w-screen h-screen flex-col items-center pt-28 pb-20 px-5 justify-center text-center space-y-20">
+                <div className="flex fixed bg-white z-10 w-screen h-screen flex-col justify-between pt-28 pb-8 px-5 text-center">
                     <NavBar links={links} />
-                    <LogoutButton />
+                    <div>
+                        <LogoutButton />
+                        <SupportLogo />
+                    </div>
                 </div>
             )}
             <div className="lg:hidden z-20 fixed w-full px-5 з py-5 bg-white flex items-center justify-between">
-                <Logo height={64} width={64} />
+                <Logo />
                 <div>
                     <Button variant="soft" type="button" onClick={handleOpenMenu}>
                         Меню

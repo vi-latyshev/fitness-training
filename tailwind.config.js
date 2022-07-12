@@ -54,6 +54,7 @@ module.exports = {
             },
             fontFamily: {
                 sans: ['"Inter"', 'sans-serif'],
+                logo: ['Akrobat-Black', 'sans-serif'],
             },
             transitionDuration: {
                 DEFAULT: '250ms',

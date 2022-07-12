@@ -1,12 +1,5 @@
-import Image from 'next/image';
-
-import logoFitness from 'static/logo-generation.jpg';
-
-type LogoProps = {
-    width?: number;
-    height?: number;
-};
-
-export const Logo = ({ width = 128, height = 127 }: LogoProps) => (
-    <Image src={logoFitness} width={width} height={height} />
+export const Logo = () => (
+    <div className="text-3xl text-primary font-bold font-logo uppercase">
+        <span className="text-error-light">Новобранец</span> 34
+    </div>
 );
