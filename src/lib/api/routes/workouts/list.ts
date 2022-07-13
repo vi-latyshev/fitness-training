@@ -19,7 +19,6 @@ const listWorkoutsAPI = async (req: ListWorkoutsReq, res: Res<ListWorkoutsRes>):
 
         const workouts = await getWorkouts(owner, params);
 
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         res.status(200).json(workouts);
     } catch (e) {
         handleApiError(e, res);

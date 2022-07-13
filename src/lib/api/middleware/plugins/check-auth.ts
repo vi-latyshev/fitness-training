@@ -1,4 +1,4 @@
-import { checkAuthJWT } from 'lib/api/utils/jwt';
+import { checkAuthJWT, removeJWT } from 'lib/api/utils/jwt';
 import { UserRole } from 'lib/models/user';
 import { APIError } from 'lib/api/error';
 
@@ -21,10 +21,18 @@ export const validateAuthPayload = (payload: SignJWTPayload): void => {
     }
 };
 
-export const checkAuth: Middleware<NextReqWithAuth> = (req, _res): void => {
-    const payload = checkAuthJWT(req);
+export const checkAuth = (noThrow = false): Middleware<NextReqWithAuth> => (req, res): void => {
+    try {
+        const payload = checkAuthJWT(req);
 
-    validateAuthPayload(payload);
+        validateAuthPayload(payload);
 
-    req.auth = payload;
+        req.auth = payload;
+    } catch (e) {
+        removeJWT(res);
+        if (noThrow) {
+            return;
+        }
+        throw e;
+    }
 };

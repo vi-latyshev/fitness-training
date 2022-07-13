@@ -64,8 +64,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const registerUser = useCallback<AuthContextValue['registerUser']>(async (data) => {
         const resp = await axios.post<CreateUserRes>('/api/users', data);
+        if (resp.data.username !== user.username) {
+            return;
+        }
         mutate(resp.data, false);
-    }, []);
+    }, [user]);
 
     const loginUser = useCallback<AuthContextValue['loginUser']>(async (data) => {
         const resp = await axios.post<LoginUserRes>('/api/users/login', data);

@@ -1,3 +1,5 @@
+import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { removeJWT } from 'lib/api/utils/jwt';
 
@@ -14,3 +16,8 @@ export const logoutUserAPI = async (_req: NextReqWithAuth, res: Res<LogoutUserRe
         handleApiError(e, res);
     }
 };
+
+export default withMiddleware(
+    checkAuth(),
+    logoutUserAPI,
+);

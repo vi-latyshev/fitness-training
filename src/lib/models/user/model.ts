@@ -1,7 +1,7 @@
 export enum UserRole {
     ADMIN = 'admin',
-    TRAINEE = 'trainee',
     COACH = 'coach',
+    TRAINEE = 'trainee',
 }
 
 export type UserName = string;
@@ -16,9 +16,9 @@ export type User = {
     firstName: string;
     lastName: string;
 
-    height?: number;
-    weight?: number;
-    waistGirth?: number;
+    // height?: number;
+    // weight?: number;
+    // waistGirth?: number;
 };
 
 export type UserAuth = {
@@ -28,7 +28,7 @@ export type UserAuth = {
 
 export type UserRegisterData = {
     auth: UserAuth;
-    meta: Pick<User, 'firstName' | 'lastName'>;
+    meta: Omit<User, 'createdAt'>;
 };
 
 export type UserRegisterDBData = UserRegisterData & {

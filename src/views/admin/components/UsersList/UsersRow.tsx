@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 
 import { useUser } from 'context/auth';
 
+import { UserRoleTypeHuman } from 'lib/models/user';
+
 import Table from 'components/Table';
 
 import type { User } from 'lib/models/user';
@@ -59,7 +61,7 @@ export const UsersRow = ({ user }: UsersRowProps) => {
                 {lastName}
             </Table.Cell>
             <Table.Cell disabled={isCurrUser}>
-                {role}
+                {UserRoleTypeHuman[role]} ({role})
             </Table.Cell>
             <Table.Cell disabled={isCurrUser}>
                 {dayjs(createdAt).format('LLL')}

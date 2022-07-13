@@ -1,6 +1,5 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { logoutUserAPI } from 'lib/api/routes/users/logout';
 
 import type { NextApiResponse } from 'next';
@@ -23,6 +22,5 @@ const usersLogout = async (
 
 export default withMiddleware(
     allowMethods(['GET']),
-    checkAuth,
     usersLogout,
 );

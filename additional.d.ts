@@ -39,7 +39,7 @@ declare namespace NodeJS {
         readonly JWT_SECRET: string;
 
         readonly ADMIN_USERNAME: string;
-
         readonly ADMIN_PASS: string;
+        readonly ADMIN_ROLE: string;
     }
 }

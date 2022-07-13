@@ -2,14 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Akrobat-Black';
-  font-style: bold;
-  font-weight: 900;
-  src: local('Akrobat-Black.otf'), url('/fonts/Akrobat-Black.otf') format('woff');
-}
-
 @layer base {
+  @font-face {
+    font-family: 'Akrobat-Black';
+    font-style: bold;
+    font-weight: 900;
+    src: local('Akrobat-Black.otf'), url('/fonts/Akrobat-Black.otf') format('woff');
+    font-display: swap;
+  }
+
   body {
     @apply overflow-x-hidden;
   }

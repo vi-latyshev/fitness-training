@@ -16,7 +16,6 @@ const fetchWorkoutAPI = async (req: FetchWorkoutReq, res: Res<FetchWorkoutRes>):
 
         const workout = await getWorkout(owner, workoutId);
 
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         res.status(200).json(workout);
     } catch (e) {
         handleApiError(e, res);

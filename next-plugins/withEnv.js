@@ -31,11 +31,13 @@ module.exports = (nextConfig, nextComposePlugins = {}) => {
                 DOMAIN: `https://${process.env.HOST}`,
             }),
 
+            JWT_SECRET: process.env.JWT_SECRET,
             JWT_EXPIRES_IN: 1 * 24 * 60 * 60, // 1 day
 
             // root admin
             ADMIN_USERNAME: process.env.ADMIN_USERNAME ?? 'admin',
             ADMIN_PASS: process.env.ADMIN_PASS ?? 'admin',
+            ADMIN_ROLE: process.env.ADMIN_ROLE ?? 'admin',
         },
     };
 };

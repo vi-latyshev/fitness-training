@@ -2,15 +2,19 @@ import sha1 from 'sha1';
 
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
+import { handleApiError } from 'lib/api/error/handle-api-error';
 import { createUser } from 'lib/api/db/users';
 import { signJWT } from 'lib/api/utils/jwt';
-import { handleApiError } from 'lib/api/error/handle-api-error';
+import { APIError } from 'lib/api/error';
 import { UserRole } from 'lib/models/user';
 
 import type { NextApiResponse as Res } from 'next';
+import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
 import type { User, UserRegisterData, UserRegisterDBData } from 'lib/models/user';
 
+type SetPasswordReq = Partial<Omit<NextReqWithAuth, 'body'>> & NextReqWithBody<UserRegisterData>;
 export type CreateUserRes = User;
 
 /**
@@ -29,6 +33,8 @@ export type CreateUserRes = User;
  * - lastName
  *      - min-length - 1
  *      - max-length - 50
+ * - role
+ *      - only for Admin role
  * - no additional fields
  */
 const validateBody: Validator<UserRegisterData> = ({
@@ -40,6 +46,7 @@ const validateBody: Validator<UserRegisterData> = ({
     meta: {
         firstName,
         lastName,
+        role,
         ...metaRest
     } = {},
     ...rest
@@ -48,12 +55,18 @@ const validateBody: Validator<UserRegisterData> = ({
     && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length <= 30
     && firstName !== undefined && typeof firstName === 'string' && firstName.length >= 1 && firstName.length <= 50
     && lastName !== undefined && typeof password === 'string' && lastName.length >= 1 && lastName.length <= 50
+    && (role === undefined || Object.values(UserRole).includes(role))
     && Object.keys(rest).length === 0 && Object.keys(authRest).length === 0 && Object.keys(metaRest).length === 0
 );
 
-const createUserAPI = async (req: NextReqWithBody<UserRegisterData>, res: Res<CreateUserRes>): Promise<void> => {
+const createUserAPI = async (req: SetPasswordReq, res: Res<CreateUserRes>): Promise<void> => {
     try {
-        const { body } = req;
+        const { body, auth: userAuth } = req;
+
+        // set role only for admin
+        if (body.meta.role && userAuth?.role !== UserRole.ADMIN) {
+            throw new APIError('Not enough rights', 403);
+        }
 
         const auth: UserRegisterDBData['auth'] = {
             ...body.auth,
@@ -62,13 +75,15 @@ const createUserAPI = async (req: NextReqWithBody<UserRegisterData>, res: Res<Cr
         const meta: UserRegisterDBData['meta'] = {
             ...body.meta,
             username: body.auth.username,
-            role: UserRole.TRAINEE,
+            role: body.meta.role ?? UserRole.TRAINEE,
             createdAt: Date.now(),
         };
         const user = await createUser({ auth, meta });
         const { username, role } = user;
 
-        signJWT(res, { username, role });
+        if (userAuth === undefined) {
+            signJWT(res, { username, role });
+        }
 
         res.status(200).json(user);
     } catch (e) {
@@ -78,5 +93,6 @@ const createUserAPI = async (req: NextReqWithBody<UserRegisterData>, res: Res<Cr
 
 export default withMiddleware(
     checkBody(validateBody),
+    checkAuth(true),
     createUserAPI,
 );

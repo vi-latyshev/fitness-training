@@ -15,7 +15,6 @@ const removeWorkoutAPI = async (req: RemoveWorkoutReq, res: Res<RemoveWorkoutRes
 
         await removeWorkout(owner, workoutId);
 
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         res.status(204).end();
     } catch (e) {
         handleApiError(e, res);

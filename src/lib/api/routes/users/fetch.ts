@@ -1,6 +1,8 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { getUser } from 'lib/api/db/users';
+import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
+import { getUser } from 'lib/api/db/users';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
@@ -32,5 +34,7 @@ const fetchUserAPI = async (req: FetchUserReq, res: Res<FetchUserRes>): Promise<
 };
 
 export default withMiddleware(
+    verifyQueryId<['username']>(['username']),
+    checkAuth(),
     fetchUserAPI,
 );
