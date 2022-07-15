@@ -1,20 +1,21 @@
 import { UserRole } from 'lib/models/user';
 
 import { TraineeBaseLayout } from 'views/trainee';
-import { WorkoutList } from 'views/trainee/components';
+import { WorkoutList, WorkoutStatsSelf } from 'views/trainee/components';
 
 import Card from 'components/Card';
-// import { Stats } from 'components/Stats';
 
 import type { NextPageWithLayout } from 'views/base';
 
 const TraineeWorkout: NextPageWithLayout = () => (
-    <Card.Container className="grid-cols-1 md:grid-cols-5">
+    <Card.Container className="grid-cols-1 md:grid-cols-4">
         <Card.Card className="col-span-1 md:col-span-3">
             <Card.Title>Список тренировок</Card.Title>
             <WorkoutList />
         </Card.Card>
-        {/* <Stats workouts={workouts} className="col-span-1 md:col-span-2" /> */}
+        <Card.Card className="col-span-1 md:col-span-1">
+            <WorkoutStatsSelf />
+        </Card.Card>
     </Card.Container>
 );
 

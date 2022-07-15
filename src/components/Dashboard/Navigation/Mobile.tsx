@@ -28,7 +28,7 @@ export const DashNavMobile = ({ links }: DashNavMobileProps) => {
     return (
         <>
             {isMenuOpenned && (
-                <div className="flex fixed bg-white z-10 w-screen h-screen flex-col justify-between pt-28 pb-8 px-5 text-center">
+                <div className="flex fixed bg-white z-10 w-screen h-screen flex-col justify-between pt-28 pb-16 px-5 text-center">
                     <NavBar links={links} />
                     <div>
                         <LogoutButton />

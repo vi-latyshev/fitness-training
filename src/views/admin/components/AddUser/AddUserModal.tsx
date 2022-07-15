@@ -45,7 +45,7 @@ export const AddUserModal = ({ onCreated }: AddUserModalProps) => {
 
     const handleFormSubmit: SubmitHandler<UserRegisterData> = useCallback(async (data) => {
         try {
-            await registerUser(data);
+            await registerUser(data, true);
             await mutate();
             onCreated();
         } catch (error) {

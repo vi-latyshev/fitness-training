@@ -15,10 +15,6 @@ export type User = {
     createdAt: number;
     firstName: string;
     lastName: string;
-
-    // height?: number;
-    // weight?: number;
-    // waistGirth?: number;
 };
 
 export type UserAuth = {

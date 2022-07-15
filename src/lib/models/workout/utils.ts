@@ -9,6 +9,7 @@ type WotkoutCountTypeHumanType = {
 export const WotkoutCountTypeHuman: WotkoutCountTypeHumanType = {
     [WorkoutsCountType.Amount]: 'Повторения',
     [WorkoutsCountType.Time]: 'Время',
+    [WorkoutsCountType.Distance]: 'Дистанция',
 };
 
 const workoutCountTimeFormat: dayjs.OptionType = 'mm:ss';
@@ -28,6 +29,7 @@ export const workoutCountTimeParse = (countType: WorkoutsCountType, countValue: 
 
             return duration.as('seconds');
         }
+        case WorkoutsCountType.Distance:
         case WorkoutsCountType.Amount: {
             return countValue;
         }
@@ -44,6 +46,9 @@ export const workoutCountTypeToHuman = (countType: WorkoutsCountType, countValue
         }
         case WorkoutsCountType.Amount: {
             return `x${countValue}`;
+        }
+        case WorkoutsCountType.Distance: {
+            return `${countValue}м`;
         }
         default: throw new Error(`Not implemented count type: ${countType}`);
     }

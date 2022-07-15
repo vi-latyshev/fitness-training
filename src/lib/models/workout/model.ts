@@ -4,6 +4,7 @@ import type { User } from '../user';
 export enum WorkoutsCountType {
     Amount = 'amount',
     Time = 'time',
+    Distance = 'distance',
 }
 
 export type WorkoutId = string;

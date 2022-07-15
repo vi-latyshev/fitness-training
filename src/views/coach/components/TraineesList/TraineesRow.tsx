@@ -25,9 +25,7 @@ export const TraineesRow = ({ user }: TraineesRowProps) => {
     }, [username]);
 
     return (
-        <Table.Row
-            key={username}
-        >
+        <Table.Row key={username}>
             <Table.Cell
                 onClick={handleUserClick}
                 className="w-1/5 cursor-pointer"

@@ -145,6 +145,32 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                         })}
                     />
                 )}
+                {workoutType === WorkoutsCountType.Distance && (
+                    <Input
+                        full
+                        key="distance"
+                        type="number"
+                        label="Дистанция (м.)"
+                        min="0.01"
+                        step="0.01"
+                        disabled={isSubmitting}
+                        error={errors.countsValue?.message}
+                        defaultValue="2"
+                        {...register('countsValue', {
+                            valueAsNumber: true,
+                            required: 'Введите дистанцию',
+                            min: {
+                                value: 1,
+                                message: 'Минимальное значение 1',
+                            },
+                            minLength: {
+                                value: 1,
+                                message: 'Минимальная длина 1',
+                            },
+                            pattern: undefined,
+                        })}
+                    />
+                )}
                 <Button
                     full
                     type="submit"

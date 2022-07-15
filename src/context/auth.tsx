@@ -24,7 +24,7 @@ export type UpdateUserParam = User | ((prev: User) => User);
 export interface AuthContextValue {
     user: User;
     loggedIn: boolean | undefined;
-    registerUser: (data: UserRegisterData) => Promise<void>;
+    registerUser: (data: UserRegisterData, noUpdate?: boolean) => Promise<void>;
     loginUser: (data: UserAuth) => Promise<void>;
     updateUser: (user: UpdateUserParam) => Promise<void>;
     logoutUser: () => Promise<void>;
@@ -34,7 +34,7 @@ export const AuthContext = createContext<AuthContextValue>({
     user: {} as User,
     loggedIn: undefined,
     updateUser: async (_user: UpdateUserParam) => { },
-    registerUser: async () => { },
+    registerUser: async (_data: UserRegisterData, _noUpdate?: boolean) => { },
     loginUser: async () => { },
     logoutUser: async () => { },
 });
@@ -62,9 +62,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         return false;
     }, [user, error]);
 
-    const registerUser = useCallback<AuthContextValue['registerUser']>(async (data) => {
+    const registerUser = useCallback<AuthContextValue['registerUser']>(async (data, noUpdate = false) => {
         const resp = await axios.post<CreateUserRes>('/api/users', data);
-        if (resp.data.username !== user.username) {
+        if (noUpdate) {
             return;
         }
         mutate(resp.data, false);
