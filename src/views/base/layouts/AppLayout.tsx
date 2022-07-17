@@ -11,7 +11,7 @@ import { useAuthMiddleware } from 'hooks/useAuthMiddleware';
 import type { UseAuthMiddlewareProps } from 'hooks/useAuthMiddleware';
 
 export type NextPageMeta = {
-    title: string;
+    title?: string;
     description?: string;
     keywords?: string[];
 };

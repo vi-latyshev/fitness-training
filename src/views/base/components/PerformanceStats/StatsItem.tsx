@@ -3,6 +3,7 @@ import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/outline';
 import { percent } from 'utils/percent';
 
 import {
+    DiffStats,
     StatsType,
     StatsTypeToHuman,
     calculateStatsDiff,
@@ -33,10 +34,10 @@ export const StatsItem = ({
                 <div className="flex flex-row text-lg">
                     {start && last ? `(${percent(start, last)}%)` : ''}
                 </div>
-                {diffState === true && (
+                {diffState === DiffStats.UP && (
                     <ArrowSmUpIcon className="text-success-light h-8 w-8" />
                 )}
-                {diffState === false && (
+                {diffState === DiffStats.DOWN && (
                     <ArrowSmDownIcon className="text-error-light h-8 w-8" />
                 )}
             </div>

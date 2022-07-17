@@ -8,8 +8,8 @@ import Card from 'components/Card';
 import type { NextPageWithLayout } from 'views/base';
 
 const CoachTrainees: NextPageWithLayout = () => (
-    <Card.Container className="grid-cols-1">
-        <Card.Card className="col-span-1">
+    <Card.Container>
+        <Card.Card>
             <TraineesList />
         </Card.Card>
     </Card.Container>

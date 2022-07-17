@@ -16,6 +16,8 @@ import { fetcher } from 'lib/fetcher';
 
 import { AppLayout } from 'views/base';
 
+import { MetaTitle } from 'components/MetaTitle';
+
 import '../styles/globals.css';
 
 import type { AppPropsWithLayout, NextPageMeta } from 'views/base';
@@ -29,7 +31,6 @@ dayjs.locale('ru');
 const DOMAIN_URL = process.env.DOMAIN;
 
 const DEFAULT_META: NextPageMeta = {
-    title: 'Новобранец 34',
     description: 'Любой желающий может получить индивидуальный план тренировок от профессионального тренера и улучшить свою физическую подготовку',
     keywords: ['новобранец', 'физ подготовка', 'fitness', 'training'],
 };
@@ -39,22 +40,13 @@ const App = (props: AppPropsWithLayout) => {
 
     const { Component } = props;
 
-    const layoutMeta = Component.layoutProps?.meta;
-    const meta = layoutMeta ?? DEFAULT_META;
-
-    const title = router.pathname === '/'
-        ? `${DEFAULT_META.title} - ${layoutMeta?.title}`
-        : `${layoutMeta?.title} - ${DEFAULT_META.title}`;
+    const meta = Component.layoutProps?.meta ?? DEFAULT_META;
     const fullPath = `${DOMAIN_URL}${router.pathname}`;
 
     return (
         <>
+            <MetaTitle title={meta.title} />
             <Head>
-                {/* title */}
-                <title key="title">{title}</title>
-                <meta key="twitter:title" name="twitter:title" content={title} />
-                <meta key="og:title" property="og:title" content={title} />
-
                 {/* Primary */}
                 <meta name="description" content={meta.description} />
                 {/* required meta tags */}
@@ -63,7 +55,6 @@ const App = (props: AppPropsWithLayout) => {
                 <meta name="url" content={fullPath} />
 
                 {/* Open Graph / Facebook */}
-                <meta property="og:title" content={title} />
                 <meta property="og:description" content={meta.description} />
                 <meta property="og:locale" content="ru_RU" />
                 <meta property="og:type" content="website" />
@@ -71,7 +62,6 @@ const App = (props: AppPropsWithLayout) => {
                 <meta property="og:image" content={currVersion('/logo-generation.jpg')} />
 
                 {/* Twitter */}
-                <meta name="twitter:title" content={title} />
                 <meta name="twitter:description" content={meta.description} />
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:url" content={fullPath} />

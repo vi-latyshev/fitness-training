@@ -28,6 +28,12 @@ export type DiffStatsData = {
     last?: Stats;
 };
 
+export enum DiffStats {
+    EQUAL,
+    DOWN,
+    UP,
+}
+
 export type StatsCreateDataDB = Omit<Stats, 'id'>;
 
 export type StatsCreateData = Omit<StatsCreateDataDB, 'owner' | 'createdAt'>;

@@ -57,6 +57,14 @@ export const getWorkout = async (owner: UserName, workoutId: Workout['id']): Pro
     return workout;
 };
 
+export const getCountWorkouts = async (owner: UserName): Promise<number> => {
+    const userId = await getUserId(owner);
+
+    const count = await redis.scard(WORKOUTS_BY_USER_KEY(userId));
+
+    return count;
+};
+
 export const updateWorkout = async (
     owner: UserName,
     workoutId: WorkoutId,

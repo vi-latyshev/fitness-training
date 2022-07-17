@@ -6,6 +6,8 @@ import { AccountSecurity } from 'views/base/components/Account';
 import { AdminBaseLayout } from 'views/admin';
 
 import { useUserByUsername } from 'hooks/useUserByUsername';
+
+import { MetaTitle } from 'components/MetaTitle';
 import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
 import Dashboard from 'components/Dashboard';
 import Card from 'components/Card';
@@ -22,6 +24,7 @@ const AdminUserPick: NextPageWithLayout = () => {
 
     return (
         <SwrLoadingHandle isLoading={isLoading} error={error}>
+            <MetaTitle title={`${firstName} ${lastName}`} />
             <Dashboard.Title>
                 {firstName} {lastName} ({username})
             </Dashboard.Title>

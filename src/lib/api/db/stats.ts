@@ -50,6 +50,14 @@ export const createStats = async (statsCreate: StatsCreateDataDB): Promise<Stats
     return stats;
 };
 
+export const getCountStats = async (owner: UserName): Promise<number> => {
+    const userId = await getUserId(owner);
+
+    const count = await redis.scard(STATS_BY_USER_KEY(userId));
+
+    return count;
+};
+
 export const getDiffStats = async (owner: UserName): Promise<DiffStatsData> => {
     const userId = await getUserId(owner);
 

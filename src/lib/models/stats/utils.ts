@@ -1,12 +1,14 @@
 import dayjs from 'dayjs';
 
+import { percent } from 'utils/percent';
 import { durationParse, validateTime } from 'utils/durationParse';
 
 import { WorkoutsCountType } from '../workout';
 
-import { StatsType } from './model';
+import { DiffStats, StatsType } from './model';
 
 import type { RegisterOptions } from 'react-hook-form';
+import type { DiffStatsData } from './model';
 
 export const statsTypeList = Object.values(StatsType);
 
@@ -76,18 +78,41 @@ export const statsTypeValueToHuman = (type: StatsType, typeValue: number | undef
 
 type StatsResultReverseType = StatsType[];
 
-const StatsResult: StatsResultReverseType = [
+const StatsResultReverse: StatsResultReverseType = [
     StatsType.ShuttleRun,
     StatsType.Cross1000m,
 ];
 
-export const calculateStatsDiff = (type: StatsType, start?: number, last?: number): boolean | null => {
+export const calculateStatsDiff = (type: StatsType, start?: number, last?: number): DiffStats => {
     if (!start || !last || start === last) {
-        return null;
+        return DiffStats.EQUAL;
     }
-    const isReverse = StatsResult.includes(type);
+    const isReverse = StatsResultReverse.includes(type);
 
-    return isReverse ? start > last : start < last;
+    const isUp = isReverse ? start > last : start < last;
+
+    return isUp ? DiffStats.UP : DiffStats.DOWN;
+};
+
+export const calculateFullStatsDiff = (stats: DiffStatsData): number => {
+    const summ = statsTypeList.reduce((prevVal, currVal) => {
+        const start = stats.start?.[currVal] ?? 0;
+        const last = stats.last?.[currVal] ?? 0;
+
+        const percentDiff = percent(start, last);
+        const diffState = calculateStatsDiff(currVal, start, last);
+
+        if (diffState === DiffStats.UP) {
+            return prevVal + percentDiff;
+        }
+        if (diffState === DiffStats.DOWN) {
+            return prevVal - percentDiff;
+        }
+
+        return prevVal;
+    }, 0);
+
+    return Math.round((summ / statsTypeList.length) * 100) / 100;
 };
 
 type StatsTypeRegisterFieldsType = {
