@@ -121,6 +121,7 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                                 value: 1,
                                 message: 'Минимальная длина 1',
                             },
+                            validate: undefined,
                             pattern: undefined,
                         })}
                     />
@@ -168,6 +169,7 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                                 value: 1,
                                 message: 'Минимальная длина 1',
                             },
+                            validate: undefined,
                             pattern: undefined,
                         })}
                     />
