@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { useUser } from 'context/auth';
 
-import { UserRole, UserRoleTypeHuman } from 'lib/models/user';
+import { UserRole, userRoleList, UserRoleTypeHuman } from 'lib/models/user';
 
 import { usePagination } from 'hooks/usePagination';
 
@@ -22,7 +22,7 @@ interface AddUserModalProps {
     onCreated: () => void;
 }
 
-const USERS_ROLE_TYPE_SELECTOR: SelectItemValue[] = Object.values(UserRole).map((value) => ({
+const USERS_ROLE_TYPE_SELECTOR: SelectItemValue[] = userRoleList.map((value) => ({
     value,
     humanValue: UserRoleTypeHuman[value],
 }));

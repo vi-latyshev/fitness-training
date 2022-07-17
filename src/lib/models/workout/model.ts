@@ -12,8 +12,8 @@ export type WorkoutId = string;
 export type Workout = {
     id: WorkoutId;
     name: string;
-    owner: User['username'],
-    countsType: WorkoutsCountType,
+    owner: User['username'];
+    countsType: WorkoutsCountType;
     countsValue: number;
     createdAt: number;
     isDone?: boolean;

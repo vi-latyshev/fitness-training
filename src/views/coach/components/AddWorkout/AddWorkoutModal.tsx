@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import {
     WorkoutsCountType,
     WotkoutCountTypeHuman,
+    workoutsCountTypeList,
     workoutCountTimeParse,
     workoutCountTimeValidate,
 } from 'lib/models/workout';
@@ -17,8 +18,8 @@ import { Button, Input, Select } from 'components/controls';
 import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { Workout, WorkoutCreateData } from 'lib/models/workout';
 import type { APIErrorJSON } from 'lib/api/error';
+import type { Workout, WorkoutCreateData } from 'lib/models/workout';
 import type { SelectItemValue } from 'components/controls';
 import type { CreateWorkoutRes } from 'lib/api/routes/workouts/create';
 
@@ -27,7 +28,7 @@ interface AddWorkoutModalProps {
     onCreated: () => void;
 }
 
-const WORKOUT_COUNT_TYPE_SELECTOR: SelectItemValue[] = Object.values(WorkoutsCountType).map((value) => ({
+const WORKOUT_COUNT_TYPE_SELECTOR: SelectItemValue[] = workoutsCountTypeList.map((value) => ({
     value,
     humanValue: WotkoutCountTypeHuman[value],
 }));

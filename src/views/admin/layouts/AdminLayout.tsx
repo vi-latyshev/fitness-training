@@ -1,4 +1,4 @@
-import { ChartPieIcon, UserGroupIcon, UserIcon } from '@heroicons/react/outline';
+import { UserGroupIcon, UserIcon } from '@heroicons/react/outline';
 
 import Dashboard from 'components/Dashboard';
 
@@ -8,11 +8,11 @@ import type { DashboardLayoutProps } from 'components/Dashboard';
 const ROOT = '/admin';
 
 const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
-    {
-        text: 'Обзор',
-        href: ROOT,
-        Icon: ChartPieIcon,
-    },
+    // {
+    //     text: 'Обзор',
+    //     href: ROOT,
+    //     Icon: ChartPieIcon,
+    // },
     {
         text: 'Пользователи',
         href: `${ROOT}/users`,

@@ -1,16 +1,21 @@
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+
 import { UserRole } from 'lib/models/user';
 
 import { AdminBaseLayout } from 'views/admin';
 
-import Card from 'components/Card';
-
 import type { NextPageWithLayout } from 'views/base';
 
-const AdminDashboard: NextPageWithLayout = () => (
-    <Card.Container>
-        admin
-    </Card.Container>
-);
+const AdminDashboard: NextPageWithLayout = () => {
+    const router = useRouter();
+
+    useEffect(() => {
+        router.replace('/admin/users');
+    }, []);
+
+    return null;
+};
 
 AdminDashboard.layoutProps = {
     meta: {

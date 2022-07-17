@@ -1,6 +1,10 @@
 import dayjs from 'dayjs';
 
+import { durationParse, validateTime } from 'utils/durationParse';
+
 import { WorkoutsCountType } from './model';
+
+export const workoutsCountTypeList = Object.values(WorkoutsCountType);
 
 type WotkoutCountTypeHumanType = {
     [T in WorkoutsCountType]: string;
@@ -15,19 +19,13 @@ export const WotkoutCountTypeHuman: WotkoutCountTypeHumanType = {
 const workoutCountTimeFormat: dayjs.OptionType = 'mm:ss';
 
 export const workoutCountTimeValidate = (value: string | number): boolean => (
-    dayjs(value, workoutCountTimeFormat, true).isValid()
+    validateTime(value, workoutCountTimeFormat)
 );
 
 export const workoutCountTimeParse = (countType: WorkoutsCountType, countValue: number): number => {
     switch (countType) {
         case WorkoutsCountType.Time: {
-            const time = dayjs(countValue, workoutCountTimeFormat, true);
-            const duration = dayjs.duration({
-                minutes: time.minute(),
-                seconds: time.second(),
-            });
-
-            return duration.as('seconds');
+            return durationParse(countValue, workoutCountTimeFormat, 's');
         }
         case WorkoutsCountType.Distance:
         case WorkoutsCountType.Amount: {

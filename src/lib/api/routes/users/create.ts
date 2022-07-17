@@ -7,7 +7,7 @@ import { handleApiError } from 'lib/api/error/handle-api-error';
 import { createUser } from 'lib/api/db/users';
 import { signJWT } from 'lib/api/utils/jwt';
 import { APIError } from 'lib/api/error';
-import { UserRole } from 'lib/models/user';
+import { UserRole, userRoleList } from 'lib/models/user';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
@@ -55,7 +55,7 @@ const validateBody: Validator<UserRegisterData> = ({
     && password !== undefined && typeof password === 'string' && password.length >= 5 && password.length <= 30
     && firstName !== undefined && typeof firstName === 'string' && firstName.length >= 1 && firstName.length <= 50
     && lastName !== undefined && typeof password === 'string' && lastName.length >= 1 && lastName.length <= 50
-    && (role === undefined || Object.values(UserRole).includes(role))
+    && (role === undefined || userRoleList.includes(role))
     && Object.keys(rest).length === 0 && Object.keys(authRest).length === 0 && Object.keys(metaRest).length === 0
 );
 
@@ -67,7 +67,6 @@ const createUserAPI = async (req: SetPasswordReq, res: Res<CreateUserRes>): Prom
         if (body.meta.role && userAuth?.role !== UserRole.ADMIN) {
             throw new APIError('Not enough rights', 403);
         }
-
         const auth: UserRegisterDBData['auth'] = {
             ...body.auth,
             password: sha1(body.auth.password), // pass in sha1 hash

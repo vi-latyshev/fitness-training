@@ -2,27 +2,23 @@ import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
-import { getUser } from 'lib/api/db/users';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { User } from 'lib/models/user';
 
-export type FetchUserReq = NextReqWithAuth & NextReqWithQueryIds<['username']>;
-export type FetchUserRes = User;
+export type RemoveUserReq = NextReqWithAuth & NextReqWithQueryIds<['username']>;
+export type RemoveUserRes = void;
 
-const fetchUserAPI = async (req: FetchUserReq, res: Res<FetchUserRes>): Promise<void> => {
+const removeUserAPI = async (_req: RemoveUserReq, res: Res<RemoveUserRes>) => {
     try {
-        const { username: owner } = req.query;
+        // @TODO
+        // only for admin/coach?
+        // remove user
+        // remove workout of user
+        // remove stats of user
 
-        const username = owner === 'me'
-            ? req.auth.username
-            : owner;
-
-        const user = await getUser(username);
-
-        res.status(200).json(user);
+        res.status(204).end();
     } catch (e) {
         handleApiError(e, res);
     }
@@ -31,5 +27,5 @@ const fetchUserAPI = async (req: FetchUserReq, res: Res<FetchUserRes>): Promise<
 export default withMiddleware(
     verifyQueryId<['username']>(['username']),
     checkAuth(),
-    fetchUserAPI,
+    removeUserAPI,
 );

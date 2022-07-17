@@ -99,7 +99,7 @@ export const getUsers = async (params: ListUsersDBParams = {}): Promise<ListUser
         filter,
         offset: offsetRaw = 0,
         limit: limitRaw = 20,
-        expiration: expirationRaw = 10 * 60 * 1000, // 10 min cache
+        expiration: expirationRaw = 30000, // 30 sec cache
     } = params;
     // @ts-ignore @TODO valide & parse to type
     const offset = parseInt(offsetRaw);

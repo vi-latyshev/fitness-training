@@ -2,7 +2,7 @@ import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
 import { handleApiError } from 'lib/api/error/handle-api-error';
-import { WorkoutsCountType } from 'lib/models/workout';
+import { workoutsCountTypeList } from 'lib/models/workout';
 import { updateWorkout } from 'lib/api/db/workouts';
 
 import type { NextApiResponse as Res } from 'next';
@@ -21,7 +21,7 @@ const validateBody: Validator<WorkoutCreateData> = ({
 }): boolean => (
     (
         (isDone !== undefined && typeof isDone === 'boolean')
-        || (countsType !== undefined && Object.values(WorkoutsCountType).includes(countsType))
+        || (countsType !== undefined && workoutsCountTypeList.includes(countsType))
         || (typeof countsValue === 'number' && countsValue > 0)
     )
     && Object.keys(rest).length === 0

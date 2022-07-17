@@ -1,5 +1,5 @@
 import { checkAuthJWT, removeJWT } from 'lib/api/utils/jwt';
-import { UserRole } from 'lib/models/user';
+import { userRoleList } from 'lib/models/user';
 import { APIError } from 'lib/api/error';
 
 import type { NextApiRequest } from 'next';
@@ -15,7 +15,7 @@ export const validateAuthPayload = (payload: SignJWTPayload): void => {
 
     if (
         username === undefined || typeof username !== 'string' || !(/^[a-z.0-9_]{5,15}/.test(username))
-        || !Object.values(UserRole).includes(role)
+        || !userRoleList.includes(role)
     ) {
         throw new APIError('Token has invalid payload', 401);
     }

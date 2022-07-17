@@ -24,7 +24,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
         'block px-4 py-2 text-primary bg-white rounded border border-solid border-gray-300 focus:border-primary focus:outline-none placeholder:italic placeholder:text-sm placeholder:text-slate-400 transition',
         {
             'border-error': error,
-            // 'w-64': !full,
             'w-full': full,
             'opacity-50 cursor-default pointer-events-none': disabled,
         },

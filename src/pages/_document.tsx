@@ -6,10 +6,9 @@ import Document, {
     NextScript,
 } from 'next/document';
 
-const IS_PROD = process.env.IS_PRODUCTION;
+import { currVersion } from 'utils/currVersion';
 
-const nowTime = Date.now();
-const v = (href: string) => `${href}?v=${nowTime}`;
+const IS_PROD = process.env.IS_PRODUCTION;
 
 export default class MyDocument extends Document {
     render = () => (
@@ -19,7 +18,7 @@ export default class MyDocument extends Document {
                 <meta name="theme-color" content="#ffffff" />
 
                 {/* icons */}
-                <link key="icon" rel="shortcut icon" href={v('/favicon.ico')} />
+                <link key="icon" rel="shortcut icon" href={currVersion('/favicon.ico')} />
                 {/* <link
                     key="icon-32"
                     rel="icon"
@@ -52,16 +51,10 @@ export default class MyDocument extends Document {
                     aria-label="author"
                     // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{
-                        __html: '<!-- Authored by Vi - https://github.com/vi-latyshev | P.s. design system is not mine and it is terribly ugly -->',
+                        __html: '<!-- Authored by Vi - https://github.com/vi-latyshev -->',
                     }}
                 />
             </body>
         </Html>
     );
 }
-
-// MyDocument.getInitialProps = async (ctx) => {
-//     const initialProps = await Document.getInitialProps(ctx);
-
-//     return { ...initialProps };
-// };

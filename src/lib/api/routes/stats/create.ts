@@ -5,47 +5,47 @@ import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { APIError } from 'lib/api/error';
 
-import { workoutsCountTypeList } from 'lib/models/workout';
-import { createWorkout } from 'lib/api/db/workouts';
-import { UserRole } from 'lib/models/user';
+import { statsTypeList } from 'lib/models/stats';
+import { createStats } from 'lib/api/db/stats';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
-import type { Workout, WorkoutCreateData, WorkoutCreateDataDB } from 'lib/models/workout';
+import type {
+    Stats,
+    StatsType,
+    StatsCreateData,
+    StatsCreateDataDB,
+} from 'lib/models/stats';
 
 // @TODO create type with generic as Query & Body
-export type CreateWorkoutReq = Omit<NextReqWithAuth & NextReqWithQueryIds<['owner']>, 'body'> & NextReqWithBody<WorkoutCreateData>;
-export type CreateWorkoutRes = Workout;
+export type CreateStatsReq = Omit<NextReqWithAuth & NextReqWithQueryIds<['owner']>, 'body'> & NextReqWithBody<StatsCreateData>;
+export type CreateStatsRes = Stats;
 
-const validateBody: Validator<WorkoutCreateData> = ({
-    name,
-    countsType,
-    countsValue,
-    ...rest
-}): boolean => (
-    name !== undefined && typeof name === 'string' && /^[а-яА-Я]{3,30}/.test(name)
-    && countsType !== undefined && workoutsCountTypeList.includes(countsType)
-    && typeof countsValue === 'number' && countsValue > 0
-    && Object.keys(rest).length === 0
+const validateBody: Validator<StatsCreateData> = (props): boolean => (
+    Object.entries(props).every(([key, value]) => (
+        statsTypeList.includes(key as StatsType)
+        && typeof value === 'number' && value > 0
+    ))
 );
 
-const createWorkoutAPI = async (req: CreateWorkoutReq, res: Res<CreateWorkoutRes>): Promise<void> => {
+const createStatsAPI = async (req: CreateStatsReq, res: Res<CreateStatsRes>): Promise<void> => {
     try {
         const { auth, body, query } = req;
+        const { owner } = query;
 
         // can create workout only coach
-        if (auth.role !== UserRole.COACH) {
+        if (owner !== auth.username) {
             throw new APIError('Not enough rights', 403);
         }
-        const workoutCreate: WorkoutCreateDataDB = {
+        const workoutCreate: StatsCreateDataDB = {
             ...body,
-            owner: query.owner,
+            owner,
             createdAt: Date.now(),
         };
 
-        const workout = await createWorkout(workoutCreate);
+        const workout = await createStats(workoutCreate);
 
         res.status(200).json(workout);
     } catch (e) {
@@ -57,5 +57,5 @@ export default withMiddleware(
     verifyQueryId<['owner']>(['owner']),
     checkAuth(),
     checkBody(validateBody),
-    createWorkoutAPI,
+    createStatsAPI,
 );
