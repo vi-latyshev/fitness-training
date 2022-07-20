@@ -38,8 +38,9 @@ export const AddStats = () => {
             });
 
             await axios.post<CreateStatsRes>(`/api/stats/${username}`, data);
-            mutateDiff();
-            mutateList();
+            await mutateDiff();
+            await mutateList();
+            setServerError(null);
             reset();
         } catch (error) {
             try {

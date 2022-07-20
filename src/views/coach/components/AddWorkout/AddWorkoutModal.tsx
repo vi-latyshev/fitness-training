@@ -51,6 +51,7 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
 
             await axios.post<CreateWorkoutRes>(`/api/workouts/${owner}`, data);
             await mutate();
+            setServerError(null);
             onCreated();
         } catch (error) {
             try {
@@ -105,7 +106,7 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                         full
                         key="amout"
                         type="number"
-                        label="Кол-во повторений"
+                        label={WotkoutCountTypeHuman.amount}
                         min="1"
                         disabled={isSubmitting}
                         error={errors.countsValue?.message}
@@ -131,7 +132,7 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                         full
                         key="time"
                         type="text"
-                        label="Время выполнения"
+                        label={WotkoutCountTypeHuman.time}
                         disabled={isSubmitting}
                         error={errors.countsValue?.message}
                         pattern="[0-9]{2}:[0-9]{2}"
@@ -152,7 +153,7 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                         full
                         key="distance"
                         type="number"
-                        label="Дистанция (м.)"
+                        label={WotkoutCountTypeHuman.distance}
                         min="0.01"
                         step="0.01"
                         disabled={isSubmitting}

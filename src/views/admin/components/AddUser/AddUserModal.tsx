@@ -47,6 +47,7 @@ export const AddUserModal = ({ onCreated }: AddUserModalProps) => {
         try {
             await registerUser(data, true);
             await mutate();
+            setServerError(null);
             onCreated();
         } catch (error) {
             try {

@@ -23,6 +23,7 @@ const Login: NextPageWithLayout = () => {
     const handleFormSubmit: SubmitHandler<UserAuth> = useCallback(async (data) => {
         try {
             await loginUser(data);
+            setServerError(null);
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {

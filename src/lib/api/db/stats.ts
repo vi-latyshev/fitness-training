@@ -44,7 +44,7 @@ export const createStats = async (statsCreate: StatsCreateDataDB): Promise<Stats
     }
     pipe.set(STATS_USER_DIFF_LAST_KEY(userId), statsId);
 
-    await redis.fsortBust((userId), Date.now(), 0);
+    await redis.fsortBust(STATS_BY_USER_KEY(userId), Date.now(), 0);
     handlePipeline(await pipe.exec());
 
     return stats;

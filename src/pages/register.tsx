@@ -27,6 +27,7 @@ const Register: NextPageWithLayout = () => {
     const handleFormSubmit: SubmitHandler<UserRegisterData> = useCallback(async (data) => {
         try {
             await registerUser(data);
+            setServerError(null);
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {

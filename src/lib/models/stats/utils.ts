@@ -31,17 +31,16 @@ type StatsTypeToHumanType = {
 };
 
 export const StatsTypeToHuman: StatsTypeToHumanType = {
-    [StatsType.PushUps]: 'Отжимания',
-    [StatsType.Squats]: 'Приседания',
-    [StatsType.LongJump]: 'Прыжки в длину',
-    [StatsType.PullUps]: 'Подтягивания',
-    [StatsType.Press]: 'Пресс',
-    [StatsType.ShuttleRun]: 'Челночный бег',
-    [StatsType.Cross1000m]: 'Кросс 1000м',
+    [StatsType.PushUps]: 'Отжимания (кол-во)',
+    [StatsType.Squats]: 'Приседания (кол-во)',
+    [StatsType.LongJump]: 'Прыжки в длину (м)',
+    [StatsType.PullUps]: 'Подтягивания (кол-во)',
+    [StatsType.Press]: 'Пресс (раз/мин)',
+    [StatsType.ShuttleRun]: 'Челночный бег (сек)',
+    [StatsType.Cross1000m]: 'Кросс 1000м (сек)',
 };
 
-const statsValueTimeFormat: dayjs.OptionType = 'mm:ss:SSS';
-const statsValueTimeFormatHuman: dayjs.OptionType = `${statsValueTimeFormat}[мс]`;
+const statsValueTimeFormat: dayjs.OptionType = 'mm:ss';
 
 export const statsTypeValueParse = (type: StatsType, typeValue: number) => {
     switch (StatsByType[type]) {
@@ -64,7 +63,7 @@ export const statsTypeValueToHuman = (type: StatsType, typeValue: number | undef
         case WorkoutsCountType.Time: {
             const duration = dayjs.duration(typeValue, 'ms');
 
-            return duration.format(statsValueTimeFormatHuman);
+            return duration.format(statsValueTimeFormat);
         }
         case WorkoutsCountType.Amount: {
             return `x${typeValue}`;
@@ -136,14 +135,14 @@ export const StatsTypeRegisterFields: StatsTypeRegisterFieldsType = {
     [StatsType.ShuttleRun]: {
         inputProps: {
             type: 'text',
-            pattern: '[0-9]{2}:[0-9]{2}:[0-9]{3}',
-            defaultValue: '00:00:000',
+            pattern: '[0-9]{2}:[0-9]{2}',
+            defaultValue: '00:00',
         },
         inputRegister: {
             valueAsNumber: false,
             validate: (value) => validateTime(value, statsValueTimeFormat) || 'Неверное время',
             pattern: {
-                value: /^[0-9]{2}:[0-9]{2}:[0-9]{3}/,
+                value: /^[0-9]{2}:[0-9]{2}/,
                 message: 'Неверный формат',
             },
         },
@@ -151,14 +150,14 @@ export const StatsTypeRegisterFields: StatsTypeRegisterFieldsType = {
     [StatsType.Cross1000m]: {
         inputProps: {
             type: 'text',
-            pattern: '[0-9]{2}:[0-9]{2}:[0-9]{3}',
-            defaultValue: '00:00:000',
+            pattern: '[0-9]{2}:[0-9]{2}',
+            defaultValue: '00:00',
         },
         inputRegister: {
             valueAsNumber: false,
             validate: (value) => validateTime(value, statsValueTimeFormat) || 'Неверное время',
             pattern: {
-                value: /^[0-9]{2}:[0-9]{2}:[0-9]{3}/,
+                value: /^[0-9]{2}:[0-9]{2}/,
                 message: 'Неверный формат',
             },
         },
