@@ -2,6 +2,7 @@ import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
+
 import { getUser } from 'lib/api/db/users';
 
 import type { NextApiResponse as Res } from 'next';

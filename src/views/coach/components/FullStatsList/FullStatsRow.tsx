@@ -1,41 +1,29 @@
 import { useCallback } from 'react';
-
 import { useRouter } from 'next/router';
+import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/outline';
 
-import { useCountWorkouts } from 'hooks/useCountWorkouts';
-import { useCountStats } from 'hooks/useCountStats';
+import { calculateFullStatsDiff } from 'lib/models/stats';
 
 import Table from 'components/Table';
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
 
-import { PerformanceCell } from './PerformanceCell';
-
-import type { User } from 'lib/models/user';
+import type { FetchFullStatsUserResData } from 'lib/api/routes/users/stats';
 
 interface FullStatsRowProps {
-    user: User;
+    userStats: FetchFullStatsUserResData;
 }
 
-export const FullStatsRow = ({ user }: FullStatsRowProps) => {
+export const FullStatsRow = ({ userStats }: FullStatsRowProps) => {
     const router = useRouter();
 
     const {
-        username,
-        firstName,
-        lastName,
-    } = user;
-
-    const {
+        user,
         wourkoutsCount,
-        isLoading: wourkoutsCountIsLoading,
-        error: wourkoutsCountError,
-    } = useCountWorkouts(username);
-
-    const {
         statsCount,
-        isLoading: statsCountIsLoading,
-        error: statsCountError,
-    } = useCountStats(username);
+        statsDiff,
+    } = userStats;
+    const { username, firstName, lastName } = user;
+
+    const fullDiffPercent = calculateFullStatsDiff(statsDiff);
 
     const handleUserClick = useCallback(() => {
         router.push(`/coach/trainees/${username}`);
@@ -60,25 +48,29 @@ export const FullStatsRow = ({ user }: FullStatsRowProps) => {
                 onClick={handleUserClick}
                 className="w-1/5 cursor-pointer text-right"
             >
-                <SwrLoadingHandle isLoading={wourkoutsCountIsLoading} error={wourkoutsCountError}>
-                    {wourkoutsCount}
-                </SwrLoadingHandle>
+                {wourkoutsCount}
             </Table.Cell>
             <Table.Cell
                 full
                 onClick={handleUserClick}
                 className="cursor-pointer text-right"
             >
-                <SwrLoadingHandle isLoading={statsCountIsLoading} error={statsCountError}>
-                    {statsCount}
-                </SwrLoadingHandle>
+                {statsCount}
             </Table.Cell>
             <Table.Cell
                 full
                 onClick={handleUserClick}
                 className="cursor-pointer text-right"
             >
-                <PerformanceCell username={username} />
+                <div className="flex items-center justify-end">
+                    {fullDiffPercent}%
+                    {fullDiffPercent > 0 && (
+                        <ArrowSmUpIcon className="text-success-light h-8 w-8" />
+                    )}
+                    {fullDiffPercent < 0 && (
+                        <ArrowSmDownIcon className="text-error-light h-8 w-8" />
+                    )}
+                </div>
             </Table.Cell>
         </Table.Row>
     );

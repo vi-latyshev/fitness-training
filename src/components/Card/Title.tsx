@@ -15,7 +15,7 @@ export const CardTitle = ({
 }: CardTitleProps) => {
     const classes = clsx(className, 'flex flex-row items-center font-semibold text-lg', {
         'text-3xl mb-10': large,
-        'text-center': center,
+        'justify-center text-center': center,
     });
 
     return (

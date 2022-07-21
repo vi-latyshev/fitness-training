@@ -6,22 +6,22 @@ import type { KeyedMutator } from 'swr';
 import type { Pagination, PaginationResp } from 'lib/api/redis/types';
 import type { APIErrorJSON } from 'lib/api/error';
 
-export interface UsePaginationResult<T> extends PaginationResp<T> {
+export interface UsePaginationResult<T, R = T> extends PaginationResp<R> {
     query: Pagination<T>;
     error?: APIErrorJSON;
     isLoading: boolean;
-    mutate: KeyedMutator<PaginationResp<T>>;
+    mutate: KeyedMutator<PaginationResp<R>>;
     handleChangeQuery: (query: Pagination<T>) => void;
 }
 
-const DEFAULT_LIMIT = 15;
+const DEFAULT_LIMIT = 10;
 
-export const usePagination = <T extends Object>(
+export const usePagination = <T extends Object, R = T>(
     key: string | null,
     initialQuery: Pagination<T> = {},
-): UsePaginationResult<T> => {
+): UsePaginationResult<T, R> => {
     const [query, setQuery] = useState<Pagination<T>>({ limit: DEFAULT_LIMIT, ...initialQuery });
-    const { data, error, mutate } = useSWR<PaginationResp<T>, APIErrorJSON>((
+    const { data, error, mutate } = useSWR<PaginationResp<R>, APIErrorJSON>((
         typeof key === 'string' ? `${key}?${qs.stringify(query)}` : null
     ));
 

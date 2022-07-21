@@ -5,9 +5,9 @@ import { Button } from 'components/controls';
 
 import type { UsePaginationResult } from 'hooks/usePagination';
 
-interface TablePaginationProps<T> extends UsePaginationResult<T> { }
+interface TablePaginationProps<T, R = T> extends UsePaginationResult<T, R> { }
 
-export const TablePagination = <T extends Object>({
+export const TablePagination = <T extends Object, R = T>({
     query,
     error,
     isLoading,
@@ -15,7 +15,7 @@ export const TablePagination = <T extends Object>({
     page,
     pages,
     handleChangeQuery,
-}: TablePaginationProps<T>) => {
+}: TablePaginationProps<T, R>) => {
     const handlePrevList = useCallback(() => {
         handleChangeQuery({
             offset: (page - 2) * (query.limit ?? 1),

@@ -14,7 +14,7 @@ type ListUsersReq = NextReqWithAuth & {
     query: NextApiRequest['query'] & Pagination<User>;
 };
 
-type ListUsersRes = PaginationResp<User>;
+export type ListUsersRes = PaginationResp<User>;
 
 type RightsByRole = {
     [Role in UserRole]?: Pagination<User>;

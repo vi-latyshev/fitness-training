@@ -51,8 +51,8 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
 
             await axios.post<CreateWorkoutRes>(`/api/workouts/${owner}`, data);
             await mutate();
-            setServerError(null);
             onCreated();
+            setServerError(null);
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {
@@ -135,14 +135,14 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
                         label={WotkoutCountTypeHuman.time}
                         disabled={isSubmitting}
                         error={errors.countsValue?.message}
-                        pattern="[0-9]{2}:[0-9]{2}"
+                        pattern="[0-9]{2}:[0-5]{1}[0-9]{1}"
                         defaultValue={dayjs.duration(5 * 60 * 1000).format('mm:ss')}
                         {...register('countsValue', {
                             valueAsNumber: false,
                             required: 'Введите время',
                             validate: (value) => workoutCountTimeValidate(value) || 'Неверное время',
                             pattern: {
-                                value: /^[0-9]{2}:[0-9]{2}/,
+                                value: /^[0-9]{2}:[0-5]{1}[0-9]{1}/,
                                 message: 'Неверный формат',
                             },
                         })}

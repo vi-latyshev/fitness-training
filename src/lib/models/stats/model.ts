@@ -38,6 +38,8 @@ export type StatsCreateDataDB = Omit<Stats, 'id'>;
 
 export type StatsCreateData = Omit<StatsCreateDataDB, 'owner' | 'createdAt'>;
 
+export type StatsCountRes = number;
+
 export type StatsUpdateData = Partial<StatsCreateData>;
 
 export type ListStatsDBParams = Pagination<Stats>;

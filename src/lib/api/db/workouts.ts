@@ -16,6 +16,7 @@ import type { UserName } from 'lib/models/user';
 import type {
     Workout,
     WorkoutId,
+    WorkoutCountRes,
     WorkoutUpdateData,
     WorkoutCreateDataDB,
     ListWorkoutsDBRes,
@@ -57,7 +58,7 @@ export const getWorkout = async (owner: UserName, workoutId: Workout['id']): Pro
     return workout;
 };
 
-export const getCountWorkouts = async (owner: UserName): Promise<number> => {
+export const getCountWorkouts = async (owner: UserName): Promise<WorkoutCountRes> => {
     const userId = await getUserId(owner);
 
     const count = await redis.scard(WORKOUTS_BY_USER_KEY(userId));

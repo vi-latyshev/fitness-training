@@ -93,10 +93,10 @@ export const calculateStatsDiff = (type: StatsType, start?: number, last?: numbe
     return isUp ? DiffStats.UP : DiffStats.DOWN;
 };
 
-export const calculateFullStatsDiff = (stats: DiffStatsData): number => {
+export const calculateFullStatsDiff = (statsDiff: DiffStatsData): number => {
     const summ = statsTypeList.reduce((prevVal, currVal) => {
-        const start = stats.start?.[currVal] ?? 0;
-        const last = stats.last?.[currVal] ?? 0;
+        const start = statsDiff.start?.[currVal] ?? 0;
+        const last = statsDiff.last?.[currVal] ?? 0;
 
         const percentDiff = percent(start, last);
         const diffState = calculateStatsDiff(currVal, start, last);
@@ -135,14 +135,14 @@ export const StatsTypeRegisterFields: StatsTypeRegisterFieldsType = {
     [StatsType.ShuttleRun]: {
         inputProps: {
             type: 'text',
-            pattern: '[0-9]{2}:[0-9]{2}',
+            pattern: '[0-9]{2}:[0-6]{1}[0-9]{1}',
             defaultValue: '00:00',
         },
         inputRegister: {
             valueAsNumber: false,
             validate: (value) => validateTime(value, statsValueTimeFormat) || 'Неверное время',
             pattern: {
-                value: /^[0-9]{2}:[0-9]{2}/,
+                value: /^[0-9]{2}:[0-5]{1}[0-9]{1}/,
                 message: 'Неверный формат',
             },
         },
@@ -150,14 +150,14 @@ export const StatsTypeRegisterFields: StatsTypeRegisterFieldsType = {
     [StatsType.Cross1000m]: {
         inputProps: {
             type: 'text',
-            pattern: '[0-9]{2}:[0-9]{2}',
+            pattern: '[0-9]{2}:[0-5]{1}[0-9]{1}',
             defaultValue: '00:00',
         },
         inputRegister: {
             valueAsNumber: false,
             validate: (value) => validateTime(value, statsValueTimeFormat) || 'Неверное время',
             pattern: {
-                value: /^[0-9]{2}:[0-9]{2}/,
+                value: /^[0-9]{2}:[0-5]{1}[0-9]{1}/,
                 message: 'Неверный формат',
             },
         },

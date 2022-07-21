@@ -1,14 +1,12 @@
-import { usePagination } from 'hooks/usePagination';
+import { useUsersStats } from 'hooks/useUsersStats';
 
 import Table from 'components/Table';
 import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
 
 import { FullStatsRow } from './FullStatsRow';
 
-import type { User } from 'lib/models/user';
-
 export const FullStatsList = () => {
-    const pagination = usePagination<User>('/api/users');
+    const pagination = useUsersStats();
 
     const { items, isLoading, error } = pagination;
 
@@ -27,8 +25,8 @@ export const FullStatsList = () => {
                         </Table.Row>
                     </Table.Head>
                     <Table.Body>
-                        {items.map((tableUser) => (
-                            <FullStatsRow key={tableUser.username} user={tableUser} />
+                        {items.map((userStats) => (
+                            <FullStatsRow key={userStats.user.username} userStats={userStats} />
                         ))}
                     </Table.Body>
                 </Table.Table>

@@ -1,13 +1,12 @@
-import { usePagination } from 'hooks/usePagination';
+import { useUsers } from 'hooks/useUsers';
+
 import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
 import Table from 'components/Table';
 
 import { TraineesRow } from './TraineesRow';
 
-import type { User } from 'lib/models/user';
-
 export const TraineesList = () => {
-    const pagination = usePagination<User>('/api/users');
+    const pagination = useUsers();
 
     const { items, isLoading, error } = pagination;
 

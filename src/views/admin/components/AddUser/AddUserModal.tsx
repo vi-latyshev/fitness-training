@@ -6,7 +6,7 @@ import { useUser } from 'context/auth';
 
 import { UserRole, userRoleList, UserRoleTypeHuman } from 'lib/models/user';
 
-import { usePagination } from 'hooks/usePagination';
+import { useUsers } from 'hooks/useUsers';
 
 import { Button, Input, Select } from 'components/controls';
 import Card from 'components/Card';
@@ -14,7 +14,7 @@ import Card from 'components/Card';
 import { LoaderIcon } from 'icons/Loader';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { User, UserRegisterData } from 'lib/models/user';
+import type { UserRegisterData } from 'lib/models/user';
 import type { APIErrorJSON } from 'lib/api/error';
 import type { SelectItemValue } from 'components/controls';
 
@@ -29,7 +29,7 @@ const USERS_ROLE_TYPE_SELECTOR: SelectItemValue[] = userRoleList.map((value) => 
 
 export const AddUserModal = ({ onCreated }: AddUserModalProps) => {
     const { registerUser } = useUser();
-    const { mutate } = usePagination<User>('/api/users');
+    const { mutate } = useUsers();
     const {
         register,
         handleSubmit,

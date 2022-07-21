@@ -25,6 +25,8 @@ export type WorkoutCreateData = Omit<WorkoutCreateDataDB, 'owner' | 'createdAt'>
 
 export type WorkoutUpdateData = Partial<Omit<WorkoutCreateDataDB, 'name' | 'owner' | 'createdAt'>>;
 
+export type WorkoutCountRes = number;
+
 export type ListWorkoutsDBParams = Pagination<Workout>;
 
 export type ListWorkoutsDBRes = PaginationResp<Workout>;

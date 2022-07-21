@@ -16,6 +16,7 @@ import { getUserId } from './users';
 import type { UserName } from 'lib/models/user';
 import type {
     Stats,
+    StatsCountRes,
     DiffStatsData,
     ListStatsDBRes,
     ListStatsDBParams,
@@ -50,7 +51,7 @@ export const createStats = async (statsCreate: StatsCreateDataDB): Promise<Stats
     return stats;
 };
 
-export const getCountStats = async (owner: UserName): Promise<number> => {
+export const getCountStats = async (owner: UserName): Promise<StatsCountRes> => {
     const userId = await getUserId(owner);
 
     const count = await redis.scard(STATS_BY_USER_KEY(userId));
