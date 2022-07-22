@@ -36,8 +36,8 @@ export const StatsTypeToHuman: StatsTypeToHumanType = {
     [StatsType.LongJump]: 'Прыжки в длину (м)',
     [StatsType.PullUps]: 'Подтягивания (кол-во)',
     [StatsType.Press]: 'Пресс (раз/мин)',
-    [StatsType.ShuttleRun]: 'Челночный бег (сек)',
-    [StatsType.Cross1000m]: 'Кросс 1000м (сек)',
+    [StatsType.ShuttleRun]: 'Челночный бег (мин/сек)',
+    [StatsType.Cross1000m]: 'Кросс 1000м (мин/сек)',
 };
 
 const statsValueTimeFormat: dayjs.OptionType = 'mm:ss';
@@ -55,7 +55,11 @@ export const statsTypeValueParse = (type: StatsType, typeValue: number) => {
     }
 };
 
-export const statsTypeValueToHuman = (type: StatsType, typeValue: number | undefined): string => {
+export const statsTypeValueToHuman = (
+    type: StatsType,
+    typeValue: number | undefined,
+    asRaw = false,
+): string => {
     if (!typeValue) {
         return '-';
     }
@@ -66,10 +70,10 @@ export const statsTypeValueToHuman = (type: StatsType, typeValue: number | undef
             return duration.format(statsValueTimeFormat);
         }
         case WorkoutsCountType.Amount: {
-            return `x${typeValue}`;
+            return asRaw ? String(typeValue) : `x${typeValue}`;
         }
         case WorkoutsCountType.Distance: {
-            return `${typeValue}м`;
+            return asRaw ? String(typeValue) : `${typeValue}м`;
         }
         default: throw new Error(`Not implemented count type: ${type}`);
     }

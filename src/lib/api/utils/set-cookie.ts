@@ -19,7 +19,7 @@ export const setCookie = (
 
     res.setHeader('Set-Cookie', serialize(name, stringValue, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development',
+        secure: process.env.IS_PRODUCTION,
         sameSite: 'strict',
         path: '/api',
         ...options,

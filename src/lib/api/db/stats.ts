@@ -75,7 +75,7 @@ export const getDiffStats = async (owner: UserName): Promise<DiffStatsData> => {
     ]));
     const items = handlePipeline(await redis.pipeline(cmds).exec());
 
-    const [start, last] = items.map((data) => Serializer.deserialize(data)) as [Stats, Stats];
+    const [start, last] = items.map((data) => Serializer.deserialize(data as unknown)) as [Stats, Stats];
 
     return {
         start,

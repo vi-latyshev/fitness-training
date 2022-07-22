@@ -3,11 +3,13 @@ const Log = require('next/dist/build/output/log');
 const { default: axios } = require('axios');
 const jwt = require('jsonwebtoken');
 
-const CREATE_USERS_API_URL = (basePath) => `${basePath}/api/users`;
+const LOCAL_DOMAIN = 'http://localhost:3000';
 
-const addUsers = async (basePath, username, password, role, authorization) => {
+const CREATE_USERS_API_URL = `${LOCAL_DOMAIN}/api/users`;
+
+const addUsers = async (username, password, role, authorization) => {
     try {
-        await axios.post(CREATE_USERS_API_URL(basePath), {
+        await axios.post(CREATE_USERS_API_URL, {
             auth: {
                 username,
                 password,
@@ -28,9 +30,9 @@ const addUsers = async (basePath, username, password, role, authorization) => {
     }
 };
 
-const waitOnInitialData = async (basePath, authorization) => {
+const waitOnInitialData = async (authorization) => {
     const resources = [
-        `${CREATE_USERS_API_URL(basePath)}?limit=1`,
+        `${CREATE_USERS_API_URL}?limit=1`,
     ].map((url) => url.replace(/(:\/\/)/, '-get://'));
 
     const waitOnOptions = {
@@ -57,7 +59,7 @@ const waitOnInitialData = async (basePath, authorization) => {
 module.exports = (nextConfig, _nextComposePlugins = {}) => {
     const {
         env: {
-            DOMAIN, ADMIN_USERNAME, ADMIN_PASS, ADMIN_ROLE, JWT_SECRET,
+            ADMIN_USERNAME, ADMIN_PASS, ADMIN_ROLE, JWT_SECRET,
         },
     } = nextConfig;
 
@@ -70,8 +72,8 @@ module.exports = (nextConfig, _nextComposePlugins = {}) => {
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: 5 * 60 });
         const authorization = `JWT ${token}`;
 
-        await waitOnInitialData(DOMAIN, authorization);
-        await addUsers(DOMAIN, ADMIN_USERNAME, ADMIN_PASS, ADMIN_ROLE, authorization);
+        await waitOnInitialData(authorization);
+        await addUsers(ADMIN_USERNAME, ADMIN_PASS, ADMIN_ROLE, authorization);
         Log.event('DB data loaded');
     })();
 

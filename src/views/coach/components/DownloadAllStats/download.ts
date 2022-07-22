@@ -1,19 +1,22 @@
 import axios from 'axios';
 
-import { calculateFullStatsDiff } from 'lib/models/stats';
+import {
+    statsTypeList,
+    StatsTypeToHuman,
+    statsTypeValueToHuman,
+    calculateFullStatsDiff,
+} from 'lib/models/stats';
 
 import type { FetchFullStatsUserResData, FetchFullStatsUserRes } from 'lib/api/routes/users/stats';
 
-type Cell = [
-    string, // username
-    string, // firstName
-    string, // lastName
-    number | string, // wourkoutsCount
-    number | string, // statsCount
-    number | string, // fullDiffPercent
-];
+type Cell = (string | number | null)[];
 
 type Rows = Cell[];
+
+const statsHumanToCurrLast = Object.values(StatsTypeToHuman).map((val) => ([
+    `${val} (нач)`,
+    `${val} (тек)`,
+])).flat();
 
 const ROW_HEADER: Cell = [
     'Имя пользователя',
@@ -22,6 +25,8 @@ const ROW_HEADER: Cell = [
     'Кол-во тренировок',
     'Кол-во показателей',
     'Общая успеваемость',
+    null,
+    ...statsHumanToCurrLast,
 ];
 
 const LIMIT_USERS_PER_REQ = 20;
@@ -40,6 +45,12 @@ const parseStatsByUser = (statsData: FetchFullStatsUserResData): Cell => {
     const { username, firstName, lastName } = user;
 
     const fullDiffPercent = calculateFullStatsDiff(statsDiff);
+    const statsValues = statsTypeList.map((type) => {
+        const start = statsDiff.start?.[type];
+        const last = statsDiff.last?.[type];
+
+        return [statsTypeValueToHuman(type, start, true), statsTypeValueToHuman(type, last, true)];
+    }).flat();
 
     return [
         username,
@@ -48,6 +59,8 @@ const parseStatsByUser = (statsData: FetchFullStatsUserResData): Cell => {
         wourkoutsCount,
         statsCount,
         `${fullDiffPercent}%`,
+        null,
+        ...statsValues,
     ];
 };
 
@@ -116,7 +129,7 @@ const parseUsersStats = async (): Promise<Rows> => {
 export const downloadAllStatsCSV = async (): Promise<string> => {
     const rows: Rows = [
         ROW_HEADER,
-        ...(await parseUsersStats()),
+        ...await parseUsersStats(),
     ];
 
     const rowsStr = rows

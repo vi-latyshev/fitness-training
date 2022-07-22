@@ -14,7 +14,7 @@ module.exports = (nextConfig, nextComposePlugins = {}) => {
 
     const isBuild = phase === PHASE_PRODUCTION_BUILD;
     const isProd = isBuild && process.env.IS_PRODUCTION === 'true';
-    const hasCustomHost = isProd !== true && process.env.HOST !== undefined;
+    const hasCustomHost = process.env.HOST !== undefined;
 
     return {
         env: {
