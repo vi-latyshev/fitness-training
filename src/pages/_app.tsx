@@ -40,7 +40,10 @@ const App = (props: AppPropsWithLayout) => {
 
     const { Component } = props;
 
-    const meta = Component.layoutProps?.meta ?? DEFAULT_META;
+    const meta = {
+        ...DEFAULT_META,
+        ...Component.layoutProps?.meta,
+    };
     const fullPath = `${DOMAIN_URL}${router.pathname}`;
 
     return (

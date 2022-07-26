@@ -2,6 +2,8 @@ const {
     PHASE_PRODUCTION_BUILD,
 } = require('next/constants');
 
+const getHttpProtocol = (isSecureHost) => `http${isSecureHost ? 's' : ''}://`;
+
 /**
  * Add environment variables to all app
  *
@@ -14,21 +16,19 @@ module.exports = (nextConfig, nextComposePlugins = {}) => {
 
     const isBuild = phase === PHASE_PRODUCTION_BUILD;
     const isProd = isBuild && process.env.IS_PRODUCTION === 'true';
+    const isSecureHost = process.env.IS_HOST_SECURE === 'true';
     const hasCustomHost = process.env.HOST !== undefined;
 
     return {
         env: {
             IS_PRODUCTION: isProd,
+            IS_HOST_SECURE: isSecureHost,
 
             HOST: 'localhost',
-            DOMAIN: 'http://localhost:3000',
-            ...(isProd && {
-                HOST: 'localhost', // @TODO change host for prod
-                DOMAIN: 'http://localhost:3000', // @TODO change domain for prod
-            }),
+            DOMAIN: `${getHttpProtocol(isSecureHost)}localhost:3000`,
             ...(hasCustomHost && {
                 HOST: process.env.HOST,
-                DOMAIN: `https://${process.env.HOST}`,
+                DOMAIN: `${getHttpProtocol(isSecureHost)}${process.env.HOST}`,
             }),
 
             JWT_SECRET: process.env.JWT_SECRET,

@@ -5,11 +5,11 @@ declare namespace NodeJS {
          */
 
         /**
-         * also .env =true
+         * also .env =true, but only with phase === PHASE_PRODUCTION_BUILD
          */
         readonly IS_PRODUCTION: boolean;
         /**
-         * also .env =true, but only with IS_PRODUCTION = false
+         * also .env =true
          */
         readonly HOST: string;
         readonly DOMAIN: string;
@@ -28,6 +28,10 @@ declare namespace NodeJS {
         /**
          * -------- .env
          */
+        /**
+         * is secure host? (https:)
+         */
+        readonly IS_HOST_SECURE: boolean;
 
         /**
          * Redis url
