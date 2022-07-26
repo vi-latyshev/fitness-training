@@ -33,7 +33,7 @@ type StatsTypeToHumanType = {
 export const StatsTypeToHuman: StatsTypeToHumanType = {
     [StatsType.PushUps]: 'Отжимания (кол-во)',
     [StatsType.Squats]: 'Приседания (кол-во)',
-    [StatsType.LongJump]: 'Прыжки в длину (м)',
+    [StatsType.LongJump]: 'Прыжки в длину (см)',
     [StatsType.PullUps]: 'Подтягивания (кол-во)',
     [StatsType.Press]: 'Пресс (раз/мин)',
     [StatsType.ShuttleRun]: 'Челночный бег (мин/сек)',

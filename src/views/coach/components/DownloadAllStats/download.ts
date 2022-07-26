@@ -80,25 +80,6 @@ async function* getUsersStatsPagin(): AsyncIterableIterator<FetchFullStatsUserRe
     if (total <= LIMIT_USERS_PER_REQ) {
         return;
     }
-    const pages: Promise<FetchFullStatsUserRes>[] = [];
-
-    for (let offset = LIMIT_USERS_PER_REQ; total > offset; offset += LIMIT_USERS_PER_REQ) {
-        pages.push(getUsersStats(offset));
-    }
-
-    // eslint-disable-next-line no-restricted-syntax
-    // for (const page of pages) {
-    //     // eslint-disable-next-line no-await-in-loop
-    //     const { items: newItems } = await page;
-    //     console.log(newItems, 'newItems');
-
-    //     // eslint-disable-next-line no-restricted-syntax
-    //     for (const item of newItems) {
-    //         console.log(item, 'item');
-    //         yield item;
-    //     }
-    // }
-
     let offset = LIMIT_USERS_PER_REQ;
 
     while (total > offset) {
