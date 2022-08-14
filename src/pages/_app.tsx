@@ -20,13 +20,57 @@ import { MetaTitle } from 'components/MetaTitle';
 
 import '../styles/globals.css';
 
+import type { SWRConfiguration } from 'swr';
 import type { AppPropsWithLayout, NextPageMeta } from 'views/base';
+import type { APIErrorJSON } from 'lib/api/error';
+import type { RateLimitHeaderErrors } from 'lib/api/middleware/plugins/utils/rate-limit';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.extend(durationPluging);
 dayjs.extend(isBetweenPlugin);
 dayjs.locale('ru');
+
+const swrConfig: SWRConfiguration = {
+    fetcher,
+    errorRetryCount: 3,
+    focusThrottleInterval: 1 * 60 * 1000,
+    onErrorRetry: (err: APIErrorJSON, _key, config, revalidate, opts) => {
+        if (err.code === 404) {
+            return;
+        }
+
+        if (err.code === 429) {
+            const { errors } = err as APIErrorJSON<RateLimitHeaderErrors>;
+            const reset = errors?.reset ?? Date.now() / 1000;
+
+            if (errors?.reset) {
+                const timeoutManyReq = (reset - Date.now() / 1000) * 1000;
+                setTimeout(revalidate, timeoutManyReq, opts);
+
+                return;
+            }
+        }
+        const maxRetryCount = config.errorRetryCount;
+        const currentRetryCount = opts.retryCount;
+
+        /* eslint-disable no-bitwise */
+        // Copy from
+        // https://github.com/vercel/swr/blob/e81d22f4121743c75b6b0998cc0bbdbe659889c1/_internal/utils/config.ts#L27
+        const timeout = ~~(
+            (Math.random() + 0.5)
+            // eslint-disable-next-line no-bitwise
+            * (1 << (currentRetryCount < 8 ? currentRetryCount : 8))
+        ) * config.errorRetryInterval;
+        /* eslint-enable no-bitwise */
+
+        if (maxRetryCount !== undefined && currentRetryCount > maxRetryCount) {
+            return;
+        }
+
+        setTimeout(revalidate, timeout, opts);
+    },
+};
 
 const DOMAIN_URL = process.env.DOMAIN;
 
@@ -73,13 +117,7 @@ const App = (props: AppPropsWithLayout) => {
                 {/* links */}
                 <link rel="canonical" href={fullPath} />
             </Head>
-            <SWRConfig
-                value={{
-                    fetcher,
-                    errorRetryCount: 3,
-                    focusThrottleInterval: 1 * 60 * 1000,
-                }}
-            >
+            <SWRConfig value={swrConfig}>
                 <AuthProvider>
                     <AppLayout {...props} />
                 </AuthProvider>

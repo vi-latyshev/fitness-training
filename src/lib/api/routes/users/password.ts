@@ -1,6 +1,7 @@
 import sha1 from 'sha1';
 
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
@@ -69,6 +70,7 @@ const setPasswordAPI = async (req: SetPasswordReq, res: Res<SetPasswordRes>): Pr
 };
 
 export default withMiddleware(
+    ipRateLimit,
     checkBody(validateBody),
     checkAuth(),
     setPasswordAPI,

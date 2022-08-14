@@ -18,7 +18,7 @@ const sendError = (e: APIError, res: ServerResponse) => {
 
 export const handleApiError = (e: unknown, res: ServerResponse, internalError?: Object) => {
     if (e instanceof APIError) {
-        e.internalError = internalError;
+        e.internalError = e.internalError ?? internalError;
 
         return sendError(e, res);
     }

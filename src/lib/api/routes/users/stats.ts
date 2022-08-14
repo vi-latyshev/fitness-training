@@ -1,4 +1,5 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { APIError } from 'lib/api/error';
@@ -78,6 +79,7 @@ const fetchFullStatsUserAPI = async (req: FetchFullStatsUserReq, res: Res<FetchF
 };
 
 export default withMiddleware(
+    ipRateLimit,
     checkAuth(),
     fetchFullStatsUserAPI,
 );

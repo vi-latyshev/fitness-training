@@ -24,6 +24,9 @@ export const verifyJWT = (token: string): SignJWTPayload | null => {
     try {
         return jwt.verify(token, process.env.JWT_SECRET) as SignJWTPayload;
     } catch (e) {
+        /**
+         * @TODO add Sentry or smth else
+         */
         console.error(`JWT Error: ${e}`); // eslint-disable-line no-console
 
         return null;

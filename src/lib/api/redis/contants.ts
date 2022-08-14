@@ -48,3 +48,11 @@ export const STATS_USER_DIFF_START_KEY = (userId: string) => (
 export const STATS_USER_DIFF_LAST_KEY = (userId: string) => (
     combineKey(STATS, STATS_BY_USER, userId, STATS_USER_DIFF_LAST)
 );
+
+// ------------- rate limit
+
+const RATE_LIMIT = 'rate-limit';
+
+export const RATE_LIMIT_TYPE_KEY = (type: string, key: string) => (
+    combineKey(RATE_LIMIT, type, key)
+);

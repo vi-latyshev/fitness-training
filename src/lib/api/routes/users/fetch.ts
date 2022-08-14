@@ -1,5 +1,6 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
+import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 
@@ -31,6 +32,7 @@ const fetchUserAPI = async (req: FetchUserReq, res: Res<FetchUserRes>): Promise<
 
 export default withMiddleware(
     verifyQueryId<['username']>(['username']),
+    ipRateLimit,
     checkAuth(),
     fetchUserAPI,
 );
