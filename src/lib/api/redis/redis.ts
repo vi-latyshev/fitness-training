@@ -1,5 +1,5 @@
-import { attach } from 'redis-filtered-sort';
 import Redis from 'ioredis';
+import { attach } from 'redis-filtered-sort';
 
 import type { RedisWithFsort } from './types';
 

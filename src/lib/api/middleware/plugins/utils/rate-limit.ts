@@ -1,3 +1,4 @@
+import { incrementRateLimit } from 'lib/api/db/rate-limit';
 import { APIError } from 'lib/api/error';
 
 import type { NextApiRequest as Req, NextApiResponse as Res } from 'next';
@@ -7,7 +8,7 @@ interface RateLimitContextBase {
     id: string;
     limit: number;
     timeframe: number;
-    count: RateLimitCountFn;
+    count?: RateLimitCountFn;
 }
 
 interface RateLimitContext extends RateLimitContextBase {
@@ -15,10 +16,10 @@ interface RateLimitContext extends RateLimitContextBase {
     res: Res;
 }
 
-type RateLimitHandler = (
-    req: Req,
+type RateLimitHandler<R extends Req = Req> = (
+    req: R,
     res: Res,
-) => Promise<RateLimitContextBase> | RateLimitContextBase;
+) => Promise<RateLimitContextBase | void> | RateLimitContextBase | void;
 
 export type RateLimitHeaderErrors = Pick<RateLimitContextBase, 'limit'> & {
     remaining: number;
@@ -29,9 +30,7 @@ export type RateLimitCountFn = (
     context: RateLimitContext & { key: string; },
 ) => Promise<number>;
 
-type RateLimitInit = (
-    fn: RateLimitHandler
-) => (req: Req, res: Res) => Promise<void>;
+type RateLimitRet<R extends Req = Req> = (req: R, res: Res) => Promise<void>;
 
 const setRateLimitHeaders = (res: Res, headersVals: RateLimitHeaderErrors) => {
     const {
@@ -45,6 +44,12 @@ const setRateLimitHeaders = (res: Res, headersVals: RateLimitHeaderErrors) => {
     res.setHeader('X-RateLimit-Reset', reset);
 };
 
+const increment: RateLimitCountFn = async ({ type, key, timeframe }) => {
+    const count = await incrementRateLimit(type, key, timeframe);
+
+    return count;
+};
+
 /* eslint-disable max-len */
 /**
  * Inspired by Next.JS Rate-limit
@@ -52,16 +57,19 @@ const setRateLimitHeaders = (res: Res, headersVals: RateLimitHeaderErrors) => {
  * @see https://github.com/vercel/examples/blob/7ec7e3ec4db0e35f46cfdeb2f4f021e0fb67b50e/edge-functions/api-rate-limit-and-tokens/lib/rate-limit.ts
  */
 /* eslint-enable max-len */
-export const initRateLimit: RateLimitInit = (fn) => (
+export const initRateLimit = <R extends Req>(fn: RateLimitHandler<R>): RateLimitRet<R> => (
     async (req, res) => {
         const ctx = await fn(req, res);
 
+        if (!ctx) {
+            return;
+        }
         const {
             type,
             id,
             limit,
             timeframe,
-            count,
+            count = increment,
         } = ctx;
 
         const time = Math.floor(Date.now() / 1000 / timeframe);

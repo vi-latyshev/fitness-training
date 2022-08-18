@@ -1,5 +1,5 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { removeJWT } from 'lib/api/utils/jwt';
@@ -19,7 +19,6 @@ export const logoutUserAPI = async (_req: NextReqWithAuth, res: Res<LogoutUserRe
 };
 
 export default withMiddleware(
-    ipRateLimit,
-    checkAuth(),
+    authRateLimit(checkAuth()),
     logoutUserAPI,
 );

@@ -1,6 +1,6 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { handleApiError } from 'lib/api/error/handle-api-error';
@@ -56,8 +56,7 @@ const createWorkoutAPI = async (req: CreateWorkoutReq, res: Res<CreateWorkoutRes
 
 export default withMiddleware(
     verifyQueryId<['owner']>(['owner']),
-    ipRateLimit,
-    checkAuth(),
+    authRateLimit(checkAuth()),
     checkBody(validateBody),
     createWorkoutAPI,
 );

@@ -1,7 +1,7 @@
 import sha1 from 'sha1';
 
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { handleApiError } from 'lib/api/error/handle-api-error';
@@ -92,8 +92,7 @@ const createUserAPI = async (req: SetPasswordReq, res: Res<CreateUserRes>): Prom
 };
 
 export default withMiddleware(
-    ipRateLimit,
-    checkAuth(true),
+    authRateLimit(checkAuth(true)),
     checkBody(validateBody),
     createUserAPI,
 );
