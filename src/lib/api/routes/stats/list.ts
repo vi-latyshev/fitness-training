@@ -1,14 +1,16 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { getStatsList } from 'lib/api/db/stats';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
+import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { ListStatsDBParams, ListStatsDBRes } from 'lib/models/stats';
 
-export type ListStatsReq = NextReqWithQueryIds<['owner']> & {
+export type ListStatsReq = NextReqWithAuth & NextReqWithQueryIds<['owner']> & {
     query: ListStatsDBParams;
 };
 
@@ -28,6 +30,6 @@ const listStatsAPI = async (req: ListStatsReq, res: Res<ListStatsRes>): Promise<
 
 export default withMiddleware(
     verifyQueryId<['owner']>(['owner']),
-    ipRateLimit,
+    authRateLimit(checkAuth()),
     listStatsAPI,
 );

@@ -1,14 +1,16 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { getWorkouts } from 'lib/api/db/workouts';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
+import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { ListWorkoutsDBParams, ListWorkoutsDBRes } from 'lib/models/workout';
 
-export type ListWorkoutsReq = NextReqWithQueryIds<['owner']> & {
+export type ListWorkoutsReq = NextReqWithAuth & NextReqWithQueryIds<['owner']> & {
     query: ListWorkoutsDBParams;
 };
 
@@ -28,6 +30,6 @@ const listWorkoutsAPI = async (req: ListWorkoutsReq, res: Res<ListWorkoutsRes>):
 
 export default withMiddleware(
     verifyQueryId<['owner']>(['owner']),
-    ipRateLimit,
+    authRateLimit(checkAuth()),
     listWorkoutsAPI,
 );
