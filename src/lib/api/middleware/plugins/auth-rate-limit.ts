@@ -11,7 +11,7 @@ const AUTH_DEFAUL_TIMEFRAME = 5;
 export const authRateLimit = (authFn: ReturnType<typeof checkAuth>): Middleware<NextReqWithAuth> => (
     initRateLimit<NextReqWithAuth>(async (req, res) => {
         try {
-            authFn(req, res);
+            await authFn(req, res);
         } catch (e) {
             await ipRateLimit(req, res);
 

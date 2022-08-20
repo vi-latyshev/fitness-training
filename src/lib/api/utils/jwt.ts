@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 
+import { checkAuthToken, removeAuthToken, saveAuthToken } from 'lib/api/db/auth-tokens';
+import { userRoleList } from 'lib/models/user';
 import { APIError } from 'lib/api/error';
 
 import { setCookie } from './set-cookie';
@@ -12,36 +14,57 @@ export type SignJWTPayload = Pick<User, 'username' | 'role'> & {
     apiTimeframe?: number;
 };
 
-export type CheckAuthJWT = {
+type CheckAuthJWT = {
     token: string;
     payload: SignJWTPayload;
 };
 
-const getExpDate = () => Date.now() + parseInt(process.env.JWT_EXPIRES_IN);
+const getExpDate = () => parseInt(process.env.JWT_EXPIRES_IN);
 
 const JWT_COOKIE_KEY = 'JWT';
 
-export const signJWT = (res: Res, payload: SignJWTPayload) => {
+const updateJWTExp = async (token: string, res: Res) => {
     const expiresIn = getExpDate();
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
-    setCookie(res, JWT_COOKIE_KEY, token, { maxAge: expiresIn - 60 });
+    setCookie(res, JWT_COOKIE_KEY, token, { maxAge: expiresIn - 1 });
+    await saveAuthToken(token, expiresIn);
 };
 
-const verifyJWT = (token: string): SignJWTPayload | null => {
+export const signJWT = async (res: Res, payload: SignJWTPayload) => {
+    const token = jwt.sign(payload, process.env.JWT_SECRET);
+
+    await updateJWTExp(token, res);
+};
+
+const verifyJWT = async (token: string): Promise<SignJWTPayload> => {
     try {
         return jwt.verify(token, process.env.JWT_SECRET) as SignJWTPayload;
     } catch (e) {
-        /**
-         * @TODO add Sentry or smth else
-         */
-        console.error(`JWT Error: ${e}`); // eslint-disable-line no-console
-
-        return null;
+        throw new APIError('Token has invalid payload', 401);
     }
 };
 
-export const checkAuthJWT = (req: Req): CheckAuthJWT => {
+const validatePayload = (payload: SignJWTPayload) => {
+    const { username, role } = payload;
+
+    if (
+        username === undefined || typeof username !== 'string' || !(/^[a-z.0-9_]{5,15}/.test(username))
+        || typeof role !== 'string' || !userRoleList.includes(role)
+    ) {
+        throw new APIError('Token has invalid payload', 401);
+    }
+};
+
+export const removeJWT = async (res: Res, token: string | undefined) => {
+    setCookie(res, JWT_COOKIE_KEY, '', { maxAge: 0, expires: new Date(1) });
+
+    if (!token) {
+        return;
+    }
+    await removeAuthToken(token);
+};
+
+export const checkAuthJWT = async (req: Req, res: Res, updateAuthExp = false): Promise<CheckAuthJWT> => {
     let token: string | undefined;
 
     const tokenCookie = req.cookies[JWT_COOKIE_KEY];
@@ -52,9 +75,9 @@ export const checkAuthJWT = (req: Req): CheckAuthJWT => {
     } else {
         const [auth, tokenHeader] = authHeader?.trim()
             .split(/\s+/, 2)
-            .map((str) => str.trim()) ?? ['JWT'];
+            .map((str) => str.trim()) ?? [JWT_COOKIE_KEY];
 
-        if (auth !== 'JWT') {
+        if (auth !== JWT_COOKIE_KEY) {
             throw new APIError('Invalid token', 401);
         }
         token = tokenHeader;
@@ -62,18 +85,24 @@ export const checkAuthJWT = (req: Req): CheckAuthJWT => {
     if (!token) {
         throw new APIError('Authorization token required', 401);
     }
-    const payload = verifyJWT(token);
+    try {
+        const payload = await verifyJWT(token);
 
-    if (payload === null) {
-        throw new APIError('Token has expired or was forged', 403);
+        validatePayload(payload);
+
+        await checkAuthToken(token);
+
+        if (updateAuthExp) {
+            await updateJWTExp(token, res);
+        }
+
+        return {
+            token,
+            payload,
+        };
+    } catch (e) {
+        await removeJWT(res, token);
+
+        throw e;
     }
-
-    return {
-        token,
-        payload,
-    };
-};
-
-export const removeJWT = (res: Res) => {
-    setCookie(res, JWT_COOKIE_KEY, '', { maxAge: 0 });
 };
