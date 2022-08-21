@@ -55,7 +55,7 @@ const validatePayload = (payload: SignJWTPayload) => {
     }
 };
 
-export const removeJWT = async (res: Res, token: string | undefined) => {
+export const removeJWT = async (res: Res, token: string) => {
     setCookie(res, JWT_COOKIE_KEY, '', { maxAge: 0, expires: new Date(1) });
 
     if (!token) {

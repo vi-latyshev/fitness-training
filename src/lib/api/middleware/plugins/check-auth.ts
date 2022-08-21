@@ -1,4 +1,5 @@
 import { checkAuthJWT } from 'lib/api/utils/jwt';
+import { APIError } from 'lib/api/error';
 
 import type { NextApiRequest } from 'next';
 import type { SignJWTPayload } from 'lib/api/utils/jwt';
@@ -18,7 +19,7 @@ export const checkAuth = (noThrow = false): Middleware<NextReqWithAuth> => async
         req.authToken = token;
         req.auth = payload;
     } catch (e) {
-        if (noThrow) {
+        if (e instanceof APIError && noThrow) {
             return;
         }
         throw e;
