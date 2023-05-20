@@ -1,7 +1,7 @@
 import {
     UserIcon,
     ChartPieIcon,
-    TrendingUpIcon,
+    // TrendingUpIcon,
     ClipboardCheckIcon,
 } from '@heroicons/react/outline';
 
@@ -10,7 +10,7 @@ import Dashboard from 'components/Dashboard';
 import type { NextLayout } from 'views/base';
 import type { DashboardLayoutProps } from 'components/Dashboard';
 
-const ROOT = '/trainee';
+const ROOT = '/assignee';
 
 const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
     {
@@ -18,14 +18,14 @@ const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
         href: ROOT,
         Icon: ChartPieIcon,
     },
+    // {
+    //     text: 'Показатели',
+    //     href: `${ROOT}/performance`,
+    //     Icon: TrendingUpIcon,
+    // },
     {
-        text: 'Показатели',
-        href: `${ROOT}/performance`,
-        Icon: TrendingUpIcon,
-    },
-    {
-        text: 'Тренировки',
-        href: `${ROOT}/workouts`,
+        text: 'Задачи',
+        href: `${ROOT}/tasks`,
         Icon: ClipboardCheckIcon,
     },
     {

@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import { UserRole } from 'lib/models/user';
 
 import { CoachBaseLayout } from 'views/coach';
-import { AddWorkout, WorkoutList } from 'views/coach/components';
-import { PerformanceStats } from 'views/base/components/PerformanceStats';
-import { StatsList } from 'views/base/components/StatsList';
+import { WorkoutList } from 'views/coach/components';
+// import { PerformanceStats } from 'views/base/components/PerformanceStats';
+// import { StatsList } from 'views/base/components/StatsList';
 
 import { useUserByUsername } from 'hooks/useUserByUsername';
 
@@ -30,15 +30,15 @@ const CoachTraineePick: NextPageWithLayout = () => {
             <Dashboard.Title>
                 {firstName} {lastName} ({username})
             </Dashboard.Title>
-            <Dashboard.Title>Тренировки</Dashboard.Title>
+            <Dashboard.Title>Задачи</Dashboard.Title>
             <Card.Container>
                 <Card.Card>
-                    <Card.Title>Список тренировок</Card.Title>
-                    <AddWorkout owner={username} />
+                    <Card.Title>Список задач</Card.Title>
+                    {/* <AddWorkout owner={username} /> */}
                     <WorkoutList owner={username} />
                 </Card.Card>
             </Card.Container>
-            <Dashboard.Title>Показатели</Dashboard.Title>
+            {/* <Dashboard.Title>Показатели</Dashboard.Title>
             <Card.Container className="grid-cols-1">
                 <Card.Card>
                     <Card.Title>Статистика</Card.Title>
@@ -51,7 +51,7 @@ const CoachTraineePick: NextPageWithLayout = () => {
                     <Card.Title>Список показателей</Card.Title>
                     <StatsList owner={username} />
                 </Card.Card>
-            </Card.Container>
+            </Card.Container> */}
         </SwrLoadingHandle>
     );
 };

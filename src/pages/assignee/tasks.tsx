@@ -10,7 +10,7 @@ import type { NextPageWithLayout } from 'views/base';
 const TraineeWorkout: NextPageWithLayout = () => (
     <Card.Container>
         <Card.Card>
-            <Card.Title>Список тренировок</Card.Title>
+            <Card.Title>Список задач</Card.Title>
             <WorkoutList />
         </Card.Card>
     </Card.Container>
@@ -18,7 +18,7 @@ const TraineeWorkout: NextPageWithLayout = () => (
 
 TraineeWorkout.layoutProps = {
     meta: {
-        title: 'Тренировки',
+        title: 'Задачи',
     },
     auth: {
         needRole: UserRole.ASSIGNEE,

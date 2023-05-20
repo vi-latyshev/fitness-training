@@ -21,7 +21,7 @@ export const TraineesRow = ({ user }: TraineesRowProps) => {
     } = user;
 
     const handleUserClick = useCallback(() => {
-        router.push(`/coach/trainees/${username}`);
+        router.push(`/reporter/assignees/${username}`);
     }, [username]);
 
     return (

@@ -5,7 +5,7 @@ import Dashboard from 'components/Dashboard';
 import type { NextLayout } from 'views/base';
 import type { DashboardLayoutProps } from 'components/Dashboard';
 
-const ROOT = '/coach';
+const ROOT = '/reporter';
 
 const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
     {
@@ -15,7 +15,7 @@ const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
     },
     {
         text: 'Исполнители',
-        href: `${ROOT}/trainees`,
+        href: `${ROOT}/assignees`,
         Icon: UserGroupIcon,
     },
     {

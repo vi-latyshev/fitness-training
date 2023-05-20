@@ -1,7 +1,7 @@
 import { UserRole } from 'lib/models/user';
 
 import { TraineeBaseLayout } from 'views/trainee';
-import { StatsListSelf, PerformanceStatsSelf, AddStats } from 'views/trainee/components';
+import { PerformanceStatsSelf, AddStats } from 'views/trainee/components';
 
 import Card from 'components/Card';
 
@@ -18,7 +18,7 @@ const TraineePerformance: NextPageWithLayout = () => (
         </Card.Card>
         <Card.Card className="col-span-5">
             <Card.Title>Список показателей</Card.Title>
-            <StatsListSelf />
+            {/* <StatsListSelf /> */}
         </Card.Card>
     </Card.Container>
 );

@@ -26,7 +26,7 @@ export const FullStatsRow = ({ userStats }: FullStatsRowProps) => {
     const fullDiffPercent = calculateFullStatsDiff(statsDiff);
 
     const handleUserClick = useCallback(() => {
-        router.push(`/coach/trainees/${username}`);
+        router.push(`/reporter/assignees/${username}`);
     }, [username]);
 
     return (
