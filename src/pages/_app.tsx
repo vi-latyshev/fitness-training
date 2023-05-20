@@ -9,7 +9,7 @@ import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/ru';
 
-import { currVersion } from 'utils/currVersion';
+// import { currVersion } from 'utils/currVersion';
 import { AuthProvider } from 'context/auth';
 
 import { fetcher } from 'lib/fetcher';
@@ -106,13 +106,13 @@ const App = (props: AppPropsWithLayout) => {
                 <meta property="og:locale" content="ru_RU" />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={fullPath} />
-                <meta property="og:image" content={currVersion('/logo-generation.jpg')} />
+                {/* <meta property="og:image" content={currVersion('/logo-generation.jpg')} /> */}
 
                 {/* Twitter */}
                 <meta name="twitter:description" content={meta.description} />
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:url" content={fullPath} />
-                <meta name="twitter:image" content={currVersion('/logo-generation.jpg')} />
+                {/* <meta name="twitter:image" content={currVersion('/logo-generation.jpg')} /> */}
 
                 {/* links */}
                 <link rel="canonical" href={fullPath} />

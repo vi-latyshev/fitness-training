@@ -6,7 +6,7 @@ import Document, {
     NextScript,
 } from 'next/document';
 
-import { currVersion } from 'utils/currVersion';
+// import { currVersion } from 'utils/currVersion';
 
 const IS_PROD = process.env.IS_PRODUCTION;
 
@@ -18,7 +18,7 @@ export default class MyDocument extends Document {
                 <meta name="theme-color" content="#ffffff" />
 
                 {/* icons */}
-                <link key="icon" rel="shortcut icon" href={currVersion('/favicon.ico')} />
+                {/* <link key="icon" rel="shortcut icon" href={currVersion('/favicon.ico')} /> */}
                 {/* <link
                     key="icon-32"
                     rel="icon"

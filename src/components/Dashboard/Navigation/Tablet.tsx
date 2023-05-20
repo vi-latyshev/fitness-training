@@ -1,4 +1,4 @@
-import { Logo, SupportLogo } from 'components/Logo';
+import { Logo } from 'components/Logo';
 
 import { NavBar } from './NavBar';
 import { LogoutButton } from './Logout';

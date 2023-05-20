@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { Logo, SupportLogo } from 'components/Logo';
+import { Logo } from 'components/Logo';
 import { Button } from 'components/controls';
 
 import { NavBar } from './NavBar';
