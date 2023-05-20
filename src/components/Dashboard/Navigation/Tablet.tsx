@@ -17,7 +17,7 @@ export const DashNavTablet = ({ links }: DashNavTabletProps) => (
         </div>
         <div>
             <LogoutButton />
-            <SupportLogo />
+            {/* <SupportLogo /> */}
         </div>
     </aside>
 );

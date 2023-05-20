@@ -23,7 +23,7 @@ TraineeAccount.layoutProps = {
         title: 'Аккаунт',
     },
     auth: {
-        needRole: UserRole.TRAINEE,
+        needRole: UserRole.ASSIGNEE,
     },
     Layout: TraineeBaseLayout,
 };

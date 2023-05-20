@@ -75,7 +75,7 @@ const createUserAPI = async (req: SetPasswordReq, res: Res<CreateUserRes>): Prom
         const meta: UserRegisterDBData['meta'] = {
             ...body.meta,
             username: body.auth.username,
-            role: body.meta.role ?? UserRole.TRAINEE,
+            role: body.meta.role ?? UserRole.ASSIGNEE,
             createdAt: Date.now(),
         };
         const user = await createUser({ auth, meta });

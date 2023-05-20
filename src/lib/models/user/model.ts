@@ -1,7 +1,7 @@
 export enum UserRole {
     ADMIN = 'admin',
-    COACH = 'coach',
-    TRAINEE = 'trainee',
+    REPORTER = 'reporter',
+    ASSIGNEE = 'assignee',
 }
 
 export type UserName = string;

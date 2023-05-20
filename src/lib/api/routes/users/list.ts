@@ -23,9 +23,9 @@ type RightsByRole = {
 
 const rightsByRole: RightsByRole = {
     [UserRole.ADMIN]: {},
-    [UserRole.COACH]: {
+    [UserRole.REPORTER]: {
         filter: {
-            role: UserRole.TRAINEE,
+            role: UserRole.ASSIGNEE,
         },
     },
 };

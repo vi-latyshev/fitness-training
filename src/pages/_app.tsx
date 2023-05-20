@@ -75,8 +75,8 @@ const swrConfig: SWRConfiguration = {
 const DOMAIN_URL = process.env.DOMAIN;
 
 const DEFAULT_META: NextPageMeta = {
-    description: 'Любой желающий может получить индивидуальный план тренировок от профессионального тренера и улучшить свою физическую подготовку',
-    keywords: ['новобранец', 'физ подготовка', 'fitness', 'training'],
+    description: '',
+    keywords: [''],
 };
 
 const App = (props: AppPropsWithLayout) => {

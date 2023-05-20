@@ -14,7 +14,7 @@ const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
         Icon: ChartPieIcon,
     },
     {
-        text: 'Ученики',
+        text: 'Исполнители',
         href: `${ROOT}/trainees`,
         Icon: UserGroupIcon,
     },

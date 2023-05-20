@@ -32,7 +32,7 @@ export const DashNavMobile = ({ links }: DashNavMobileProps) => {
                     <NavBar links={links} />
                     <div>
                         <LogoutButton />
-                        <SupportLogo />
+                        {/* <SupportLogo /> */}
                     </div>
                 </div>
             )}

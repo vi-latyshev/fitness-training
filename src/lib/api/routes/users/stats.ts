@@ -30,14 +30,14 @@ const fetchFullStatsUserAPI = async (req: FetchFullStatsUserReq, res: Res<FetchF
     try {
         const { role } = req.auth;
 
-        if (role !== UserRole.COACH) {
+        if (role !== UserRole.REPORTER) {
             throw new APIError('Not enough rights', 403);
         }
         const params: Pagination<User> = {
             ...req.query,
             filter: {
                 ...req.query.filter,
-                role: UserRole.TRAINEE,
+                role: UserRole.ASSIGNEE,
             },
         };
         const usersData = await getUsers(params);

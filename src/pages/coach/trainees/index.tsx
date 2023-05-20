@@ -17,10 +17,10 @@ const CoachTrainees: NextPageWithLayout = () => (
 
 CoachTrainees.layoutProps = {
     meta: {
-        title: 'Ученики',
+        title: 'Исполнители',
     },
     auth: {
-        needRole: UserRole.COACH,
+        needRole: UserRole.REPORTER,
     },
     Layout: CoachBaseLayout,
 };

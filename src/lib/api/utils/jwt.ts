@@ -36,7 +36,7 @@ export const signJWT = async (res: Res, payload: SignJWTPayload) => {
     await updateJWTExp(token, res);
 };
 
-const verifyJWT = async (token: string): Promise<SignJWTPayload> => {
+const verifyJWT = (token: string): SignJWTPayload => {
     try {
         return jwt.verify(token, process.env.JWT_SECRET) as SignJWTPayload;
     } catch (e) {
@@ -86,7 +86,7 @@ export const checkAuthJWT = async (req: Req, res: Res, updateAuthExp = false): P
         throw new APIError('Authorization token required', 401);
     }
     try {
-        const payload = await verifyJWT(token);
+        const payload = verifyJWT(token);
 
         validatePayload(payload);
 

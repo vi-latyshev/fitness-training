@@ -37,7 +37,7 @@ export const AddUserModal = ({ onCreated }: AddUserModalProps) => {
     } = useForm<UserRegisterData>({
         defaultValues: {
             meta: {
-                role: UserRole.TRAINEE,
+                role: UserRole.ASSIGNEE,
             },
         },
     });

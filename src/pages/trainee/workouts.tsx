@@ -21,7 +21,7 @@ TraineeWorkout.layoutProps = {
         title: 'Тренировки',
     },
     auth: {
-        needRole: UserRole.TRAINEE,
+        needRole: UserRole.ASSIGNEE,
     },
     Layout: TraineeBaseLayout,
 };

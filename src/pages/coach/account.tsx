@@ -23,7 +23,7 @@ CoachAccount.layoutProps = {
         title: 'Аккаунт',
     },
     auth: {
-        needRole: UserRole.COACH,
+        needRole: UserRole.REPORTER,
     },
     Layout: CoachBaseLayout,
 };

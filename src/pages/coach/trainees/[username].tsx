@@ -58,7 +58,7 @@ const CoachTraineePick: NextPageWithLayout = () => {
 
 CoachTraineePick.layoutProps = {
     auth: {
-        needRole: UserRole.COACH,
+        needRole: UserRole.REPORTER,
     },
     Layout: CoachBaseLayout,
 };

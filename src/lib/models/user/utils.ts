@@ -8,6 +8,6 @@ type UserRoleHumanType = {
 
 export const UserRoleTypeHuman: UserRoleHumanType = {
     [UserRole.ADMIN]: 'Админ',
-    [UserRole.COACH]: 'Тренер',
-    [UserRole.TRAINEE]: 'Ученик',
+    [UserRole.REPORTER]: 'Заказчик',
+    [UserRole.ASSIGNEE]: 'Исполнитель',
 };

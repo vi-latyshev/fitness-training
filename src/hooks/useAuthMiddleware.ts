@@ -15,8 +15,8 @@ export type UseAuthMiddlewareProps = {
 
 const REDIRECT_MAIN_PAGE: RedirectMainPage = {
     [UserRole.ADMIN]: '/admin',
-    [UserRole.TRAINEE]: '/trainee',
-    [UserRole.COACH]: '/coach',
+    [UserRole.REPORTER]: '/reporter',
+    [UserRole.ASSIGNEE]: '/assignee',
 };
 const LOGGED_OUT_PAGE = '/login';
 

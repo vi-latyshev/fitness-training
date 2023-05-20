@@ -21,7 +21,7 @@ CoachDashboard.layoutProps = {
         title: 'Обзор',
     },
     auth: {
-        needRole: UserRole.COACH,
+        needRole: UserRole.REPORTER,
     },
     Layout: CoachBaseLayout,
 };

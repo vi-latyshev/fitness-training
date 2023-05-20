@@ -21,7 +21,7 @@ TraineeOverview.layoutProps = {
         title: 'Обзор',
     },
     auth: {
-        needRole: UserRole.TRAINEE,
+        needRole: UserRole.ASSIGNEE,
     },
     Layout: TraineeBaseLayout,
 };

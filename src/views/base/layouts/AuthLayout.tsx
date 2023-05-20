@@ -2,7 +2,7 @@ import { useUser } from 'context/auth';
 
 import { PageLoader } from 'components/Loader';
 import Card from 'components/Card';
-import { Logo } from 'components/Logo';
+// import { Logo } from 'components/Logo';
 
 import type { NextLayout } from './AppLayout';
 
@@ -17,9 +17,9 @@ export const AuthLayout: NextLayout = ({ meta, children }) => {
 
     return (
         <div className="flex flex-col justify-center items-center w-screen min-h-screen h-full bg-grayPrimary">
-            <div className="mb-16">
+            {/* <div className="mb-16">
                 <Logo />
-            </div>
+            </div> */}
             <main className="flex justify-center items-center w-full">
                 <Card.Container className="max-w-fit">
                     <Card.Card>

@@ -37,7 +37,7 @@ const createWorkoutAPI = async (req: CreateWorkoutReq, res: Res<CreateWorkoutRes
         const { auth, body, query } = req;
 
         // can create workout only coach
-        if (auth.role !== UserRole.COACH) {
+        if (auth.role !== UserRole.REPORTER) {
             throw new APIError('Not enough rights', 403);
         }
         const workoutCreate: WorkoutCreateDataDB = {
