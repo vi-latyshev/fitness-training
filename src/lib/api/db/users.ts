@@ -13,7 +13,9 @@ import {
     USERS_ID_TO_USERNAME_KEY,
 } from 'lib/api/redis';
 
-import type { User, UserAuth, UserRegisterDBData } from 'lib/models/user';
+import type {
+    User, UserAuth, UserRegisterDBData, UserUpdateData,
+} from 'lib/models/user';
 import type { Pagination, PaginationResp } from '../redis/types';
 
 export const createUser = async (userCreate: UserRegisterDBData): Promise<User> => {
@@ -77,6 +79,19 @@ export const getAuthUser = async (username: string): Promise<UserAuth> => {
     return userAuth;
 };
 
+export const updateUser = async (username: string, updateUserData: UserUpdateData): Promise<void> => {
+    const userId = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
+
+    if (userId === null) {
+        throw new APIError(`User (${username}) does not exist`, 404);
+    }
+    const pipe = redis.pipeline();
+
+    pipe.hset(USERS_METADATA_KEY(userId), Serializer.serialize(updateUserData));
+
+    handlePipeline(await pipe.exec());
+};
+
 export const setAuthUser = async (userAuth: UserAuth): Promise<void> => {
     const { username } = userAuth;
 
@@ -136,4 +151,23 @@ export const getUsers = async (params: ListUsersDBParams = {}): Promise<ListUser
         pages: Math.ceil(total / limit) || 1,
         total,
     };
+};
+
+export const removeUser = async (username: string): Promise<void> => {
+    const userId = await redis.hget(USERS_USERNAME_TO_ID_KEY, username);
+
+    if (userId === null) {
+        throw new APIError(`User (${username}) does not exist`, 404);
+    }
+    const pipe = redis.pipeline();
+
+    pipe.srem(USERS_IDX_KEY, userId);
+    pipe.hdel(USERS_USERNAME_TO_ID_KEY, username);
+    pipe.hdel(USERS_ID_TO_USERNAME_KEY, userId);
+
+    pipe.del(USERS_AUTH_KEY(userId));
+    pipe.del(USERS_METADATA_KEY(userId));
+
+    await redis.fsortBust(USERS_IDX_KEY, Date.now(), 0);
+    handlePipeline(await pipe.exec());
 };

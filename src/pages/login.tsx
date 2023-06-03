@@ -6,7 +6,7 @@ import { useUser } from 'context/auth';
 
 import { AuthLayout } from 'views/base';
 
-import { Button, Input, Link } from 'components/controls';
+import { Button, Input } from 'components/controls';
 
 import { LoaderIcon } from 'icons/Loader';
 
@@ -92,10 +92,6 @@ const Login: NextPageWithLayout = () => {
                     Войти
                 </Button>
                 {serverError && <p className="text-error text-sm">{serverError}</p>}
-            </div>
-            <div className="flex flex-col sm:flex-row items-center justify-end text-sm text-center w-full">
-                <p className="pb-2 sm:mt-0 sm:pb-0 sm:pr-4">Еще нет аккаунта?</p>
-                <Link disabled={isSubmitting} href="/register" variant="soft">Создать</Link>
             </div>
         </form>
     );

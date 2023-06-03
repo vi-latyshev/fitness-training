@@ -15,9 +15,8 @@ export const DashNavTablet = ({ links }: DashNavTabletProps) => (
             <Logo />
             <NavBar links={links} />
         </div>
-        <div>
+        <div className="flex w-full">
             <LogoutButton />
-            {/* <SupportLogo /> */}
         </div>
     </aside>
 );
