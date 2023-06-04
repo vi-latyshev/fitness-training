@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-import { percent } from 'utils/percent';
-import { durationParse, validateTime } from 'utils/durationParse';
+import { percent } from '@/utils/percent';
+import { durationParse, validateTime } from '@/utils/durationParse';
 
 import { WorkoutsCountType } from '../workout';
 

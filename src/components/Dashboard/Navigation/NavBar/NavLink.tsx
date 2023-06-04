@@ -1,6 +1,6 @@
-import { Link } from 'components/controls';
+import { Link } from '@/components/controls';
 
-import type { LinkProps } from 'components/controls';
+import type { LinkProps } from '@/components/controls';
 
 export interface NavLinkProps extends Omit<LinkProps, 'Icon'> {
     text: string;

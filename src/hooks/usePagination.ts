@@ -3,8 +3,8 @@ import useSWR from 'swr';
 import qs from 'qs';
 
 import type { KeyedMutator } from 'swr';
-import type { Pagination, PaginationResp } from 'lib/api/redis/types';
-import type { APIErrorJSON } from 'lib/api/error';
+import type { Pagination, PaginationResp } from '@/lib/api/redis/types';
+import type { APIErrorJSON } from '@/lib/api/error';
 
 export interface UsePaginationResult<T, R = T> extends PaginationResp<R> {
     query: Pagination<T>;

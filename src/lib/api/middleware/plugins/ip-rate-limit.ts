@@ -1,4 +1,4 @@
-import { getReqIP } from 'lib/api/utils/ip';
+import { getReqIP } from '@/lib/api/utils/ip';
 
 import { initRateLimit } from './utils/rate-limit';
 

@@ -9,11 +9,11 @@ import {
     STATS_BY_USER_KEY,
     STATS_USER_DIFF_START_KEY,
     STATS_USER_DIFF_LAST_KEY,
-} from 'lib/api/redis';
+} from '@/lib/api/redis';
 
 import { getUserId } from './users';
 
-import type { UserName } from 'lib/models/user';
+import type { UserName } from '@/lib/models/user';
 import type {
     Stats,
     StatsCountRes,
@@ -21,7 +21,7 @@ import type {
     ListStatsDBRes,
     ListStatsDBParams,
     StatsCreateDataDB,
-} from 'lib/models/stats';
+} from '@/lib/models/stats';
 
 export const createStats = async (statsCreate: StatsCreateDataDB): Promise<Stats> => {
     const { owner } = statsCreate;

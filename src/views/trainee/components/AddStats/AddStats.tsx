@@ -2,24 +2,21 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import { useUser } from 'context/auth';
-
+import { useUser } from '@/context/auth';
 import {
     statsTypeList,
     StatsTypeRegisterFields,
     StatsTypeToHuman,
     statsTypeValueParse,
-} from 'lib/models/stats';
-
-import { useStatsList } from 'hooks/useStatsList';
-import { useDiffStats } from 'hooks/useDiffStats';
-
-import { Button, Input } from 'components/controls';
+} from '@/lib/models/stats';
+import { useStatsList } from '@/hooks/useStatsList';
+import { useDiffStats } from '@/hooks/useDiffStats';
+import { Button, Input } from '@/components/controls';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { APIErrorJSON } from 'lib/api/error';
-import type { StatsType, StatsCreateData } from 'lib/models/stats';
-import type { CreateStatsRes } from 'lib/api/routes/stats/create';
+import type { APIErrorJSON } from '@/lib/api/error';
+import type { StatsType, StatsCreateData } from '@/lib/models/stats';
+import type { CreateStatsRes } from '@/lib/api/routes/stats/create';
 
 export const AddStats = () => {
     const { user: { username } } = useUser();
@@ -75,6 +72,9 @@ export const AddStats = () => {
                                 valueAsNumber: true,
                                 required: 'Введите данные',
                                 ...inputRegister,
+                                // @TODO fix it
+                                pattern: undefined,
+                                valueAsDate: false,
                             })}
                         />
                     );

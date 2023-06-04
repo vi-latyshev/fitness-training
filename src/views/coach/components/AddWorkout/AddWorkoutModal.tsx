@@ -3,25 +3,23 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
+import { LoaderIcon } from '@/icons/Loader';
 import {
     WorkoutsCountType,
     WotkoutCountTypeHuman,
     workoutsCountTypeList,
     workoutCountTimeParse,
     workoutCountTimeValidate,
-} from 'lib/models/workout';
-
-import { useWorkouts } from 'hooks/useWorkouts';
-import Card from 'components/Card';
-import { Button, Input, Select } from 'components/controls';
-
-import { LoaderIcon } from 'icons/Loader';
+} from '@/lib/models/workout';
+import { useWorkouts } from '@/hooks/useWorkouts';
+import Card from '@/components/Card';
+import { Button, Input, Select } from '@/components/controls';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { APIErrorJSON } from 'lib/api/error';
-import type { Workout, WorkoutCreateData } from 'lib/models/workout';
-import type { SelectItemValue } from 'components/controls';
-import type { CreateWorkoutRes } from 'lib/api/routes/workouts/create';
+import type { APIErrorJSON } from '@/lib/api/error';
+import type { Workout, WorkoutCreateData } from '@/lib/models/workout';
+import type { SelectItemValue } from '@/components/controls';
+import type { CreateWorkoutRes } from '@/lib/api/routes/workouts/create';
 
 interface AddWorkoutModalProps {
     owner: Workout['owner'];
@@ -69,11 +67,11 @@ export const AddWorkoutModal = ({ owner, onCreated }: AddWorkoutModalProps) => {
 
     return (
         <Card.Card>
-            <Card.Title>Новая тренировока</Card.Title>
+            <Card.Title>Новая Задача</Card.Title>
             <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col items-end w-full space-y-4">
                 <Input
                     full
-                    label="Название тренировки"
+                    label="Название Задачи"
                     disabled={isSubmitting}
                     error={errors.name?.message}
                     {...register('name', {

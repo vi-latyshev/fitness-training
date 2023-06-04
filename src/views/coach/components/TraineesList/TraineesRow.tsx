@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 
-import Table from 'components/Table';
+import Table from '@/components/Table';
 
-import type { User } from 'lib/models/user';
+import type { User } from '@/lib/models/user';
 
 interface TraineesRowProps {
     user: User;

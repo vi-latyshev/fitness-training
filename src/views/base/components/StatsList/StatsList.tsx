@@ -1,12 +1,11 @@
-import { useStatsList } from 'hooks/useStatsList';
-
-import Table from 'components/Table';
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
+import { useStatsList } from '@/hooks/useStatsList';
+import Table from '@/components/Table';
+import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
 
 import { StatsRowHead } from './StatsRowHead';
 import { StatsRow } from './StatsRow';
 
-import type { Stats } from 'lib/models/stats';
+import type { Stats } from '@/lib/models/stats';
 
 type StatsListProps = {
     owner: Stats['owner'];

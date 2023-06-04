@@ -1,25 +1,24 @@
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
-import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
-// import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
-import { checkBody } from 'lib/api/middleware/plugins/check-body';
-import { handleApiError } from 'lib/api/error/handle-api-error';
-import { APIError } from 'lib/api/error';
-
-import { statsTypeList } from 'lib/models/stats';
-import { createStats } from 'lib/api/db/stats';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { verifyQueryId } from '@/lib/api/middleware/plugins/check-query-id';
+import { authRateLimit } from '@/lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from '@/lib/api/middleware/plugins/check-auth';
+// import { ipRateLimit } from '@/lib/api/middleware/plugins/ip-rate-limit';
+import { checkBody } from '@/lib/api/middleware/plugins/check-body';
+import { handleApiError } from '@/lib/api/error/handle-api-error';
+import { APIError } from '@/lib/api/error';
+import { statsTypeList } from '@/lib/models/stats';
+import { createStats } from '@/lib/api/db/stats';
 
 import type { NextApiResponse as Res } from 'next';
-import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
-import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
+import type { NextReqWithQueryIds } from '@/lib/api/middleware/plugins/check-query-id';
+import type { NextReqWithAuth } from '@/lib/api/middleware/plugins/check-auth';
+import type { NextReqWithBody, Validator } from '@/lib/api/middleware/plugins/check-body';
 import type {
     Stats,
     StatsType,
     StatsCreateData,
     StatsCreateDataDB,
-} from 'lib/models/stats';
+} from '@/lib/models/stats';
 
 // @TODO create type with generic as Query & Body
 export type CreateStatsReq = Omit<NextReqWithAuth & NextReqWithQueryIds<['owner']>, 'body'> & NextReqWithBody<StatsCreateData>;
@@ -32,7 +31,7 @@ const validateBody: Validator<StatsCreateData> = (props): boolean => (
     ))
 );
 
-const createStatsAPI = async (req: CreateStatsReq, res: Res<CreateStatsRes>): Promise<void> => {
+const createStatsAPIHandler = async (req: CreateStatsReq, res: Res<CreateStatsRes>): Promise<void> => {
     try {
         const { auth, body, query } = req;
         const { owner } = query;
@@ -55,9 +54,9 @@ const createStatsAPI = async (req: CreateStatsReq, res: Res<CreateStatsRes>): Pr
     }
 };
 
-export default withMiddleware(
+export const createStatsAPI = withMiddleware(
     verifyQueryId<['owner']>(['owner']),
     authRateLimit(checkAuth()),
     checkBody(validateBody),
-    createStatsAPI,
+    createStatsAPIHandler,
 );

@@ -1,11 +1,10 @@
-import { useWorkouts } from 'hooks/useWorkouts';
-
-import Table from 'components/Table';
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
+import { useWorkouts } from '@/hooks/useWorkouts';
+import Table from '@/components/Table';
+import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
 
 import { WorkoutRow } from './WorkoutRow';
 
-import type { Workout } from 'lib/models/workout';
+import type { Workout } from '@/lib/models/workout';
 
 interface WorkoutListProps {
     owner: Workout['owner'];

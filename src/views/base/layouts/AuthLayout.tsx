@@ -1,8 +1,7 @@
-import { useUser } from 'context/auth';
-
-import { PageLoader } from 'components/Loader';
-import Card from 'components/Card';
-// import { Logo } from 'components/Logo';
+import { useUser } from '@/context/auth';
+import { PageLoader } from '@/components/Loader';
+import Card from '@/components/Card';
+// import { Logo } from '@/components/Logo';
 
 import type { NextLayout } from './AppLayout';
 

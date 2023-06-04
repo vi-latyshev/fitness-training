@@ -2,18 +2,15 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import { useUser } from 'context/auth';
-
-import { AuthLayout } from 'views/base';
-
-import { Button, Input } from 'components/controls';
-
-import { LoaderIcon } from 'icons/Loader';
+import { useUser } from '@/context/auth';
+import { LoaderIcon } from '@/icons/Loader';
+import { AuthLayout } from '@/views/base';
+import { Button, Input } from '@/components/controls';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { NextPageWithLayout } from 'views/base';
-import type { UserAuth } from 'lib/models/user';
-import type { APIErrorJSON } from 'lib/api/error';
+import type { NextPageWithLayout } from '@/views/base';
+import type { UserAuth } from '@/lib/models/user';
+import type { APIErrorJSON } from '@/lib/api/error';
 
 const Login: NextPageWithLayout = () => {
     const { loginUser } = useUser();
@@ -36,7 +33,7 @@ const Login: NextPageWithLayout = () => {
                 throw new Error(`Handling response error: ${err}`);
             }
         }
-    }, []);
+    }, [loginUser]);
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="w-full space-y-8">

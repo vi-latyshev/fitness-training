@@ -1,11 +1,9 @@
-import { UserRole } from 'lib/models/user';
+import { UserRole } from '@/lib/models/user';
+import { TraineeBaseLayout } from '@/views/trainee';
+import Card from '@/components/Card';
+// import { PerformanceStatsSelf } from '@/views/trainee/components';
 
-import { TraineeBaseLayout } from 'views/trainee';
-// import { PerformanceStatsSelf } from 'views/trainee/components';
-
-import Card from 'components/Card';
-
-import type { NextPageWithLayout } from 'views/base';
+import type { NextPageWithLayout } from '@/views/base';
 
 const TraineeOverview: NextPageWithLayout = () => (
     <Card.Container>

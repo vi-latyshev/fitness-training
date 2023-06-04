@@ -2,11 +2,10 @@ import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/outline';
 
-import { calculateFullStatsDiff } from 'lib/models/stats';
+import { calculateFullStatsDiff } from '@/lib/models/stats';
+import Table from '@/components/Table';
 
-import Table from 'components/Table';
-
-import type { FetchFullStatsUserResData } from 'lib/api/routes/users/stats';
+import type { FetchFullStatsUserResData } from '@/lib/api/routes/users/stats';
 
 interface FullStatsRowProps {
     userStats: FetchFullStatsUserResData;
@@ -63,9 +62,10 @@ export const FullStatsRow = ({ userStats }: FullStatsRowProps) => {
                 className="cursor-pointer text-right"
             >
                 <div className="flex items-center justify-end">
-                    {fullDiffPercent}%
+                    {fullDiffPercent}
+                    %
                     {fullDiffPercent > 0 && (
-                        <ArrowSmUpIcon className="text-success-light h-8 w-8" />
+                    <ArrowSmUpIcon className="text-success-light h-8 w-8" />
                     )}
                     {fullDiffPercent < 0 && (
                         <ArrowSmDownIcon className="text-error-light h-8 w-8" />

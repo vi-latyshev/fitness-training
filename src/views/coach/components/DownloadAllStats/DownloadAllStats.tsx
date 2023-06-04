@@ -1,15 +1,14 @@
 import { useCallback, useState } from 'react';
 import axios from 'axios';
 
-import Card from 'components/Card';
-import { Modal } from 'components/Modal';
-import { Button } from 'components/controls';
-
-import { LoaderIcon } from 'icons/Loader';
+import { LoaderIcon } from '@/icons/Loader';
+import Card from '@/components/Card';
+import { Modal } from '@/components/Modal';
+import { Button } from '@/components/controls';
 
 import { downloadAllStatsCSV } from './download';
 
-import type { APIErrorJSON } from 'lib/api/error';
+import type { APIErrorJSON } from '@/lib/api/error';
 
 export const DownloadAllStats = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);

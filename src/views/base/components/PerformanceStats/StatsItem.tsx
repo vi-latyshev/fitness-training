@@ -1,16 +1,17 @@
 import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/outline';
 
-import { percent } from 'utils/percent';
-
+import { percent } from '@/utils/percent';
 import {
     DiffStats,
-    StatsType,
     StatsTypeToHuman,
     calculateStatsDiff,
     statsTypeValueToHuman,
-} from 'lib/models/stats';
+} from '@/lib/models/stats';
 
-import type { DiffStatsData } from 'lib/models/stats';
+import type {
+    DiffStatsData,
+    StatsType,
+} from '@/lib/models/stats';
 
 interface StatsItemProps {
     statType: StatsType;
@@ -30,7 +31,13 @@ export const StatsItem = ({
         <div className="space-y-1">
             <div className="text-sm">{StatsTypeToHuman[statType]}</div>
             <div className="flex flex-row items-end font-bold text-xl space-x-1">
-                <div>{statsTypeValueToHuman(statType, start)} / {statsTypeValueToHuman(statType, last)}</div>
+                <div>
+                    {statsTypeValueToHuman(statType, start)}
+                    {' '}
+                    /
+                    {' '}
+                    {statsTypeValueToHuman(statType, last)}
+                </div>
                 <div className="flex flex-row text-lg">
                     {start && last ? `(${percent(start, last)}%)` : ''}
                 </div>

@@ -1,8 +1,8 @@
 import useSWR from 'swr';
 
 import type { KeyedMutator } from 'swr';
-import type { APIErrorJSON } from 'lib/api/error';
-import type { FetchUserRes } from 'lib/api/routes/users/fetch';
+import type { APIErrorJSON } from '@/lib/api/error';
+import type { FetchUserRes } from '@/lib/api/routes/users/fetch';
 
 interface UseUserResult {
     user: FetchUserRes;

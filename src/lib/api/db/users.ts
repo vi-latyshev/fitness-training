@@ -1,7 +1,7 @@
 import { filter as fSortFilter } from 'redis-filtered-sort';
 import { v4 as uuidv4 } from 'uuid';
 
-import { APIError } from 'lib/api/error';
+import { APIError } from '@/lib/api/error';
 import {
     redis,
     Serializer,
@@ -11,11 +11,11 @@ import {
     USERS_METADATA_KEY,
     USERS_USERNAME_TO_ID_KEY,
     USERS_ID_TO_USERNAME_KEY,
-} from 'lib/api/redis';
+} from '@/lib/api/redis';
 
 import type {
     User, UserAuth, UserRegisterDBData, UserUpdateData,
-} from 'lib/models/user';
+} from '@/lib/models/user';
 import type { Pagination, PaginationResp } from '../redis/types';
 
 export const createUser = async (userCreate: UserRegisterDBData): Promise<User> => {

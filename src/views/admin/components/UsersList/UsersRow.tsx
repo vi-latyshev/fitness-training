@@ -1,26 +1,23 @@
 import { useCallback } from 'react';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { XIcon } from '@heroicons/react/outline';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-import { useUser } from 'context/auth';
+import { useUser } from '@/context/auth';
+import { UserRoleTypeHuman } from '@/lib/models/user';
+import Table from '@/components/Table';
+import { useUsers } from '@/hooks/useUsers';
+import { Button } from '@/components/controls';
 
-import { UserRoleTypeHuman } from 'lib/models/user';
-
-import Table from 'components/Table';
-import { useUsers } from 'hooks/useUsers';
-import { Button } from 'components/controls';
-
-import type { User } from 'lib/models/user';
-import type { RemoveUserRes } from 'lib/api/routes/users/remove';
+import type { User } from '@/lib/models/user';
+import type { RemoveUserRes } from '@/lib/api/routes/users/remove';
 
 interface UsersRowProps {
     user: User;
 }
 
-export const UsersRow = ({ user }: UsersRowProps) => {
-    const router = useRouter();
+export const UsersRow = ({ user }: UsersRowProps): JSX.Element => {
     const { user: currUser } = useUser();
     const { mutate } = useUsers();
 
@@ -35,7 +32,7 @@ export const UsersRow = ({ user }: UsersRowProps) => {
     const isCurrUser = username === currUser.username;
 
     const handleUserClick = useCallback(() => {
-        router.push(`/admin/users/${username}`);
+        Router.push(`/admin/users/${username}`);
     }, [username]);
 
     const handleUserRemove = useCallback(async () => {
@@ -51,7 +48,7 @@ export const UsersRow = ({ user }: UsersRowProps) => {
                 throw new Error(`Handling response error: ${err}`);
             }
         }
-    }, [username]);
+    }, [username, mutate]);
 
     return (
         <Table.Row
@@ -82,7 +79,9 @@ export const UsersRow = ({ user }: UsersRowProps) => {
                 {lastName}
             </Table.Cell>
             <Table.Cell disabled={isCurrUser}>
-                {UserRoleTypeHuman[role]} ({role})
+                {UserRoleTypeHuman[role]}
+                {' '}
+                ({role})
             </Table.Cell>
             <Table.Cell disabled={isCurrUser}>
                 {dayjs(createdAt).format('LLL')}

@@ -1,10 +1,10 @@
-import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import setPasswordAPI from 'lib/api/routes/users/password';
+import { allowMethods } from '@/lib/api/middleware/plugins/allow-methods';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import setPasswordAPI from '@/lib/api/routes/users/password';
 
 import type { NextApiResponse } from 'next';
-import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { SetPasswordRes } from 'lib/api/routes/users/password';
+import type { NextReqWithAuth } from '@/lib/api/middleware/plugins/check-auth';
+import type { SetPasswordRes } from '@/lib/api/routes/users/password';
 
 const password = async (
     req: NextReqWithAuth,

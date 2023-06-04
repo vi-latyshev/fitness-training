@@ -6,7 +6,7 @@ import Document, {
     NextScript,
 } from 'next/document';
 
-// import { currVersion } from 'utils/currVersion';
+// import { currVersion } from '@/utils/currVersion';
 
 const IS_PROD = process.env.IS_PRODUCTION;
 

@@ -1,4 +1,4 @@
-import { LoaderIcon } from 'icons/Loader';
+import { LoaderIcon } from '@/icons/Loader';
 
 export const Loader = () => (
     <div className="flex justify-center items-center w-full h-full">

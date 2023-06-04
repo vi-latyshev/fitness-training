@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { durationParse, validateTime } from 'utils/durationParse';
+import { durationParse, validateTime } from '@/utils/durationParse';
 
 import { WorkoutsCountType } from './model';
 

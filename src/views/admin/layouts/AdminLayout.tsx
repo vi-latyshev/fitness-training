@@ -1,9 +1,9 @@
 import { UserGroupIcon, UserIcon } from '@heroicons/react/outline';
 
-import Dashboard from 'components/Dashboard';
+import Dashboard from '@/components/Dashboard';
 
-import type { NextLayout } from 'views/base';
-import type { DashboardLayoutProps } from 'components/Dashboard';
+import type { NextLayout } from '@/views/base';
+import type { DashboardLayoutProps } from '@/components/Dashboard';
 
 const ROOT = '/admin';
 

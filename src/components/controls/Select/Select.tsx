@@ -1,7 +1,9 @@
 import { forwardRef } from 'react';
 import clsx from 'clsx';
 
-import { SelectItem, SelectItemValue } from './Item';
+import { SelectItem } from './Item';
+
+import type { SelectItemValue } from './Item';
 
 export type SelectProps = Omit<React.ComponentPropsWithoutRef<'select'>, 'children'> & {
     label?: string;
@@ -35,7 +37,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
 
     return (
         <div className={classesContainer}>
-            {label && <label htmlFor={label} className="text-sm font-semibold mb-1">{label}:</label>}
+            {label && (
+            <label htmlFor={label} className="text-sm font-semibold mb-1">
+                {label}
+                :
+            </label>
+            )}
             <select
                 {...props}
                 id={label}

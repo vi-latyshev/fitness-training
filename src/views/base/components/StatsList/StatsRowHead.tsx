@@ -1,6 +1,5 @@
-import { statsTypeList, StatsTypeToHuman } from 'lib/models/stats';
-
-import Table from 'components/Table';
+import { statsTypeList, StatsTypeToHuman } from '@/lib/models/stats';
+import Table from '@/components/Table';
 
 export const StatsRowHead = () => (
     <Table.Row border={false}>

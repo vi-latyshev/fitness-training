@@ -1,19 +1,19 @@
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
-import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
-import { handleApiError } from 'lib/api/error/handle-api-error';
-import { APIError } from 'lib/api/error';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { authRateLimit } from '@/lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from '@/lib/api/middleware/plugins/check-auth';
+import { handleApiError } from '@/lib/api/error/handle-api-error';
+import { APIError } from '@/lib/api/error';
+import { UserRole } from '@/lib/models/user';
+import { getUsers } from '@/lib/api/db/users';
+import { getCountWorkouts } from '@/lib/api/db/workouts';
+import { getCountStats, getDiffStats } from '@/lib/api/db/stats';
 
-import { User, UserRole } from 'lib/models/user';
-import { getUsers } from 'lib/api/db/users';
-import { getCountWorkouts } from 'lib/api/db/workouts';
-import { getCountStats, getDiffStats } from 'lib/api/db/stats';
-
+import type { User } from '@/lib/models/user';
 import type { NextApiResponse as Res } from 'next';
-import type { Pagination, PaginationResp } from 'lib/api/redis/types';
-import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { WorkoutCountRes } from 'lib/models/workout';
-import type { DiffStatsData, StatsCountRes } from 'lib/models/stats';
+import type { Pagination, PaginationResp } from '@/lib/api/redis/types';
+import type { NextReqWithAuth } from '@/lib/api/middleware/plugins/check-auth';
+import type { WorkoutCountRes } from '@/lib/models/workout';
+import type { DiffStatsData, StatsCountRes } from '@/lib/models/stats';
 
 export type FetchFullStatsUserReq = NextReqWithAuth & {
     query: Pagination<User>;

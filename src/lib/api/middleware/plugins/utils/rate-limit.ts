@@ -1,5 +1,5 @@
-import { incrementRateLimit } from 'lib/api/db/rate-limit';
-import { APIError } from 'lib/api/error';
+import { incrementRateLimit } from '@/lib/api/db/rate-limit';
+import { APIError } from '@/lib/api/error';
 
 import type { NextApiRequest as Req, NextApiResponse as Res } from 'next';
 

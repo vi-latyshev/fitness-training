@@ -1,11 +1,10 @@
-import { useUser } from 'context/auth';
-
-import { PageLoader } from 'components/Loader';
+import { useUser } from '@/context/auth';
+import { PageLoader } from '@/components/Loader';
 
 import { DashNav } from './Navigation/DashNav';
 import { DashboardTitle } from './Title';
 
-import type { NextLayout } from 'views/base';
+import type { NextLayout } from '@/views/base';
 import type { NavLinkProps } from './Navigation/NavBar';
 
 export interface DashboardLayoutProps {

@@ -5,9 +5,9 @@ import {
     StatsTypeToHuman,
     statsTypeValueToHuman,
     calculateFullStatsDiff,
-} from 'lib/models/stats';
+} from '@/lib/models/stats';
 
-import type { FetchFullStatsUserResData, FetchFullStatsUserRes } from 'lib/api/routes/users/stats';
+import type { FetchFullStatsUserResData, FetchFullStatsUserRes } from '@/lib/api/routes/users/stats';
 
 type Cell = (string | number | null)[];
 
@@ -70,7 +70,7 @@ const getUsersStats = async (offset = 0): Promise<FetchFullStatsUserRes> => {
     return data;
 };
 
-async function* getUsersStatsPagin(): AsyncIterableIterator<FetchFullStatsUserResData> {
+const getUsersStatsPagin = async function* (): AsyncIterableIterator<FetchFullStatsUserResData> {
     const { total, items } = await getUsersStats();
 
     // eslint-disable-next-line no-restricted-syntax
@@ -92,7 +92,7 @@ async function* getUsersStatsPagin(): AsyncIterableIterator<FetchFullStatsUserRe
         }
         offset += LIMIT_USERS_PER_REQ;
     }
-}
+};
 
 const parseUsersStats = async (): Promise<Rows> => {
     const rows: Rows = [];

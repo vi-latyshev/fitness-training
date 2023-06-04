@@ -1,7 +1,6 @@
-import { useUsers } from 'hooks/useUsers';
-
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
-import Table from 'components/Table';
+import { useUsers } from '@/hooks/useUsers';
+import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
+import Table from '@/components/Table';
 
 import { TraineesRow } from './TraineesRow';
 

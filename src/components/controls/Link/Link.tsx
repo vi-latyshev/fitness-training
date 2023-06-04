@@ -1,8 +1,11 @@
 import { forwardRef } from 'react';
 import { useRouter } from 'next/router';
-import NextLink, { LinkProps as NextLinkProps } from 'next/link';
+import NextLink from 'next/link';
 
-import { Button, ButtonProps } from '../Button';
+import { Button } from '../Button';
+
+import type { LinkProps as NextLinkProps } from 'next/link';
+import type { ButtonProps } from '../Button';
 
 type ButtonPropsWithAnhor = ButtonProps<'a'>;
 

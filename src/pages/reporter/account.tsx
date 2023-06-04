@@ -1,12 +1,9 @@
-import { UserRole } from 'lib/models/user';
+import { UserRole } from '@/lib/models/user';
+import { CoachBaseLayout } from '@/views/coach';
+import { AccountBio, AccountSecurity } from '@/views/base/components/Account';
+import Card from '@/components/Card';
 
-import { CoachBaseLayout } from 'views/coach';
-
-import { AccountBio, AccountSecurity } from 'views/base/components/Account';
-
-import Card from 'components/Card';
-
-import type { NextPageWithLayout } from 'views/base';
+import type { NextPageWithLayout } from '@/views/base';
 
 /**
  * @TODO ??

@@ -1,19 +1,19 @@
 import sha1 from 'sha1';
 
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
-import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
-import { checkBody } from 'lib/api/middleware/plugins/check-body';
-import { handleApiError } from 'lib/api/error/handle-api-error';
-import { createUser } from 'lib/api/db/users';
-import { signJWT } from 'lib/api/utils/jwt';
-import { APIError } from 'lib/api/error';
-import { UserRole, userRoleList } from 'lib/models/user';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { authRateLimit } from '@/lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from '@/lib/api/middleware/plugins/check-auth';
+import { checkBody } from '@/lib/api/middleware/plugins/check-body';
+import { handleApiError } from '@/lib/api/error/handle-api-error';
+import { createUser } from '@/lib/api/db/users';
+import { signJWT } from '@/lib/api/utils/jwt';
+import { APIError } from '@/lib/api/error';
+import { UserRole, userRoleList } from '@/lib/models/user';
 
 import type { NextApiResponse as Res } from 'next';
-import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
-import type { User, UserRegisterData, UserRegisterDBData } from 'lib/models/user';
+import type { NextReqWithAuth } from '@/lib/api/middleware/plugins/check-auth';
+import type { NextReqWithBody, Validator } from '@/lib/api/middleware/plugins/check-body';
+import type { User, UserRegisterData, UserRegisterDBData } from '@/lib/models/user';
 
 type SetPasswordReq = Partial<Omit<NextReqWithAuth, 'body'>> & NextReqWithBody<UserRegisterData>;
 export type CreateUserRes = User;

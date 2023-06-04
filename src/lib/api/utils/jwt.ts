@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 
-import { checkAuthToken, removeAuthToken, saveAuthToken } from 'lib/api/db/auth-tokens';
-import { userRoleList } from 'lib/models/user';
-import { APIError } from 'lib/api/error';
+import { checkAuthToken, removeAuthToken, saveAuthToken } from '@/lib/api/db/auth-tokens';
+import { userRoleList } from '@/lib/models/user';
+import { APIError } from '@/lib/api/error';
 
 import { setCookie } from './set-cookie';
 
 import type { NextApiRequest as Req, NextApiResponse as Res } from 'next';
-import type { User } from 'lib/models/user';
+import type { User } from '@/lib/models/user';
 
 export type SignJWTPayload = Pick<User, 'username' | 'role'> & {
     apiLimit?: number;
@@ -30,7 +30,7 @@ const updateJWTExp = async (token: string, res: Res) => {
     await saveAuthToken(token, expiresIn);
 };
 
-export const signJWT = async (res: Res, payload: SignJWTPayload) => {
+export const signJWT = async (res: Res, payload: SignJWTPayload): Promise<void> => {
     const token = jwt.sign(payload, process.env.JWT_SECRET);
 
     await updateJWTExp(token, res);
@@ -55,7 +55,7 @@ const validatePayload = (payload: SignJWTPayload) => {
     }
 };
 
-export const removeJWT = async (res: Res, token: string) => {
+export const removeJWT = async (res: Res, token: string): Promise<void> => {
     setCookie(res, JWT_COOKIE_KEY, '', { maxAge: 0, expires: new Date(1) });
 
     if (!token) {

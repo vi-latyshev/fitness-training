@@ -9,21 +9,18 @@ import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/ru';
 
-// import { currVersion } from 'utils/currVersion';
-import { AuthProvider } from 'context/auth';
-
-import { fetcher } from 'lib/fetcher';
-
-import { AppLayout } from 'views/base';
-
-import { MetaTitle } from 'components/MetaTitle';
+// import { currVersion } from '@/utils/currVersion';
+import { AuthProvider } from '@/context/auth';
+import { fetcher } from '@/lib/fetcher';
+import { AppLayout } from '@/views/base';
+import { MetaTitle } from '@/components/MetaTitle';
 
 import '../styles/globals.css';
 
 import type { SWRConfiguration } from 'swr';
-import type { AppPropsWithLayout, NextPageMeta } from 'views/base';
-import type { APIErrorJSON } from 'lib/api/error';
-import type { RateLimitHeaderErrors } from 'lib/api/middleware/plugins/utils/rate-limit';
+import type { AppPropsWithLayout, NextPageMeta } from '@/views/base';
+import type { APIErrorJSON } from '@/lib/api/error';
+import type { RateLimitHeaderErrors } from '@/lib/api/middleware/plugins/utils/rate-limit';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
@@ -79,7 +76,7 @@ const DEFAULT_META: NextPageMeta = {
     keywords: [''],
 };
 
-const App = (props: AppPropsWithLayout) => {
+const App = (props: AppPropsWithLayout): JSX.Element => {
     const router = useRouter();
 
     const { Component } = props;

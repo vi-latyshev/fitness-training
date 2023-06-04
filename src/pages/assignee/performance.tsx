@@ -1,11 +1,9 @@
-import { UserRole } from 'lib/models/user';
+import { UserRole } from '@/lib/models/user';
+import { TraineeBaseLayout } from '@/views/trainee';
+import { PerformanceStatsSelf, AddStats } from '@/views/trainee/components';
+import Card from '@/components/Card';
 
-import { TraineeBaseLayout } from 'views/trainee';
-import { PerformanceStatsSelf, AddStats } from 'views/trainee/components';
-
-import Card from 'components/Card';
-
-import type { NextPageWithLayout } from 'views/base';
+import type { NextPageWithLayout } from '@/views/base';
 
 const TraineePerformance: NextPageWithLayout = () => (
     <Card.Container className="grid-cols-1 lg:grid-cols-5">

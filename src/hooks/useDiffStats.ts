@@ -1,9 +1,9 @@
 import useSWR from 'swr';
 
 import type { KeyedMutator } from 'swr';
-import type { APIErrorJSON } from 'lib/api/error';
-import type { Stats } from 'lib/models/stats';
-import type { FetchDiffStatsRes } from 'lib/api/routes/stats/diff';
+import type { APIErrorJSON } from '@/lib/api/error';
+import type { Stats } from '@/lib/models/stats';
+import type { FetchDiffStatsRes } from '@/lib/api/routes/stats/diff';
 
 type UseDiffStatsResult = {
     stats: FetchDiffStatsRes;

@@ -1,4 +1,4 @@
-import type { Pagination, PaginationResp } from 'lib/api/redis/types';
+import type { Pagination, PaginationResp } from '@/lib/api/redis/types';
 import type { User } from '../user';
 
 export enum WorkoutsCountType {

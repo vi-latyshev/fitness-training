@@ -2,16 +2,14 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import { useUser } from 'context/auth';
-
-import Card from 'components/Card';
-import { Button, Input } from 'components/controls';
-
-import { LoaderIcon } from 'icons/Loader';
+import { useUser } from '@/context/auth';
+import { LoaderIcon } from '@/icons/Loader';
+import Card from '@/components/Card';
+import { Button, Input } from '@/components/controls';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { SetPasswordData, SetPasswordRes } from 'lib/api/routes/users/password';
-import type { APIErrorJSON } from 'lib/api/error';
+import type { SetPasswordData, SetPasswordRes } from '@/lib/api/routes/users/password';
+import type { APIErrorJSON } from '@/lib/api/error';
 
 interface AccountSecurityProps {
     username?: string;

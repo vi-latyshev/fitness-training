@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 
-import { Button } from 'components/controls';
-import { Modal } from 'components/Modal';
+import { Button } from '@/components/controls';
+import { Modal } from '@/components/Modal';
 
 import { AddUserModal } from './AddUserModal';
 
-export const AddUser = () => {
+export const AddUser = (): JSX.Element => {
     const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
 
     const handleToggleModal = useCallback(() => {

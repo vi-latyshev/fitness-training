@@ -1,7 +1,6 @@
-import { useUser } from 'context/auth';
-
-import Card from 'components/Card';
-import { Input } from 'components/controls';
+import { useUser } from '@/context/auth';
+import Card from '@/components/Card';
+import { Input } from '@/components/controls';
 
 export const AccountBio = () => {
     const { user } = useUser();

@@ -2,14 +2,13 @@ import { useCallback } from 'react';
 import { XIcon } from '@heroicons/react/outline';
 import axios from 'axios';
 
-import { Workout, workoutCountTypeToHuman } from 'lib/models/workout';
+import { workoutCountTypeToHuman } from '@/lib/models/workout';
+import { useWorkouts } from '@/hooks/useWorkouts';
+import Table from '@/components/Table';
+import { Button, Checkbox } from '@/components/controls';
 
-import { useWorkouts } from 'hooks/useWorkouts';
-
-import Table from 'components/Table';
-import { Button, Checkbox } from 'components/controls';
-
-import type { RemoveWorkoutRes } from 'lib/api/routes/workouts/remove';
+import type { Workout } from '@/lib/models/workout';
+import type { RemoveWorkoutRes } from '@/lib/api/routes/workouts/remove';
 
 interface WorkoutRowProps extends Workout { }
 

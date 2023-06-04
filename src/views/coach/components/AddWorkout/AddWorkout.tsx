@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 
-import { Modal } from 'components/Modal';
-import { Button } from 'components/controls';
+import { Modal } from '@/components/Modal';
+import { Button } from '@/components/controls';
 
 import { AddWorkoutModal } from './AddWorkoutModal';
 
-import type { User } from 'lib/models/user';
+import type { User } from '@/lib/models/user';
 
 interface AddWorkoutProps {
     owner: User['username'];

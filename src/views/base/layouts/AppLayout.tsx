@@ -1,14 +1,10 @@
 import { Fragment } from 'react';
-import { NextPage } from 'next';
-import { AppProps } from 'next/app';
 
-// import { useUser } from 'context/auth';
+import { useAuthMiddleware } from '@/hooks/useAuthMiddleware';
 
-// import { PageLoader } from 'components/Loader';
-
-import { useAuthMiddleware } from 'hooks/useAuthMiddleware';
-
-import type { UseAuthMiddlewareProps } from 'hooks/useAuthMiddleware';
+import type { NextPage } from 'next';
+import type { AppProps } from 'next/app';
+import type { UseAuthMiddlewareProps } from '@/hooks/useAuthMiddleware';
 
 export type NextPageMeta = {
     title?: string;

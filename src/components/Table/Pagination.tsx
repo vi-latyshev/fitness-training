@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 
-import { Button } from 'components/controls';
+import { Button } from '@/components/controls';
 
-import type { UsePaginationResult } from 'hooks/usePagination';
+import type { UsePaginationResult } from '@/hooks/usePagination';
 
 interface TablePaginationProps<T, R = T> extends UsePaginationResult<T, R> { }
 
@@ -30,8 +30,17 @@ export const TablePagination = <T extends Object, R = T>({
 
     return (
         <div className="flex flex-row justify-end items-center space-x-8 mb-3">
-            <div>Всего: {total}</div>
-            <div>Cтраница {page} / {pages}</div>
+            <div>
+                Всего:
+                {total}
+            </div>
+            <div>
+                Cтраница
+                {page}
+                {' '}
+                /
+                {pages}
+            </div>
             <div className="flex flex-row space-x-2">
                 <Button
                     disabled={page === 1 || !!error || isLoading}

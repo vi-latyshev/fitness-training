@@ -2,21 +2,17 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-import { useUser } from 'context/auth';
-
-import { UserRole, userRoleList, UserRoleTypeHuman } from 'lib/models/user';
-
-import { useUsers } from 'hooks/useUsers';
-
-import { Button, Input, Select } from 'components/controls';
-import Card from 'components/Card';
-
-import { LoaderIcon } from 'icons/Loader';
+import { useUser } from '@/context/auth';
+import { LoaderIcon } from '@/icons/Loader';
+import { UserRole, userRoleList, UserRoleTypeHuman } from '@/lib/models/user';
+import { useUsers } from '@/hooks/useUsers';
+import { Button, Input, Select } from '@/components/controls';
+import Card from '@/components/Card';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { UserRegisterData } from 'lib/models/user';
-import type { APIErrorJSON } from 'lib/api/error';
-import type { SelectItemValue } from 'components/controls';
+import type { UserRegisterData } from '@/lib/models/user';
+import type { APIErrorJSON } from '@/lib/api/error';
+import type { SelectItemValue } from '@/components/controls';
 
 interface AddUserModalProps {
     onCreated: () => void;

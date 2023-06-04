@@ -31,7 +31,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
 
     return (
         <div className={classesContainer}>
-            {label && <p className="text-sm font-semibold mb-1">{label}:</p>}
+            {label && (
+            <p className="text-sm font-semibold mb-1">
+                {label}
+                :
+            </p>
+            )}
             <input
                 type="text"
                 {...props}

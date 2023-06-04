@@ -1,18 +1,15 @@
 import { useRouter } from 'next/router';
 
-import { UserRole } from 'lib/models/user';
+import { UserRole } from '@/lib/models/user';
+import { AccountSecurity } from '@/views/base/components/Account';
+import { AdminBaseLayout } from '@/views/admin';
+import { useUserByUsername } from '@/hooks/useUserByUsername';
+import { MetaTitle } from '@/components/MetaTitle';
+import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
+import Dashboard from '@/components/Dashboard';
+import Card from '@/components/Card';
 
-import { AccountSecurity } from 'views/base/components/Account';
-import { AdminBaseLayout } from 'views/admin';
-
-import { useUserByUsername } from 'hooks/useUserByUsername';
-
-import { MetaTitle } from 'components/MetaTitle';
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
-import Dashboard from 'components/Dashboard';
-import Card from 'components/Card';
-
-import type { NextPageWithLayout } from 'views/base';
+import type { NextPageWithLayout } from '@/views/base';
 
 const AdminUserPick: NextPageWithLayout = () => {
     const router = useRouter();
@@ -26,7 +23,13 @@ const AdminUserPick: NextPageWithLayout = () => {
         <SwrLoadingHandle isLoading={isLoading} error={error}>
             <MetaTitle title={`${firstName} ${lastName}`} />
             <Dashboard.Title>
-                {firstName} {lastName} ({username})
+                {firstName}
+                {' '}
+                {lastName}
+                {' '}
+                (
+                {username}
+                )
             </Dashboard.Title>
             <Card.Container className="grid-cols-3">
                 <AccountSecurity username={username} />

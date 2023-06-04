@@ -1,17 +1,14 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 
-import { UserRole } from 'lib/models/user';
+import { UserRole } from '@/lib/models/user';
+import { AdminBaseLayout } from '@/views/admin';
 
-import { AdminBaseLayout } from 'views/admin';
-
-import type { NextPageWithLayout } from 'views/base';
+import type { NextPageWithLayout } from '@/views/base';
 
 const AdminDashboard: NextPageWithLayout = () => {
-    const router = useRouter();
-
     useEffect(() => {
-        router.replace('/admin/users');
+        Router.replace('/admin/users');
     }, []);
 
     return null;

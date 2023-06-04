@@ -8,12 +8,12 @@ import {
 import axios from 'axios';
 import { mutate as mutateGlob } from 'swr';
 
-import { useUserByUsername } from 'hooks/useUserByUsername';
+import { useUserByUsername } from '@/hooks/useUserByUsername';
 
-import type { User, UserAuth, UserRegisterData } from 'lib/models/user';
-import type { CreateUserRes } from 'lib/api/routes/users/create';
-import type { LoginUserRes } from 'lib/api/routes/users/login';
-import type { LogoutUserRes } from 'lib/api/routes/users/logout';
+import type { User, UserAuth, UserRegisterData } from '@/lib/models/user';
+import type { CreateUserRes } from '@/lib/api/routes/users/create';
+import type { LoginUserRes } from '@/lib/api/routes/users/login';
+import type { LogoutUserRes } from '@/lib/api/routes/users/logout';
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -57,7 +57,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
             return false;
         }
-        if (!userLoaded.current) return undefined;
+        if (!userLoaded.current) {
+            return undefined;
+        }
 
         return false;
     }, [user, error]);

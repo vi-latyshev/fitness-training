@@ -1,8 +1,7 @@
-import { useWorkouts } from 'hooks/useWorkouts';
+import { useWorkouts } from '@/hooks/useWorkouts';
+import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
 
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
-
-import type { Workout } from 'lib/models/workout';
+import type { Workout } from '@/lib/models/workout';
 
 type WorkoutStatsProps = {
     owner: Workout['owner'];

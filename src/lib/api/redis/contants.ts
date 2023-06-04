@@ -11,22 +11,22 @@ const USERS_IDX = 'idx';
 const USERS_USERNAME_TO_ID = 'username-to-id';
 const USERS_ID_TO_USERNAME = 'id-to-username';
 
-export const USERS_AUTH_KEY = (userId: string) => combineKey(USERS, userId, USERS_AUTH);
-export const USERS_METADATA_KEY = (userId: string) => combineKey(USERS, userId, USERS_METADATA);
+export const USERS_AUTH_KEY = (userId: string): string => combineKey(USERS, userId, USERS_AUTH);
+export const USERS_METADATA_KEY = (userId: string): string => combineKey(USERS, userId, USERS_METADATA);
 export const USERS_IDX_KEY = combineKey(USERS, USERS_IDX);
 export const USERS_USERNAME_TO_ID_KEY = combineKey(USERS, USERS_USERNAME_TO_ID);
 export const USERS_ID_TO_USERNAME_KEY = combineKey(USERS, USERS_ID_TO_USERNAME);
 
-// ------------- workouts
+// ------------- tasks
 
-const WORKOUTS = 'workouts';
-// workouts -> list
-const WORKOUTS_LIST = 'list';
-// workouts -> user
-const WORKOUTS_BY_USER = 'u';
+const TASKS = 'tasks';
+// tasks -> list
+const TASKS_LIST = 'list';
+// tasks -> user
+const TASKS_BY_USER = 'u';
 
-export const WORKOUTS_ITEM_KEY = (workoutId: string) => combineKey(WORKOUTS, WORKOUTS_LIST, workoutId);
-export const WORKOUTS_BY_USER_KEY = (userId: string) => combineKey(WORKOUTS, WORKOUTS_BY_USER, userId);
+export const TASKS_ITEM_KEY = (taskId: string): string => combineKey(TASKS, TASKS_LIST, taskId);
+export const TASKS_BY_USER_KEY = (userId: string): string => combineKey(TASKS, TASKS_BY_USER, userId);
 
 // ------------- stats
 
@@ -40,12 +40,12 @@ const STATS_USER_LIST = 'list';
 const STATS_USER_DIFF_START = 'start';
 const STATS_USER_DIFF_LAST = 'last';
 
-export const STATS_ITEM_KEY = (statId: string) => combineKey(STATS, STATS_LIST, statId);
-export const STATS_BY_USER_KEY = (userId: string) => combineKey(STATS, STATS_BY_USER, userId, STATS_USER_LIST);
-export const STATS_USER_DIFF_START_KEY = (userId: string) => (
+export const STATS_ITEM_KEY = (statId: string): string => combineKey(STATS, STATS_LIST, statId);
+export const STATS_BY_USER_KEY = (userId: string): string => combineKey(STATS, STATS_BY_USER, userId, STATS_USER_LIST);
+export const STATS_USER_DIFF_START_KEY = (userId: string): string => (
     combineKey(STATS, STATS_BY_USER, userId, STATS_USER_DIFF_START)
 );
-export const STATS_USER_DIFF_LAST_KEY = (userId: string) => (
+export const STATS_USER_DIFF_LAST_KEY = (userId: string): string => (
     combineKey(STATS, STATS_BY_USER, userId, STATS_USER_DIFF_LAST)
 );
 
@@ -53,12 +53,12 @@ export const STATS_USER_DIFF_LAST_KEY = (userId: string) => (
 
 const AUTH_TOKENS = 'auth-tokens';
 
-export const AUTH_TOKENS_KEY = (token: string) => combineKey(AUTH_TOKENS, token);
+export const AUTH_TOKENS_KEY = (token: string): string => combineKey(AUTH_TOKENS, token);
 
 // ------------- rate limit
 
 const RATE_LIMIT = 'rate-limit';
 
-export const RATE_LIMIT_TYPE_KEY = (type: string, key: string) => (
+export const RATE_LIMIT_TYPE_KEY = (type: string, key: string): string => (
     combineKey(RATE_LIMIT, type, key)
 );

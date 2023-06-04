@@ -1,20 +1,19 @@
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
-import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
-import { checkBody } from 'lib/api/middleware/plugins/check-body';
-import { handleApiError } from 'lib/api/error/handle-api-error';
-import { APIError } from 'lib/api/error';
-
-import { workoutsCountTypeList } from 'lib/models/workout';
-import { createWorkout } from 'lib/api/db/workouts';
-import { UserRole } from 'lib/models/user';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { verifyQueryId } from '@/lib/api/middleware/plugins/check-query-id';
+import { authRateLimit } from '@/lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from '@/lib/api/middleware/plugins/check-auth';
+import { checkBody } from '@/lib/api/middleware/plugins/check-body';
+import { handleApiError } from '@/lib/api/error/handle-api-error';
+import { APIError } from '@/lib/api/error';
+import { workoutsCountTypeList } from '@/lib/models/workout';
+import { createWorkout } from '@/lib/api/db/workouts';
+import { UserRole } from '@/lib/models/user';
 
 import type { NextApiResponse as Res } from 'next';
-import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
-import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
-import type { Workout, WorkoutCreateData, WorkoutCreateDataDB } from 'lib/models/workout';
+import type { NextReqWithQueryIds } from '@/lib/api/middleware/plugins/check-query-id';
+import type { NextReqWithAuth } from '@/lib/api/middleware/plugins/check-auth';
+import type { NextReqWithBody, Validator } from '@/lib/api/middleware/plugins/check-body';
+import type { Workout, WorkoutCreateData, WorkoutCreateDataDB } from '@/lib/models/workout';
 
 // @TODO create type with generic as Query & Body
 export type CreateWorkoutReq = Omit<NextReqWithAuth & NextReqWithQueryIds<['owner']>, 'body'> & NextReqWithBody<WorkoutCreateData>;
@@ -32,7 +31,7 @@ const validateBody: Validator<WorkoutCreateData> = ({
     && Object.keys(rest).length === 0
 );
 
-const createWorkoutAPI = async (req: CreateWorkoutReq, res: Res<CreateWorkoutRes>): Promise<void> => {
+const createWorkoutAPIHandler = async (req: CreateWorkoutReq, res: Res<CreateWorkoutRes>): Promise<void> => {
     try {
         const { auth, body, query } = req;
 
@@ -54,9 +53,9 @@ const createWorkoutAPI = async (req: CreateWorkoutReq, res: Res<CreateWorkoutRes
     }
 };
 
-export default withMiddleware(
+export const createWorkoutAPI = withMiddleware(
     verifyQueryId<['owner']>(['owner']),
     authRateLimit(checkAuth()),
     checkBody(validateBody),
-    createWorkoutAPI,
+    createWorkoutAPIHandler,
 );

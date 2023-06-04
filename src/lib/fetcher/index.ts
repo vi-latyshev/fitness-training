@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { mutate as mutateGlob } from 'swr';
 
-import { APIError, APIErrorJSON } from 'lib/api/error';
+import { APIError } from '@/lib/api/error';
 
+import type { APIErrorJSON } from '@/lib/api/error';
 import type { AxiosResponse } from 'axios';
 
-export const isTokenErr = (status: number, message: string) => (
+export const isTokenErr = (status: number, message: string): boolean => (
     [401, 403].includes(status) && (
         /token required/.test(message)
         || /invalid token/.test(message)

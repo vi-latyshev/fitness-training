@@ -1,15 +1,13 @@
 import { useCallback, useState } from 'react';
 import axios from 'axios';
 
-import { workoutCountTypeToHuman } from 'lib/models/workout';
+import { workoutCountTypeToHuman } from '@/lib/models/workout';
+import { useWorkouts } from '@/hooks/useWorkouts';
+import Table from '@/components/Table';
+import { Checkbox } from '@/components/controls';
 
-import { useWorkouts } from 'hooks/useWorkouts';
-
-import Table from 'components/Table';
-import { Checkbox } from 'components/controls';
-
-import type { Workout } from 'lib/models/workout';
-import type { UpdateWorkoutRes } from 'lib/api/routes/workouts/update';
+import type { Workout } from '@/lib/models/workout';
+import type { UpdateWorkoutRes } from '@/lib/api/routes/workouts/update';
 
 interface WorkoutRowProps extends Workout { }
 

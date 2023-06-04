@@ -1,14 +1,12 @@
 import clsx from 'clsx';
 
-import { statsTypeList } from 'lib/models/stats';
-
-import { useDiffStats } from 'hooks/useDiffStats';
-
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
+import { statsTypeList } from '@/lib/models/stats';
+import { useDiffStats } from '@/hooks/useDiffStats';
+import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
 
 import { StatsItem } from './StatsItem';
 
-import type { Stats } from 'lib/models/stats';
+import type { Stats } from '@/lib/models/stats';
 
 interface PerformanceStatsProps {
     owner: Stats['owner'];

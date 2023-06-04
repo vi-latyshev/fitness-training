@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { useUser } from 'context/auth';
-
-import { UserRole } from 'lib/models/user';
+import { useUser } from '@/context/auth';
+import { UserRole } from '@/lib/models/user';
 
 type RedirectMainPage = {
     [P in UserRole]: string;

@@ -1,6 +1,5 @@
-import { useUser } from 'context/auth';
-
-import { PerformanceStats } from 'views/base/components/PerformanceStats';
+import { useUser } from '@/context/auth';
+import { PerformanceStats } from '@/views/base/components/PerformanceStats';
 
 interface PerformanceStatsSelfProps {
     className?: string;

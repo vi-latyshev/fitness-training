@@ -1,6 +1,6 @@
-import { Loader } from 'components/Loader';
+import { Loader } from '@/components/Loader';
 
-import type { APIErrorJSON } from 'lib/api/error';
+import type { APIErrorJSON } from '@/lib/api/error';
 
 interface SwrLoadingHandleProps {
     error?: APIErrorJSON;

@@ -1,7 +1,7 @@
-import { APIError } from 'lib/api/error';
+import { APIError } from '@/lib/api/error';
 
 import type { NextApiRequest } from 'next';
-import type { DeepPartial } from 'types/utils';
+import type { DeepPartial } from '@/types/utils';
 import type { Middleware } from '../with-middlewares';
 
 export type NextReqWithBody<T> = Omit<NextApiRequest, 'body'> & {

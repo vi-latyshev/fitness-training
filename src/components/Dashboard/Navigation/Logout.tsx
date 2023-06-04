@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 
-import { useUser } from 'context/auth';
-
-import { Button } from 'components/controls';
+import { useUser } from '@/context/auth';
+import { Button } from '@/components/controls';
 
 export const LogoutButton = () => {
     const { logoutUser } = useUser();

@@ -1,7 +1,6 @@
-import { useUsersStats } from 'hooks/useUsersStats';
-
-import Table from 'components/Table';
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
+import { useUsersStats } from '@/hooks/useUsersStats';
+import Table from '@/components/Table';
+import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
 
 import { FullStatsRow } from './FullStatsRow';
 

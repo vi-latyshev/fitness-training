@@ -8,13 +8,15 @@ export const setCookie = (
     name: string,
     value: unknown,
     options: CookieSerializeOptions = {},
-) => {
+): void => {
+    const cookieOptions: CookieSerializeOptions = { ...options };
+
     const stringValue = typeof value === 'object'
         ? `j:${JSON.stringify(value)}`
         : String(value);
 
-    if (typeof options.maxAge === 'number') {
-        options.expires = new Date(Date.now() + options.maxAge * 1000);
+    if (typeof cookieOptions.maxAge === 'number') {
+        cookieOptions.expires = new Date(Date.now() + cookieOptions.maxAge * 1000);
     }
 
     res.setHeader('Set-Cookie', serialize(name, stringValue, {
@@ -22,6 +24,6 @@ export const setCookie = (
         secure: process.env.IS_HOST_SECURE,
         sameSite: 'strict',
         path: '/api',
-        ...options,
+        ...cookieOptions,
     }));
 };

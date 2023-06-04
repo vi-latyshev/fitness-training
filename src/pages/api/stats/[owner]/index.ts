@@ -1,11 +1,11 @@
-import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import createStatsAPI from 'lib/api/routes/stats/create';
-import listStatsAPI from 'lib/api/routes/stats/list';
+import { allowMethods } from '@/lib/api/middleware/plugins/allow-methods';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { createStatsAPI } from '@/lib/api/routes/stats/create';
+import listStatsAPI from '@/lib/api/routes/stats/list';
 
 import type { NextApiResponse } from 'next';
-import type { CreateStatsReq, CreateStatsRes } from 'lib/api/routes/stats/create';
-import type { ListStatsReq, ListStatsRes } from 'lib/api/routes/stats/list';
+import type { CreateStatsReq, CreateStatsRes } from '@/lib/api/routes/stats/create';
+import type { ListStatsReq, ListStatsRes } from '@/lib/api/routes/stats/list';
 
 const stats = async (
     req: CreateStatsReq | ListStatsReq,

@@ -1,8 +1,7 @@
-import { useUser } from 'context/auth';
-
-import Table from 'components/Table';
-import { useWorkouts } from 'hooks/useWorkouts';
-import { SwrLoadingHandle } from 'components/SwrLoadingHandle';
+import { useUser } from '@/context/auth';
+import Table from '@/components/Table';
+import { useWorkouts } from '@/hooks/useWorkouts';
+import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
 
 import { WorkoutRow } from './WorkoutRow';
 

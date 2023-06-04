@@ -1,9 +1,9 @@
-import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import fetchDiffStatsAPI from 'lib/api/routes/stats/diff';
+import { allowMethods } from '@/lib/api/middleware/plugins/allow-methods';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import fetchDiffStatsAPI from '@/lib/api/routes/stats/diff';
 
 import type { NextApiResponse } from 'next';
-import type { FetchDiffStatsReq, FetchDiffStatsRes } from 'lib/api/routes/stats/diff';
+import type { FetchDiffStatsReq, FetchDiffStatsRes } from '@/lib/api/routes/stats/diff';
 
 const diff = async (
     req: FetchDiffStatsReq,

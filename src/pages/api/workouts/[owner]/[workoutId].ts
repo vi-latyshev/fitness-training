@@ -1,13 +1,13 @@
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import fetchWorkoutAPI from 'lib/api/routes/workouts/fetch';
-import updateWorkoutAPI from 'lib/api/routes/workouts/update';
-import removeWorkoutAPI from 'lib/api/routes/workouts/remove';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { allowMethods } from '@/lib/api/middleware/plugins/allow-methods';
+import { fetchWorkoutAPI } from '@/lib/api/routes/workouts/fetch';
+import { updateWorkoutAPI } from '@/lib/api/routes/workouts/update';
+import { removeWorkoutAPI } from '@/lib/api/routes/workouts/remove';
 
 import type { NextApiResponse } from 'next';
-import type { FetchWorkoutReq, FetchWorkoutRes } from 'lib/api/routes/workouts/fetch';
-import type { UpdateWorkoutReq, UpdateWorkoutRes } from 'lib/api/routes/workouts/update';
-import type { RemoveWorkoutReq, RemoveWorkoutRes } from 'lib/api/routes/workouts/remove';
+import type { FetchWorkoutReq, FetchWorkoutRes } from '@/lib/api/routes/workouts/fetch';
+import type { UpdateWorkoutReq, UpdateWorkoutRes } from '@/lib/api/routes/workouts/update';
+import type { RemoveWorkoutReq, RemoveWorkoutRes } from '@/lib/api/routes/workouts/remove';
 
 const workout = async (
     req: FetchWorkoutReq | UpdateWorkoutReq | RemoveWorkoutReq,

@@ -1,15 +1,14 @@
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
-import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
-import { handleApiError } from 'lib/api/error/handle-api-error';
-
-import { getDiffStats } from 'lib/api/db/stats';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { verifyQueryId } from '@/lib/api/middleware/plugins/check-query-id';
+import { authRateLimit } from '@/lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from '@/lib/api/middleware/plugins/check-auth';
+import { handleApiError } from '@/lib/api/error/handle-api-error';
+import { getDiffStats } from '@/lib/api/db/stats';
 
 import type { NextApiResponse as Res } from 'next';
-import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
-import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
-import type { DiffStatsData } from 'lib/models/stats';
+import type { NextReqWithQueryIds } from '@/lib/api/middleware/plugins/check-query-id';
+import type { NextReqWithAuth } from '@/lib/api/middleware/plugins/check-auth';
+import type { DiffStatsData } from '@/lib/models/stats';
 
 export type FetchDiffStatsReq = NextReqWithAuth & NextReqWithQueryIds<['owner']>;
 export type FetchDiffStatsRes = DiffStatsData;

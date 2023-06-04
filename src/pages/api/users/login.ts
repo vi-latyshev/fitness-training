@@ -1,9 +1,9 @@
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import loginUserAPI from 'lib/api/routes/users/login';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { allowMethods } from '@/lib/api/middleware/plugins/allow-methods';
+import loginUserAPI from '@/lib/api/routes/users/login';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { LoginUserRes } from 'lib/api/routes/users/login';
+import type { LoginUserRes } from '@/lib/api/routes/users/login';
 
 const usersLogin = async (
     req: NextApiRequest,

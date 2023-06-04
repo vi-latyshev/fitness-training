@@ -28,7 +28,7 @@ export class Serializer {
      *
      * @param dataObject
      */
-    public static serialize<From extends DataObject>(
+    static serialize<From extends DataObject>(
         dataObject: From,
     ): Serialized<From> {
         const serialized: Serialized<From> = Object.create(null);
@@ -60,7 +60,7 @@ export class Serializer {
      * entity.name // "bob"
      * entity.unknownProp // TSError
      */
-    public static deserialize<
+    static deserialize<
         To,
         From = Serialized<To>,
         Result extends Deserialized<From, To> = Deserialized<From, To>

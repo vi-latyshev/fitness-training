@@ -1,9 +1,9 @@
-import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import fetchFullStatsUserAPI from 'lib/api/routes/users/stats';
+import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
+import { allowMethods } from '@/lib/api/middleware/plugins/allow-methods';
+import fetchFullStatsUserAPI from '@/lib/api/routes/users/stats';
 
 import type { NextApiResponse } from 'next';
-import type { FetchFullStatsUserReq, FetchFullStatsUserRes } from 'lib/api/routes/users/stats';
+import type { FetchFullStatsUserReq, FetchFullStatsUserRes } from '@/lib/api/routes/users/stats';
 
 const userStats = async (
     req: FetchFullStatsUserReq,
