@@ -10,7 +10,7 @@ export const Modal = ({
     open,
     onClose,
     children,
-}: ModalProps) => {
+}: ModalProps): JSX.Element | null => {
     if (!open) {
         return null;
     }

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import dayjs from 'dayjs';
 
 import Table from '@/components/Table';
@@ -10,9 +10,7 @@ interface TraineesRowProps {
     user: User;
 }
 
-export const TraineesRow = ({ user }: TraineesRowProps) => {
-    const router = useRouter();
-
+export const TraineesRow = ({ user }: TraineesRowProps): JSX.Element => {
     const {
         username,
         firstName,
@@ -21,7 +19,7 @@ export const TraineesRow = ({ user }: TraineesRowProps) => {
     } = user;
 
     const handleUserClick = useCallback(() => {
-        router.push(`/reporter/assignees/${username}`);
+        Router.push(`/reporter/assignees/${username}`);
     }, [username]);
 
     return (

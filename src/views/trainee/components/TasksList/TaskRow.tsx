@@ -1,25 +1,35 @@
 import axios from 'axios';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import Table from '@/components/Table';
 import { Button, Checkbox } from '@/components/controls';
 import { getColorTaskStatus, TaskStatusTypeHuman, taskStatusTypeList } from '@/lib/models/task';
 import { useTasks } from '@/hooks/useTasks';
 
+import { TaskEditor } from '../Task';
+
 import type { UpdateTaskRes } from '@/lib/api/routes/tasks/update';
 import type { Task } from '@/lib/models/task';
 
 interface TaskRowProps extends Task { }
 
-export const TaskRow = ({
-    id,
-    assignee,
-    title,
-    status,
-}: TaskRowProps): JSX.Element => {
+export const TaskRow = (task: TaskRowProps): JSX.Element => {
+    const {
+        id,
+        assignee,
+        title,
+        status,
+    } = task;
+
     const { mutate } = useTasks(assignee);
 
-    const handleDoneWorkout = useCallback(async () => {
+    const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
+
+    const handleToggleModal = useCallback(() => {
+        setIsModelOpen((state) => !state);
+    }, []);
+
+    const handleNextStatus = useCallback(async () => {
         const findedIndex = taskStatusTypeList.indexOf(status);
 
         const nextStatus = findedIndex + 1 < taskStatusTypeList.length
@@ -41,24 +51,27 @@ export const TaskRow = ({
     }, [id, mutate, status]);
 
     return (
-        <Table.Row>
-            <Table.Cell>
-                <Checkbox disabled />
-            </Table.Cell>
-            <Table.Cell full>
-                {title}
-            </Table.Cell>
-            <Table.Cell>
-                <Button
-                    full
-                    hover={false}
-                    variant="soft"
-                    color={getColorTaskStatus(status)}
-                    onClick={handleDoneWorkout}
-                >
-                    {TaskStatusTypeHuman[status] ?? '-'}
-                </Button>
-            </Table.Cell>
-        </Table.Row>
+        <>
+            <TaskEditor open={isModelOpen} task={task} onClose={handleToggleModal} />
+            <Table.Row>
+                <Table.Cell>
+                    <Checkbox disabled />
+                </Table.Cell>
+                <Table.Cell full onClick={handleToggleModal} className="cursor-pointer">
+                    {title}
+                </Table.Cell>
+                <Table.Cell>
+                    <Button
+                        full
+                        hover={false}
+                        variant="soft"
+                        color={getColorTaskStatus(status)}
+                        onClick={handleNextStatus}
+                    >
+                        {TaskStatusTypeHuman[status] ?? '-'}
+                    </Button>
+                </Table.Cell>
+            </Table.Row>
+        </>
     );
 };

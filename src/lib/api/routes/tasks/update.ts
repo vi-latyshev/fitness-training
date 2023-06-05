@@ -7,6 +7,8 @@ import { authRateLimit } from '@/lib/api/middleware/plugins/auth-rate-limit';
 import { checkBody } from '@/lib/api/middleware/plugins/check-body';
 import { verifyQueryId } from '@/lib/api/middleware/plugins/check-query-id';
 import { getUserId } from '@/lib/api/db/users';
+import { UserRole } from '@/lib/models/user';
+import { APIError } from '@/lib/api/error';
 
 import type { NextApiResponse as Res } from 'next';
 import type { Validator, NextReqWithBody } from '@/lib/api/middleware/plugins/check-body';
@@ -35,12 +37,16 @@ const validateBody: Validator<TaskCreateData> = ({
 
 const updateTaskAPIHandler = async (req: UpdateTaskReq, res: Res<UpdateTaskRes>): Promise<void> => {
     try {
-        const { body, query } = req;
+        const { body, query, auth } = req;
         const { taskId } = query;
 
         const taskUpdate: TaskUpdateData = body;
 
         if (body.assignee && body.assignee.length > 0) {
+            // can create task only reporter
+            if (auth.role !== UserRole.REPORTER) {
+                throw new APIError('Not enough rights', 403);
+            }
             const assigneeUserId = await getUserId(body.assignee);
 
             if (!assigneeUserId) {

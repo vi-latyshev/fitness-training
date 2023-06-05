@@ -1,32 +1,35 @@
+import axios from 'axios';
 import { useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-// import dayjs from 'dayjs';
 
-import { LoaderIcon } from '@/icons/Loader';
 import Card from '@/components/Card';
 import { Button, Input, Select } from '@/components/controls';
-import { TaskStatus, TaskStatusTypeHuman, taskStatusTypeList } from '@/lib/models/task';
 import { useTasks } from '@/hooks/useTasks';
 import { useUsers } from '@/hooks/useUsers';
+import { LoaderIcon } from '@/icons/Loader';
+import { TaskStatusTypeHuman, taskStatusTypeList } from '@/lib/models/task';
 
-import type { CreateTaskRes } from '@/lib/api/routes/tasks/create';
-import type { Task, TaskCreateData } from '@/lib/models/task';
-import type { SubmitHandler } from 'react-hook-form';
-import type { APIErrorJSON } from '@/lib/api/error';
 import type { SelectItemValue } from '@/components/controls';
+import type { APIErrorJSON } from '@/lib/api/error';
+import type { TaskCreateData, Task } from '@/lib/models/task';
+import type { SubmitHandler } from 'react-hook-form';
+import type { UpdateTaskRes } from '@/lib/api/routes/tasks/update';
 
-interface AddWorkoutModalProps {
-    assignee?: Task['assignee'];
+type TaskUpdateFormProps = {
+    task: Task;
     onCreated: () => void;
-}
+};
 
 const TASK_STATUS_TYPE_SELECTOR: SelectItemValue[] = taskStatusTypeList.map((value) => ({
     value,
     humanValue: TaskStatusTypeHuman[value],
 }));
 
-export const AddTaskModal = ({ assignee, onCreated }: AddWorkoutModalProps): JSX.Element => {
+export const TaskUpdateForm = ({ task, onCreated }: TaskUpdateFormProps): JSX.Element => {
+    const {
+        status, assignee, title, description,
+    } = task;
+
     const { mutate } = useTasks(assignee);
     const { items: usersItems, isLoading: usersIsLoading, error: usersError } = useUsers();
 
@@ -34,7 +37,9 @@ export const AddTaskModal = ({ assignee, onCreated }: AddWorkoutModalProps): JSX
         register, handleSubmit, formState: { errors, isSubmitting },
     } = useForm<TaskCreateData>({
         defaultValues: {
-            status: TaskStatus.ToDo,
+            title,
+            description,
+            status,
             assignee,
         },
     });
@@ -42,12 +47,10 @@ export const AddTaskModal = ({ assignee, onCreated }: AddWorkoutModalProps): JSX
 
     const handleFormSubmit: SubmitHandler<TaskCreateData> = useCallback(async (data) => {
         try {
-            // data.countsValue = workoutCountTimeParse(data.countsType, data.countsValue);
-
-            await axios.post<CreateTaskRes>('/api/tasks', data);
+            await axios.patch<UpdateTaskRes>(`/api/tasks/t/${task.id}`, data);
             await mutate();
-            onCreated();
             setServerError(null);
+            onCreated();
         } catch (error) {
             try {
                 if (!axios.isAxiosError(error)) {
@@ -60,7 +63,7 @@ export const AddTaskModal = ({ assignee, onCreated }: AddWorkoutModalProps): JSX
                 throw new Error(`Handling response error: ${err}`);
             }
         }
-    }, [mutate, onCreated]);
+    }, [task.id, mutate, onCreated]);
 
     const users = useMemo<SelectItemValue[]>(() => usersItems.map((user) => ({
         value: user.username,
@@ -69,7 +72,7 @@ export const AddTaskModal = ({ assignee, onCreated }: AddWorkoutModalProps): JSX
 
     return (
         <Card.Card>
-            <Card.Title>Новая Задача</Card.Title>
+            {/* <Card.Title>Новая Задача</Card.Title> */}
             <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col items-end w-full space-y-4">
                 <Input
                     full
@@ -78,7 +81,6 @@ export const AddTaskModal = ({ assignee, onCreated }: AddWorkoutModalProps): JSX
                     disabled={isSubmitting}
                     error={errors.title?.message}
                     {...register('title', {
-                        required: 'Введите название',
                         minLength: {
                             value: 3,
                             message: 'Минимальная длина 3',
@@ -122,18 +124,16 @@ export const AddTaskModal = ({ assignee, onCreated }: AddWorkoutModalProps): JSX
                         required: 'Выберите статус',
                     })}
                 />
-                {!assignee && (
-                    <Select
-                        full
-                        label="Исполнитель"
-                        loading={usersIsLoading}
-                        error={usersError?.message}
-                        items={users}
-                        {...register('assignee', {
-                            required: 'Выберите Исполнителя',
-                        })}
-                    />
-                )}
+                <Select
+                    full
+                    label="Исполнитель"
+                    loading={usersIsLoading}
+                    error={usersError?.message}
+                    items={users}
+                    {...register('assignee', {
+                        required: 'Выберите Исполнителя',
+                    })}
+                />
                 <Button
                     full
                     type="submit"
@@ -143,7 +143,7 @@ export const AddTaskModal = ({ assignee, onCreated }: AddWorkoutModalProps): JSX
                         : undefined
                     )}
                 >
-                    Создать
+                    Обновить
                 </Button>
                 {serverError && <p className="text-error text-sm">{serverError}</p>}
             </form>
