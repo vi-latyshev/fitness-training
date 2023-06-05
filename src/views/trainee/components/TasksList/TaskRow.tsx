@@ -13,16 +13,16 @@ interface TaskRowProps extends Task { }
 
 export const TaskRow = ({
     id,
-    // assignee,
+    assignee,
     title,
     status,
 }: TaskRowProps): JSX.Element => {
-    const { mutate } = useTasks();
+    const { mutate } = useTasks(assignee);
 
     const handleDoneWorkout = useCallback(async () => {
         const findedIndex = taskStatusTypeList.indexOf(status);
 
-        const nextStatus = findedIndex + 1 <= taskStatusTypeList.length
+        const nextStatus = findedIndex + 1 < taskStatusTypeList.length
             ? taskStatusTypeList[findedIndex + 1]
             : taskStatusTypeList[0];
 

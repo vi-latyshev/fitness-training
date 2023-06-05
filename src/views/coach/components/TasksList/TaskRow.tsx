@@ -27,7 +27,7 @@ export const TaskRow = memo(({
 
     const handleRemoveTask = useCallback(async () => {
         try {
-            await axios.delete<RemoveTaskRes>(`/api/task/t/${id}`);
+            await axios.delete<RemoveTaskRes>(`/api/tasks/t/${id}`);
             await mutate();
         } catch (error) {
             try {
