@@ -28,7 +28,7 @@ const validateBody: Validator<TaskCreateData> = ({
     (title === undefined || (title !== undefined && typeof title === 'string' && /^[а-яА-Я\s]{3,30}/.test(title)))
     && (description === undefined || (typeof description === 'string' && (description.length === 0 || /^[а-яА-Я\s]{1,250}/.test(description))))
     && (dueDate === undefined || (typeof dueDate === 'number' && dueDate > 0))
-    && (status !== undefined && taskStatusTypeList.includes(status))
+    && (status === undefined || (status !== undefined && taskStatusTypeList.includes(status)))
     && (assignee === undefined || (typeof assignee === 'string' && (assignee.length === 0 || /^[a-z.0-9_]{5,15}/.test(assignee))))
     && Object.keys(rest).length === 0
 );
@@ -47,7 +47,6 @@ const updateTaskAPIHandler = async (req: UpdateTaskReq, res: Res<UpdateTaskRes>)
                 return;
             }
         }
-
         await updateTask(taskId, taskUpdate);
 
         res.status(204).end();

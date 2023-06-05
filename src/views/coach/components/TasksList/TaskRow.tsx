@@ -6,32 +6,14 @@ import Table from '@/components/Table';
 import { Button, Checkbox } from '@/components/controls';
 import { useTasks } from '@/hooks/useTasks';
 import { useUserByUsername } from '@/hooks/useUserByUsername';
-import { TaskStatus, TaskStatusTypeHuman } from '@/lib/models/task';
+import { getColorTaskStatus, TaskStatusTypeHuman } from '@/lib/models/task';
 
 import type { RemoveTaskRes } from '@/lib/api/routes/tasks/remove';
-import type { ButtonProps } from '@/components/controls';
 import type { Task } from '@/lib/models/task';
 
 interface TaskRowProps extends Task {
     showUser?: boolean;
 }
-
-const getColorTaskStatus = (status: TaskStatus): ButtonProps['color'] => {
-    if (status === TaskStatus.Hold) {
-        return 'default';
-    }
-    if (status === TaskStatus.ToDo) {
-        return 'error';
-    }
-    if (status === TaskStatus.InProgress) {
-        return 'warning';
-    }
-    if (status === TaskStatus.Done) {
-        return 'success';
-    }
-
-    return 'default';
-};
 
 export const TaskRow = memo(({
     id,
@@ -45,7 +27,7 @@ export const TaskRow = memo(({
 
     const handleRemoveTask = useCallback(async () => {
         try {
-            await axios.delete<RemoveTaskRes>(`/api/task/${id}`);
+            await axios.delete<RemoveTaskRes>(`/api/task/t/${id}`);
             await mutate();
         } catch (error) {
             try {

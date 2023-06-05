@@ -1,6 +1,6 @@
 import {
     UserIcon,
-    ChartPieIcon,
+    // ChartPieIcon,
     // TrendingUpIcon,
     ClipboardCheckIcon,
 } from '@heroicons/react/outline';
@@ -13,11 +13,11 @@ import type { DashboardLayoutProps } from '@/components/Dashboard';
 const ROOT = '/assignee';
 
 const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
-    {
-        text: 'Обзор',
-        href: ROOT,
-        Icon: ChartPieIcon,
-    },
+    // {
+    //     text: 'Обзор',
+    //     href: ROOT,
+    //     Icon: ChartPieIcon,
+    // },
     // {
     //     text: 'Показатели',
     //     href: `${ROOT}/performance`,
