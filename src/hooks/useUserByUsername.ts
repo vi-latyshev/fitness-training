@@ -11,7 +11,7 @@ interface UseUserResult {
     mutate: KeyedMutator<FetchUserRes>;
 }
 
-export const useUserByUsername = (username?: string | string[]): UseUserResult => {
+export const useUserByUsername = (username?: string | string[] | null): UseUserResult => {
     const {
         data,
         error,

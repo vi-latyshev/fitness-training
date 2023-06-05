@@ -22,11 +22,13 @@ export const USERS_ID_TO_USERNAME_KEY = combineKey(USERS, USERS_ID_TO_USERNAME);
 const TASKS = 'tasks';
 // tasks -> list
 const TASKS_LIST = 'list';
+const TASKS_LIST_IDX = 'idx';
 // tasks -> user
-const TASKS_BY_USER = 'u';
+// const TASKS_BY_USER = 'u';
 
 export const TASKS_ITEM_KEY = (taskId: string): string => combineKey(TASKS, TASKS_LIST, taskId);
-export const TASKS_BY_USER_KEY = (userId: string): string => combineKey(TASKS, TASKS_BY_USER, userId);
+export const TASKS_LIST_IDX_KEY = combineKey(TASKS, TASKS_LIST_IDX);
+// export const TASKS_BY_USER_KEY = (userId: string): string => combineKey(TASKS, TASKS_BY_USER, userId);
 
 // ------------- stats
 

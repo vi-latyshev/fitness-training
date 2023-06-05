@@ -1,15 +1,16 @@
 import { UserRole } from '@/lib/models/user';
 import { CoachBaseLayout } from '@/views/coach';
-import { FullStatsList } from '@/views/coach/components';
 import Card from '@/components/Card';
+import { TasksList } from '@/views/coach/components/TasksList';
+import { AddTask } from '@/views/coach/components/AddTask';
 
 import type { NextPageWithLayout } from '@/views/base';
 
 const CoachDashboard: NextPageWithLayout = () => (
     <Card.Container>
         <Card.Card>
-            {/* <DownloadAllStats /> */}
-            <FullStatsList />
+            <AddTask />
+            <TasksList />
         </Card.Card>
     </Card.Container>
 );

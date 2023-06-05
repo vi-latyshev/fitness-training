@@ -3,15 +3,15 @@ import { useCallback, useState } from 'react';
 import { Modal } from '@/components/Modal';
 import { Button } from '@/components/controls';
 
-import { AddWorkoutModal } from './AddWorkoutModal';
+import { AddTaskModal } from './AddTaskModal';
 
-import type { User } from '@/lib/models/user';
+import type { Task } from '@/lib/models/task';
 
-interface AddWorkoutProps {
-    owner: User['username'];
+interface AddTaskProps {
+    assigner?: Task['assignee'];
 }
 
-export const AddWorkout = ({ owner }: AddWorkoutProps) => {
+export const AddTask = ({ assigner }: AddTaskProps): JSX.Element => {
     const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
 
     const handleToggleModal = useCallback(() => {
@@ -21,9 +21,9 @@ export const AddWorkout = ({ owner }: AddWorkoutProps) => {
     return (
         <>
             <Modal open={isModelOpen} onClose={handleToggleModal}>
-                <AddWorkoutModal onCreated={handleToggleModal} owner={owner} />
+                <AddTaskModal onCreated={handleToggleModal} assignee={assigner} />
             </Modal>
-            <Button className="self-end" onClick={handleToggleModal}>Добавить тренировоку</Button>
+            <Button className="self-end" onClick={handleToggleModal}>Добавить Задачу</Button>
         </>
     );
 };

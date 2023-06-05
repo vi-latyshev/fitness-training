@@ -1,6 +1,8 @@
 import { forwardRef } from 'react';
 import clsx from 'clsx';
 
+import { LoaderIcon } from '@/icons/Loader';
+
 import { SelectItem } from './Item';
 
 import type { SelectItemValue } from './Item';
@@ -9,7 +11,8 @@ export type SelectProps = Omit<React.ComponentPropsWithoutRef<'select'>, 'childr
     label?: string;
     full?: boolean;
     items: SelectItemValue[];
-    error?: boolean;
+    loading?: boolean;
+    error?: string;
 };
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
@@ -17,7 +20,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
     label,
     full = false,
     error,
-    disabled,
+    loading = false,
+    disabled = false,
     className,
     ...props
 }: SelectProps, ref) => {
@@ -32,28 +36,31 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
             'border-error': error,
             'w-full': full,
             'opacity-50 cursor-default pointer-events-none': disabled,
+            'flex justify-center': loading,
         },
     );
 
     return (
         <div className={classesContainer}>
             {label && (
-            <label htmlFor={label} className="text-sm font-semibold mb-1">
-                {label}
-                :
-            </label>
+                <label htmlFor={label} className="text-sm font-semibold mb-1">
+                    {label}:
+                </label>
             )}
-            <select
-                {...props}
-                id={label}
-                ref={ref}
-                className={classes}
-            >
-                {items.map((item, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <SelectItem key={`${item.value}${index}`} {...item} />
-                ))}
-            </select>
+            {loading && <div className={classes}><LoaderIcon className="h-5.5 w-5.5 -ml-1" /></div>}
+            {!loading && (
+                <select
+                    {...props}
+                    id={label}
+                    ref={ref}
+                    className={classes}
+                >
+                    {items.map((item, index) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <SelectItem key={`${item.value}${index}`} {...item} />
+                    ))}
+                </select>
+            )}
             {error && <p className="self-end mt-1 text-error text-sm">{error}</p>}
         </div>
     );

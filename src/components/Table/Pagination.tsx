@@ -15,30 +15,33 @@ export const TablePagination = <T extends Object, R = T>({
     page,
     pages,
     handleChangeQuery,
-}: TablePaginationProps<T, R>) => {
+}: TablePaginationProps<T, R>): JSX.Element => {
     const handlePrevList = useCallback(() => {
         handleChangeQuery({
             offset: (page - 2) * (query.limit ?? 1),
         });
-    }, [page, query.limit]);
+    }, [handleChangeQuery, page, query.limit]);
 
     const handleNextList = useCallback(() => {
         handleChangeQuery({
             offset: page * (query.limit ?? 1),
         });
-    }, [page, query.limit]);
+    }, [handleChangeQuery, page, query.limit]);
 
     return (
         <div className="flex flex-row justify-end items-center space-x-8 mb-3">
             <div>
                 Всего:
+                {' '}
                 {total}
             </div>
             <div>
                 Cтраница
+                {' '}
                 {page}
                 {' '}
                 /
+                {' '}
                 {pages}
             </div>
             <div className="flex flex-row space-x-2">

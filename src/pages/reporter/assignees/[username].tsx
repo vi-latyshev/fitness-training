@@ -2,14 +2,13 @@ import { useRouter } from 'next/router';
 
 import { UserRole } from '@/lib/models/user';
 import { CoachBaseLayout } from '@/views/coach';
-import { WorkoutList } from '@/views/coach/components';
-// import { PerformanceStats } from '@/views/base/components/PerformanceStats';
-// import { StatsList } from '@/views/base/components/StatsList';
 import { MetaTitle } from '@/components/MetaTitle';
 import { useUserByUsername } from '@/hooks/useUserByUsername';
 import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
 import Dashboard from '@/components/Dashboard';
 import Card from '@/components/Card';
+import { AddTask } from '@/views/coach/components/AddTask';
+import { TasksList } from '@/views/coach/components/TasksList';
 
 import type { NextPageWithLayout } from '@/views/base';
 
@@ -29,16 +28,15 @@ const CoachTraineePick: NextPageWithLayout = () => {
                 {' '}
                 {lastName}
                 {' '}
-                (
-                {username}
-                )
+                ({username})
             </Dashboard.Title>
             <Dashboard.Title>Задачи</Dashboard.Title>
             <Card.Container>
                 <Card.Card>
                     <Card.Title>Список задач</Card.Title>
-                    {/* <AddWorkout owner={username} /> */}
-                    <WorkoutList owner={username} />
+                    <AddTask assigner={username} />
+                    <TasksList assignee={username} />
+                    {/* <WorkoutList owner={username} /> */}
                 </Card.Card>
             </Card.Container>
             {/* <Dashboard.Title>Показатели</Dashboard.Title>

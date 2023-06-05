@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 import { withMiddleware } from '@/lib/api/middleware/with-middlewares';
 import { authRateLimit } from '@/lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from '@/lib/api/middleware/plugins/check-auth';
@@ -38,11 +40,13 @@ const listUsersAPI = async (req: ListUsersReq, res: Res<ListUsersRes>): Promise<
         if (!rightsOpts) {
             throw new APIError('Not enough rights', 403);
         }
+        const queryData = qs.parse(req.query as Record<string, string>) as NextApiRequest['query'] & Pagination<User>;
+
         const params: Pagination<User> = {
-            ...req.query,
+            ...queryData,
             ...rightsOpts,
             filter: {
-                ...req.query.filter,
+                ...queryData.filter,
                 ...rightsOpts.filter,
             },
         };
