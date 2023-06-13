@@ -1,4 +1,3 @@
-import { incrementRateLimit } from '@/lib/api/db/rate-limit';
 import { APIError } from '@/lib/api/error';
 
 import type { NextApiRequest as Req, NextApiResponse as Res } from 'next';
@@ -44,8 +43,8 @@ const setRateLimitHeaders = (res: Res, headersVals: RateLimitHeaderErrors) => {
     res.setHeader('X-RateLimit-Reset', reset);
 };
 
-const increment: RateLimitCountFn = async ({ type, key, timeframe }) => {
-    const count = await incrementRateLimit(type, key, timeframe);
+const increment: RateLimitCountFn = async () => {
+    const count = 0; // await incrementRateLimit(type, key, timeframe);
 
     return count;
 };
