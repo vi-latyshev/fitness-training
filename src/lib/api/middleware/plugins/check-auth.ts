@@ -8,6 +8,8 @@ import type { Middleware } from '../with-middlewares';
 
 export type NextReqWithAuth = NextApiRequest & {
     auth: SignJWTPayload;
+    authToken: string;
+    authNoThrow?: boolean;
 };
 
 export const validateAuthPayload = (payload: SignJWTPayload): void => {
@@ -22,12 +24,15 @@ export const validateAuthPayload = (payload: SignJWTPayload): void => {
 };
 
 export const checkAuth = (noThrow = false): Middleware<NextReqWithAuth> => (req, res): void => {
+    req.authNoThrow = noThrow;
+
     try {
-        const payload = checkAuthJWT(req);
+        const { token, payload } = checkAuthJWT(req);
 
         validateAuthPayload(payload);
 
         req.auth = payload;
+        req.authToken = token;
     } catch (e) {
         removeJWT(res);
         if (noThrow) {

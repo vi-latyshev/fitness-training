@@ -1,5 +1,6 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
+import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { getStatsList } from 'lib/api/db/stats';
 
@@ -27,5 +28,6 @@ const listStatsAPI = async (req: ListStatsReq, res: Res<ListStatsRes>): Promise<
 
 export default withMiddleware(
     verifyQueryId<['owner']>(['owner']),
+    ipRateLimit,
     listStatsAPI,
 );

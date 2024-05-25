@@ -1,6 +1,8 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
+// import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { APIError } from 'lib/api/error';
@@ -55,7 +57,7 @@ const createStatsAPI = async (req: CreateStatsReq, res: Res<CreateStatsRes>): Pr
 
 export default withMiddleware(
     verifyQueryId<['owner']>(['owner']),
-    checkAuth(),
+    authRateLimit(checkAuth()),
     checkBody(validateBody),
     createStatsAPI,
 );

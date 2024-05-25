@@ -1,6 +1,7 @@
 import sha1 from 'sha1';
 
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { APIError } from 'lib/api/error';
 import { signJWT } from 'lib/api/utils/jwt';
@@ -56,6 +57,7 @@ const loginUserAPI = async (req: NextReqWithBody<UserAuth>, res: Res<LoginUserRe
 };
 
 export default withMiddleware(
+    ipRateLimit,
     checkBody(validateBody),
     loginUserAPI,
 );

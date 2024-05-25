@@ -1,5 +1,6 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 
@@ -26,6 +27,6 @@ const removeUserAPI = async (_req: RemoveUserReq, res: Res<RemoveUserRes>) => {
 
 export default withMiddleware(
     verifyQueryId<['username']>(['username']),
-    checkAuth(),
+    authRateLimit(checkAuth()),
     removeUserAPI,
 );

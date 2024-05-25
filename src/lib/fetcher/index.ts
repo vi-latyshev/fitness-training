@@ -15,8 +15,9 @@ export const fetcher = async <T>(url: string): Promise<T> => {
         }
         if (err.response) {
             const { data, status } = err.response as AxiosResponse<APIErrorJSON>;
+            const { message, errors } = data ?? {};
 
-            throw new APIError(`API (${url}) responded with error: ${data.message}`, status);
+            throw new APIError(`API (${url}) responded with error: ${message}`, status, errors);
         }
         if (err.request) {
             throw new APIError(`API (${url}) did not respond.`);

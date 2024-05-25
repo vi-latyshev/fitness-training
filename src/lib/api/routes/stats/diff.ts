@@ -1,5 +1,6 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 
@@ -27,6 +28,6 @@ const fetchDiffStatsAPI = async (req: FetchDiffStatsReq, res: Res<DiffStatsData>
 
 export default withMiddleware(
     verifyQueryId<['owner']>(['owner']),
-    checkAuth(),
+    authRateLimit(checkAuth()),
     fetchDiffStatsAPI,
 );

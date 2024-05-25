@@ -1,6 +1,7 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
+import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
+import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { workoutsCountTypeList } from 'lib/models/workout';
 import { updateWorkout } from 'lib/api/db/workouts';
@@ -44,6 +45,7 @@ const updateWorkoutAPI = async (req: UpdateWorkoutReq, res: Res<UpdateWorkoutRes
 
 export default withMiddleware(
     verifyQueryId<['owner', 'workoutId']>(['owner', 'workoutId']),
+    ipRateLimit,
     checkBody(validateBody),
     updateWorkoutAPI,
 );

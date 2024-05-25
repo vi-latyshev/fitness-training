@@ -7,7 +7,15 @@ import { setCookie } from './set-cookie';
 import type { NextApiRequest as Req, NextApiResponse as Res } from 'next';
 import type { User } from 'lib/models/user';
 
-export type SignJWTPayload = Pick<User, 'username' | 'role'>;
+export type SignJWTPayload = Pick<User, 'username' | 'role'> & {
+    apiLimit?: number;
+    apiTimeframe?: number;
+};
+
+export type CheckAuthJWT = {
+    token: string;
+    payload: SignJWTPayload;
+};
 
 const getExpDate = () => Date.now() + parseInt(process.env.JWT_EXPIRES_IN);
 
@@ -20,17 +28,20 @@ export const signJWT = (res: Res, payload: SignJWTPayload) => {
     setCookie(res, JWT_COOKIE_KEY, token, { maxAge: expiresIn - 60 });
 };
 
-export const verifyJWT = (token: string): SignJWTPayload | null => {
+const verifyJWT = (token: string): SignJWTPayload | null => {
     try {
         return jwt.verify(token, process.env.JWT_SECRET) as SignJWTPayload;
     } catch (e) {
+        /**
+         * @TODO add Sentry or smth else
+         */
         console.error(`JWT Error: ${e}`); // eslint-disable-line no-console
 
         return null;
     }
 };
 
-export const checkAuthJWT = (req: Req): SignJWTPayload => {
+export const checkAuthJWT = (req: Req): CheckAuthJWT => {
     let token: string | undefined;
 
     const tokenCookie = req.cookies[JWT_COOKIE_KEY];
@@ -57,7 +68,10 @@ export const checkAuthJWT = (req: Req): SignJWTPayload => {
         throw new APIError('Token has expired or was forged', 403);
     }
 
-    return payload;
+    return {
+        token,
+        payload,
+    };
 };
 
 export const removeJWT = (res: Res) => {

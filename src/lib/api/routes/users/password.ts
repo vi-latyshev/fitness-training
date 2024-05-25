@@ -1,8 +1,9 @@
 import sha1 from 'sha1';
 
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
-import { checkBody } from 'lib/api/middleware/plugins/check-body';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
+import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { APIError } from 'lib/api/error';
 import { getAuthUser, setAuthUser } from 'lib/api/db/users';
@@ -69,7 +70,7 @@ const setPasswordAPI = async (req: SetPasswordReq, res: Res<SetPasswordRes>): Pr
 };
 
 export default withMiddleware(
+    authRateLimit(checkAuth()),
     checkBody(validateBody),
-    checkAuth(),
     setPasswordAPI,
 );

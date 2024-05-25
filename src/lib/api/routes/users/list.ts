@@ -1,4 +1,5 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
 import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { getUsers } from 'lib/api/db/users';
@@ -54,6 +55,6 @@ const listUsersAPI = async (req: ListUsersReq, res: Res<ListUsersRes>): Promise<
 };
 
 export default withMiddleware(
-    checkAuth(),
+    authRateLimit(checkAuth()),
     listUsersAPI,
 );
