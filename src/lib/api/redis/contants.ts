@@ -49,6 +49,12 @@ export const STATS_USER_DIFF_LAST_KEY = (userId: string) => (
     combineKey(STATS, STATS_BY_USER, userId, STATS_USER_DIFF_LAST)
 );
 
+// ------------- AUTH TOKENS
+
+const AUTH_TOKENS = 'auth-tokens';
+
+export const AUTH_TOKENS_KEY = (token: string) => combineKey(AUTH_TOKENS, token);
+
 // ------------- rate limit
 
 const RATE_LIMIT = 'rate-limit';

@@ -1,6 +1,6 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { allowMethods } from 'lib/api/middleware/plugins/allow-methods';
-import { logoutUserAPI } from 'lib/api/routes/users/logout';
+import logoutUserAPI from 'lib/api/routes/users/logout';
 
 import type { NextApiResponse } from 'next';
 import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';

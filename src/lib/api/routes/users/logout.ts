@@ -9,9 +9,9 @@ import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 
 export type LogoutUserRes = void;
 
-export const logoutUserAPI = async (_req: NextReqWithAuth, res: Res<LogoutUserRes>): Promise<void> => {
+const logoutUserAPI = async (req: NextReqWithAuth, res: Res<LogoutUserRes>): Promise<void> => {
     try {
-        removeJWT(res);
+        await removeJWT(res, req.authToken);
         res.status(204).end();
     } catch (e) {
         handleApiError(e, res);

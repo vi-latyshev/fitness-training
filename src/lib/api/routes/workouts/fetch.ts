@@ -1,14 +1,16 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { getWorkout } from 'lib/api/db/workouts';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
+import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { Workout } from 'lib/models/workout';
 
-export type FetchWorkoutReq = NextReqWithQueryIds<['owner', 'workoutId']>;
+export type FetchWorkoutReq = NextReqWithAuth & NextReqWithQueryIds<['owner', 'workoutId']>;
 export type FetchWorkoutRes = Workout;
 
 const fetchWorkoutAPI = async (req: FetchWorkoutReq, res: Res<FetchWorkoutRes>): Promise<void> => {
@@ -25,6 +27,6 @@ const fetchWorkoutAPI = async (req: FetchWorkoutReq, res: Res<FetchWorkoutRes>):
 
 export default withMiddleware(
     verifyQueryId<['owner', 'workoutId']>(['owner', 'workoutId']),
-    ipRateLimit,
+    authRateLimit(checkAuth()),
     fetchWorkoutAPI,
 );

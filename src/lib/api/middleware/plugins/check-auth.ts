@@ -1,5 +1,4 @@
-import { checkAuthJWT, removeJWT } from 'lib/api/utils/jwt';
-import { userRoleList } from 'lib/models/user';
+import { checkAuthJWT } from 'lib/api/utils/jwt';
 import { APIError } from 'lib/api/error';
 
 import type { NextApiRequest } from 'next';
@@ -9,33 +8,18 @@ import type { Middleware } from '../with-middlewares';
 export type NextReqWithAuth = NextApiRequest & {
     auth: SignJWTPayload;
     authToken: string;
-    authNoThrow?: boolean;
 };
 
-export const validateAuthPayload = (payload: SignJWTPayload): void => {
-    const { username, role } = payload;
+const UPDATE_AUTH_EXP_JWT = true;
 
-    if (
-        username === undefined || typeof username !== 'string' || !(/^[a-z.0-9_]{5,15}/.test(username))
-        || !userRoleList.includes(role)
-    ) {
-        throw new APIError('Token has invalid payload', 401);
-    }
-};
-
-export const checkAuth = (noThrow = false): Middleware<NextReqWithAuth> => (req, res): void => {
-    req.authNoThrow = noThrow;
-
+export const checkAuth = (noThrow = false): Middleware<NextReqWithAuth> => async (req, res): Promise<void> => {
     try {
-        const { token, payload } = checkAuthJWT(req);
+        const { token, payload } = await checkAuthJWT(req, res, UPDATE_AUTH_EXP_JWT);
 
-        validateAuthPayload(payload);
-
-        req.auth = payload;
         req.authToken = token;
+        req.auth = payload;
     } catch (e) {
-        removeJWT(res);
-        if (noThrow) {
+        if (e instanceof APIError && noThrow) {
             return;
         }
         throw e;

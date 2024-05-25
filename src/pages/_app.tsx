@@ -36,7 +36,7 @@ const swrConfig: SWRConfiguration = {
     errorRetryCount: 3,
     focusThrottleInterval: 1 * 60 * 1000,
     onErrorRetry: (err: APIErrorJSON, _key, config, revalidate, opts) => {
-        if (err.code === 404) {
+        if (err.code >= 400 && err.code <= 406) {
             return;
         }
 

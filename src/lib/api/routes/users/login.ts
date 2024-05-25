@@ -48,7 +48,7 @@ const loginUserAPI = async (req: NextReqWithBody<UserAuth>, res: Res<LoginUserRe
         const user = await getUser(username);
         const { role } = user;
 
-        signJWT(res, { username, role });
+        await signJWT(res, { username, role });
 
         res.status(200).json(user);
     } catch (e) {

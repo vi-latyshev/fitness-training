@@ -20,7 +20,7 @@ interface AccountSecurityProps {
 export const AccountSecurity = ({
     username: usernameProp,
 }: AccountSecurityProps) => {
-    const { user, loggedIn } = useUser();
+    const { user } = useUser();
 
     const username = usernameProp ?? user.username;
 
@@ -55,10 +55,6 @@ export const AccountSecurity = ({
             }
         }
     }, []);
-
-    if (!loggedIn) {
-        return null;
-    }
 
     return (
         <Card.Card>

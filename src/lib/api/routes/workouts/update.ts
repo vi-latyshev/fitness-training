@@ -1,6 +1,7 @@
 import { withMiddleware } from 'lib/api/middleware/with-middlewares';
 import { verifyQueryId } from 'lib/api/middleware/plugins/check-query-id';
-import { ipRateLimit } from 'lib/api/middleware/plugins/ip-rate-limit';
+import { authRateLimit } from 'lib/api/middleware/plugins/auth-rate-limit';
+import { checkAuth } from 'lib/api/middleware/plugins/check-auth';
 import { checkBody } from 'lib/api/middleware/plugins/check-body';
 import { handleApiError } from 'lib/api/error/handle-api-error';
 import { workoutsCountTypeList } from 'lib/models/workout';
@@ -8,10 +9,11 @@ import { updateWorkout } from 'lib/api/db/workouts';
 
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithQueryIds } from 'lib/api/middleware/plugins/check-query-id';
+import type { NextReqWithAuth } from 'lib/api/middleware/plugins/check-auth';
 import type { NextReqWithBody, Validator } from 'lib/api/middleware/plugins/check-body';
 import type { WorkoutCreateData, WorkoutUpdateData } from 'lib/models/workout';
 
-export type UpdateWorkoutReq = Omit<NextReqWithQueryIds<['owner', 'workoutId']>, 'body'> & NextReqWithBody<WorkoutUpdateData>;
+export type UpdateWorkoutReq = NextReqWithAuth & Omit<NextReqWithQueryIds<['owner', 'workoutId']>, 'body'> & NextReqWithBody<WorkoutUpdateData>;
 export type UpdateWorkoutRes = void;
 
 const validateBody: Validator<WorkoutCreateData> = ({
@@ -45,7 +47,7 @@ const updateWorkoutAPI = async (req: UpdateWorkoutReq, res: Res<UpdateWorkoutRes
 
 export default withMiddleware(
     verifyQueryId<['owner', 'workoutId']>(['owner', 'workoutId']),
-    ipRateLimit,
+    authRateLimit(checkAuth()),
     checkBody(validateBody),
     updateWorkoutAPI,
 );

@@ -82,7 +82,7 @@ const createUserAPI = async (req: SetPasswordReq, res: Res<CreateUserRes>): Prom
         const { username, role } = user;
 
         if (userAuth === undefined) {
-            signJWT(res, { username, role });
+            await signJWT(res, { username, role });
         }
 
         res.status(200).json(user);
