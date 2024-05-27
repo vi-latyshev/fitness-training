@@ -3,6 +3,8 @@ import { useCallback, useState } from 'react';
 import { Button } from '@/components/controls';
 import { Modal } from '@/components/Modal';
 
+import { MaintenanceAddModal } from './MaintenanceAddModal';
+
 import type { EngineId } from '@/lib/models/engine';
 
 type MaintenanceAddProps = {
@@ -19,8 +21,7 @@ export const MaintenanceAdd = ({ engineId }: MaintenanceAddProps): React.ReactEl
     return (
         <>
             <Modal open={isModelOpen} onClose={handleToggleModal}>
-                {engineId}
-                {/* <AddEngineModal onCreated={handleToggleModal} /> */}
+                <MaintenanceAddModal engineId={engineId} onCreated={handleToggleModal} />
             </Modal>
             <Button className="self-end" onClick={handleToggleModal}>
                 Внести результаты технического обслуживания

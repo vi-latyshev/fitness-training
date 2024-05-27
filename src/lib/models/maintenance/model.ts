@@ -4,37 +4,44 @@ import type { EngineId } from '../engine/model';
 import type { Tagged } from 'type-fest';
 
 export enum RotorFaultReason {
-    None,
-    Other,
-    SquirrelCage,
+    None = 'None',
+    SquirrelCage = 'SquirrelCage',
+    Other = 'Other',
 }
 
 export enum WildingRotorFaultReason {
-    None,
-    Other,
-    Overheat,
-    Break,
+    None = 'None',
+    Overheat = 'Overheat',
+    Break = 'Break',
+    Other = 'Other',
 }
 
 export enum StatorFaultReason {
-    None,
-    Other,
-    Overheat,
+    None = 'None',
+    Overheat = 'Overheat',
+    Other = 'Other',
+}
+
+export enum WildingStatorFaultReason {
+    None = 'None',
+    Overheat = 'Overheat',
+    Break = 'Break',
+    Other = 'Other',
 }
 
 export enum BearingFaultReason {
-    None,
-    Other,
-    Expired,
-    BigGap,
-    WearOn,
+    None = 'None',
+    Expired = 'Expired',
+    BigGap = 'BigGap',
+    WearOn = 'WearOn',
+    Other = 'Other',
 }
 
 export enum FanFaultReason {
-    None,
-    Other,
-    Сlog,
-    Сontamination,
+    None = 'None',
+    Clog = 'Clog',
+    Contamination = 'Contamination',
+    Other = 'Other',
 }
 
 export type MaintenanceID = Tagged<string, 'MaintenanceID'>;
@@ -46,26 +53,29 @@ export type Maintenance = {
     createdAt: number;
 
     rotor: RotorFaultReason;
-    rotorDescription: string;
+    rotorDescription?: string;
 
     wildingRotor: WildingRotorFaultReason;
-    wildingRotorDescription: string;
+    wildingRotorDescription?: string;
+
+    wildingStator: WildingStatorFaultReason;
+    wildingStatorDescription?: string;
 
     stator: StatorFaultReason;
-    statorDescription: string;
+    statorDescription?: string;
 
     bearing: BearingFaultReason;
-    bearingDescription: string;
+    bearingDescription?: string;
 
     fan: FanFaultReason;
-    fanDescription: string;
+    fanDescription?: string;
 
     carriedOutDescription: string;
 };
 
 export type MaintenanceCreateDBData = Omit<Maintenance, 'id'>;
 
-export type MaintenanceCreateData = Omit<MaintenanceCreateDBData, 'autor' | 'createdAt'>;
+export type MaintenanceCreateData = Omit<MaintenanceCreateDBData, 'engineId' | 'autor' | 'createdAt'>;
 
 export type MaintenanceListDBParams = Pagination<Maintenance>;
 

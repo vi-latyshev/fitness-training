@@ -31,7 +31,7 @@ const fetchMaintenanceAPIHandler = async (req: FetchMaintenanceReq, res: Res<Fet
 };
 
 export const fetchMaintenanceAPI = withMiddleware(
-    verifyQueryId<['maintenanceId']>(['maintenanceId']),
+    verifyQueryId<['engineId', 'maintenanceId']>(['engineId', 'maintenanceId']),
     authRateLimit(checkAuth()),
     fetchMaintenanceAPIHandler,
 );
