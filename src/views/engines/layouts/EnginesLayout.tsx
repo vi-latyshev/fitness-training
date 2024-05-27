@@ -1,4 +1,4 @@
-import { ChartPieIcon } from '@heroicons/react/outline';
+import { ChartPieIcon, UserIcon } from '@heroicons/react/outline';
 
 import Dashboard from '@/components/Dashboard';
 
@@ -12,6 +12,11 @@ const NAV_BAR_LINKS: DashboardLayoutProps['links'] = [
         text: 'Двигатели',
         href: ROOT,
         Icon: ChartPieIcon,
+    },
+    {
+        text: 'Аккаунт',
+        href: `${ROOT}/account`,
+        Icon: UserIcon,
     },
 ];
 

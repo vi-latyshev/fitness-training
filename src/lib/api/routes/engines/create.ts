@@ -10,7 +10,7 @@ import { APIError } from '@/lib/api/error';
 import type { NextApiResponse as Res } from 'next';
 import type { NextReqWithAuth } from '@/lib/api/middleware/plugins/check-auth';
 import type { Validator, NextReqWithBody } from '@/lib/api/middleware/plugins/check-body';
-import type { Engine, EngineCreateData } from '@/lib/models/engine';
+import type { Engine, EngineCreateData, EngineCreateDBData } from '@/lib/models/engine';
 
 export type CreateEngineReq = Omit<NextReqWithAuth, 'body'> & NextReqWithBody<EngineCreateData>;
 export type CreateEngineRes = Engine;
@@ -48,8 +48,9 @@ const createEngineAPIHandler = async (req: CreateEngineReq, res: Res<CreateEngin
         }
         await checkExistsEngineByHumanId(body.humanId);
 
-        const engineData: EngineCreateData = {
+        const engineData: EngineCreateDBData = {
             ...body,
+            createdAt: Date.now(),
         };
 
         const engine = await createEngine(engineData);

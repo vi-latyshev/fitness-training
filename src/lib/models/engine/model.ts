@@ -8,6 +8,7 @@ export type EngineHumanId = Tagged<string, 'HumanId'>;
 export type Engine = {
     id: EngineId;
     humanId: EngineHumanId;
+    createdAt: number;
     maxSpeedPm: number;
     power: number;
     nominalVoltage: number
@@ -17,7 +18,7 @@ export type Engine = {
 
 export type EngineCreateDBData = Omit<Engine, 'id'>;
 
-export type EngineCreateData = EngineCreateDBData;
+export type EngineCreateData = Omit<EngineCreateDBData, 'createdAt'>;
 
 export type EngineUpdateData = Partial<Omit<Engine, 'id'>>;
 

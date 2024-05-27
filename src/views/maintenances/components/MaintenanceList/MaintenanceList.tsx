@@ -20,7 +20,7 @@ export const MaintanceList = ({ engineId, limit }: MaintanceListProps): React.Re
             <Card.Container>
                 <Table.Pagination {...maintances} />
                 {items.map((item) => (
-                    <Card.Card key={item.id}>
+                    <Card.Card key={`${engineId}${item.id}`}>
                         <Card.Title center>Техническое обслуживание №{item.id}</Card.Title>
                     </Card.Card>
                 ))}
