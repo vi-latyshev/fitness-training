@@ -72,8 +72,8 @@ const swrConfig: SWRConfiguration = {
 const DOMAIN_URL = process.env.DOMAIN;
 
 const DEFAULT_META: NextPageMeta = {
-    description: '',
-    keywords: [''],
+    description: 'Состояние мотора, прохождение СТО и проч.',
+    keywords: ['motors', 'health', 'motors-health'],
 };
 
 const App = (props: AppPropsWithLayout): JSX.Element => {

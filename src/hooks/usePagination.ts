@@ -14,13 +14,13 @@ export interface UsePaginationResult<T, R = T> extends PaginationResp<R> {
     handleChangeQuery: (query: Pagination<T>) => void;
 }
 
-const DEFAULT_LIMIT = 10;
+export const DEFAULT_PAGINATION_LIMIT = 10;
 
 export const usePagination = <T extends Object, R = T>(
     key: string | null,
     initialQuery: Pagination<T> = {},
 ): UsePaginationResult<T, R> => {
-    const [query, setQuery] = useState<Pagination<T>>({ limit: DEFAULT_LIMIT, ...initialQuery });
+    const [query, setQuery] = useState<Pagination<T>>({ limit: DEFAULT_PAGINATION_LIMIT, ...initialQuery });
     const { data, error, mutate } = useSWR<PaginationResp<R>, APIErrorJSON>((
         typeof key === 'string' ? `${key}?${qs.stringify(query)}` : null
     ));

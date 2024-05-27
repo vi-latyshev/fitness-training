@@ -65,7 +65,7 @@ const createUserAPI = async (req: SetPasswordReq, res: Res<CreateUserRes>): Prom
         const { body, auth: userAuth } = req;
 
         // only for admin
-        if (userAuth?.role !== UserRole.ADMIN) {
+        if (body.meta.role && userAuth?.role !== UserRole.ADMIN) {
             throw new APIError('Not enough rights', 403);
         }
         const auth: UserRegisterDBData['auth'] = {
@@ -75,7 +75,7 @@ const createUserAPI = async (req: SetPasswordReq, res: Res<CreateUserRes>): Prom
         const meta: UserRegisterDBData['meta'] = {
             ...body.meta,
             username: body.auth.username,
-            role: body.meta.role ?? UserRole.ASSIGNEE,
+            role: body.meta.role ?? UserRole.MASTER,
             createdAt: Date.now(),
         };
         const user = await createUser({ auth, meta });

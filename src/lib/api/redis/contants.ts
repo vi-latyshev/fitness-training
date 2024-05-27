@@ -17,38 +17,32 @@ export const USERS_IDX_KEY = combineKey(USERS, USERS_IDX);
 export const USERS_USERNAME_TO_ID_KEY = combineKey(USERS, USERS_USERNAME_TO_ID);
 export const USERS_ID_TO_USERNAME_KEY = combineKey(USERS, USERS_ID_TO_USERNAME);
 
-// ------------- tasks
+// ------------- engines
+const ENGINES = 'engines';
+const ENGINES_LIST = 'list';
+const ENGINES_IDX = 'idx';
+const ENGINES_ID_TO_HUMAN_ID = 'id-to-human-id';
+const ENGINES_HUMAN_ID_TO_ID = 'human-id-to-id';
 
-const TASKS = 'tasks';
-// tasks -> list
-const TASKS_LIST = 'list';
-const TASKS_LIST_IDX = 'idx';
-// tasks -> user
-// const TASKS_BY_USER = 'u';
+export const ENGINES_ITEM_KEY = (engineId: string): string => combineKey(ENGINES, ENGINES_LIST, engineId);
+export const ENGINES_LIST_IDX_KEY = combineKey(ENGINES, ENGINES_IDX);
+export const ENGINES_ID_TO_HUMAN_ID_KEY = combineKey(ENGINES, ENGINES_ID_TO_HUMAN_ID);
+export const ENGINES_HUMAN_ID_TO_ID_KEY = combineKey(ENGINES, ENGINES_HUMAN_ID_TO_ID);
 
-export const TASKS_ITEM_KEY = (taskId: string): string => combineKey(TASKS, TASKS_LIST, taskId);
-export const TASKS_LIST_IDX_KEY = combineKey(TASKS, TASKS_LIST_IDX);
-// export const TASKS_BY_USER_KEY = (userId: string): string => combineKey(TASKS, TASKS_BY_USER, userId);
+// ------------- maintenance
+const MAINTENANCE = 'maintenance';
+const MAINTENANCE_LIST = 'list';
+const MAINTENANCE_IDX = 'idx';
+const MAINTENANCE_LAST_ID = 'last-id';
 
-// ------------- stats
-
-const STATS = 'stats';
-// stats -> list
-const STATS_LIST = 'list';
-// stats -> users
-const STATS_BY_USER = 'u';
-// stats -> users -> user -> all / start / end
-const STATS_USER_LIST = 'list';
-const STATS_USER_DIFF_START = 'start';
-const STATS_USER_DIFF_LAST = 'last';
-
-export const STATS_ITEM_KEY = (statId: string): string => combineKey(STATS, STATS_LIST, statId);
-export const STATS_BY_USER_KEY = (userId: string): string => combineKey(STATS, STATS_BY_USER, userId, STATS_USER_LIST);
-export const STATS_USER_DIFF_START_KEY = (userId: string): string => (
-    combineKey(STATS, STATS_BY_USER, userId, STATS_USER_DIFF_START)
+export const MAINTENANCE_ITEM_KEY = (engineId: string, maintenanceId: string): string => (
+    combineKey(MAINTENANCE, engineId, MAINTENANCE_LIST, maintenanceId)
 );
-export const STATS_USER_DIFF_LAST_KEY = (userId: string): string => (
-    combineKey(STATS, STATS_BY_USER, userId, STATS_USER_DIFF_LAST)
+export const MAINTENANCE_LIST_IDX_KEY = (engineId: string): string => (
+    combineKey(MAINTENANCE, engineId, MAINTENANCE_IDX)
+);
+export const MAINTENANCE_LAST_ID_KEY = (engineId: string): string => (
+    combineKey(MAINTENANCE, engineId, MAINTENANCE_LAST_ID)
 );
 
 // ------------- AUTH TOKENS

@@ -39,9 +39,9 @@ export const AuthContext = createContext<AuthContextValue>({
     logoutUser: async () => { },
 });
 
-export const useUser = () => useContext<AuthContextValue>(AuthContext);
+export const useUser = (): AuthContextValue => useContext<AuthContextValue>(AuthContext);
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
     const { user, error, mutate } = useUserByUsername('me');
 
     const userLoaded = useRef<boolean>(false);
@@ -70,12 +70,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             return;
         }
         mutate(resp.data, false);
-    }, [user]);
+    }, [mutate]);
 
     const loginUser = useCallback<AuthContextValue['loginUser']>(async (data) => {
         const resp = await axios.post<LoginUserRes>('/api/users/login', data);
         mutate(resp.data, false);
-    }, []);
+    }, [mutate]);
 
     const updateUser = useCallback(async (param: UpdateUserParam) => {
         const updated: User = typeof param === 'function'
@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (updated.username) {
             await mutateGlob(`/api/users/${updated.username}`, updated, false);
         }
-    }, [user]);
+    }, [loggedIn, mutate, user]);
 
     const logoutUser = useCallback<AuthContextValue['logoutUser']>(async () => {
         try {
@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             // @TODO SWR
             console.warn(e); // eslint-disable-line no-console
         }
-    }, []);
+    }, [mutate]);
 
     const userValue: AuthContextValue = useMemo(() => ({
         user,
@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         loginUser,
         updateUser,
         logoutUser,
-    }), [user, loggedIn]);
+    }), [user, loggedIn, registerUser, loginUser, updateUser, logoutUser]);
 
     return (
         <AuthContext.Provider value={userValue}>

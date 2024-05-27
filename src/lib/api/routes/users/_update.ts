@@ -17,7 +17,6 @@ export type UpdateUserReq = NextReqWithAuth & NextReqWithBody<UserUpdateData>;
 const validateBody: Validator<UserUpdateData> = ({
     firstName,
     lastName,
-    // avatartSrc,
     ...rest
 }) => (
     (firstName === undefined || (typeof firstName === 'string' && firstName.length >= 1 && firstName.length <= 50))

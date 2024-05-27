@@ -3,7 +3,7 @@ const Log = require('next/dist/build/output/log');
 const { default: axios } = require('axios');
 const jwt = require('jsonwebtoken');
 
-const LOCAL_DOMAIN = 'http://localhost:3001';
+const LOCAL_DOMAIN = 'http://localhost:3000';
 
 const CREATE_USERS_API_URL = `${LOCAL_DOMAIN}/api/users`;
 

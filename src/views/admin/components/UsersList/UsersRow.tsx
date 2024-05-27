@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 
 import { useUser } from '@/context/auth';
-import { UserRoleTypeHuman } from '@/lib/models/user';
+import { UserRole, UserRoleTypeHuman } from '@/lib/models/user';
 import Table from '@/components/Table';
 import { useUsers } from '@/hooks/useUsers';
 import { Button } from '@/components/controls';
@@ -92,6 +92,7 @@ export const UsersRow = ({ user }: UsersRowProps): JSX.Element => {
                     variant="text"
                     Icon={<XIcon />}
                     className="px-5"
+                    disabled={isCurrUser || role === UserRole.ADMIN}
                     onClick={handleUserRemove}
                 />
             </Table.Cell>

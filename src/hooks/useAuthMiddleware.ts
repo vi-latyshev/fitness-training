@@ -14,8 +14,7 @@ export type UseAuthMiddlewareProps = {
 
 const REDIRECT_MAIN_PAGE: RedirectMainPage = {
     [UserRole.ADMIN]: '/admin',
-    [UserRole.REPORTER]: '/reporter',
-    [UserRole.ASSIGNEE]: '/assignee',
+    [UserRole.MASTER]: '/engines',
 };
 const LOGGED_OUT_PAGE = '/login';
 
@@ -31,12 +30,12 @@ export const useAuthMiddleware = ({ needRole }: UseAuthMiddlewareProps = {}): vo
         if (loggedIn === false && needRole !== undefined) {
             router.replace(LOGGED_OUT_PAGE);
         }
-    }, [loggedIn, needRole]);
+    }, [router, loggedIn, needRole]);
 
     // redirect to main page by role (same with 404 page)
     useEffect(() => {
         if (loggedIn && needRole !== user.role) {
             router.push(REDIRECT_MAIN_PAGE[user.role]);
         }
-    }, [loggedIn, needRole, user]);
+    }, [router, loggedIn, needRole, user]);
 };

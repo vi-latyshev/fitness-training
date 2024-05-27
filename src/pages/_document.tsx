@@ -11,7 +11,8 @@ import Document, {
 const IS_PROD = process.env.IS_PRODUCTION;
 
 export default class MyDocument extends Document {
-    render = () => (
+    // eslint-disable-next-line class-methods-use-this
+    render = (): React.ReactElement => (
         <Html lang="ru">
             <Head>
                 {/* required */}

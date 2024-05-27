@@ -1,10 +1,11 @@
+import type { Tagged } from 'type-fest';
+
 export enum UserRole {
     ADMIN = 'admin',
-    REPORTER = 'reporter',
-    ASSIGNEE = 'assignee',
+    MASTER = 'master',
 }
 
-export type UserName = string;
+export type UserName = Tagged<string, 'UserId'>;
 
 export type User = {
     /**
@@ -15,7 +16,6 @@ export type User = {
     createdAt: number;
     firstName: string;
     lastName: string;
-    avatartSrc?: string;
 };
 
 export type UserAuth = {
@@ -25,7 +25,7 @@ export type UserAuth = {
 
 export type UserRegisterData = {
     auth: UserAuth;
-    meta: Omit<User, 'createdAt' | 'avatartSrc'>;
+    meta: Omit<User, 'createdAt'>;
 };
 
 export type UserRegisterDBData = UserRegisterData & {

@@ -25,11 +25,6 @@ type RightsByRole = {
 
 const rightsByRole: RightsByRole = {
     [UserRole.ADMIN]: {},
-    [UserRole.REPORTER]: {
-        filter: {
-            role: UserRole.ASSIGNEE,
-        },
-    },
 };
 
 const listUsersAPI = async (req: ListUsersReq, res: Res<ListUsersRes>): Promise<void> => {

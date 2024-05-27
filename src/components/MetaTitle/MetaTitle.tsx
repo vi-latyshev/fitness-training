@@ -5,7 +5,7 @@ interface MetaTitleProps {
     title?: string;
 }
 
-const DEFAULT_TITLE = 'Таск Трекер';
+const DEFAULT_TITLE = 'Сводка Моторов';
 
 const getTitle = (title: string, pathname: string) => (
     pathname === '/'
