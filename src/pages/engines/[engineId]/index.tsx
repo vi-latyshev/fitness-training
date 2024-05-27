@@ -27,23 +27,19 @@ const EnginePick: NextPageWithLayout = () => {
                 {engine.humanId}
             </Dashboard.Title>
             <Card.Container className="grid-cols-3">
-                <Card.Card className='col-span-2'>
+                <Card.Card className="col-span-2">
                     <Card.Title>Статистика</Card.Title>
                 </Card.Card>
                 <Card.Card>
                     <Card.Title>Сводка</Card.Title>
                 </Card.Card>
-
             </Card.Container>
-            <Dashboard.Title>
-                Последнее ТО
-            </Dashboard.Title>
             <Card.Container>
-                <Card.Card>
-                    <Card.Title center>Последние ТО</Card.Title>
-                    <MaintenanceAdd engineId={engine.id} />
-                    <MaintanceList engineId={engine.id} limit={2} />
+                <Card.Card className="bg-grayPrimary">
+                    <Card.Title large center>Последние ТО</Card.Title>
+                    <MaintanceList engineId={engine.id} limit={1} pagination={false} />
                     <MaintenanceMore engineId={engine.id} />
+                    <MaintenanceAdd engineId={engine.id} />
                 </Card.Card>
             </Card.Container>
         </SwrLoadingHandle>

@@ -8,7 +8,6 @@ type MaintenanceMoreProps = {
 
 export const MaintenanceMore = ({ engineId }: MaintenanceMoreProps): React.ReactElement => (
     <Link
-        full
         variant="soft"
         href={`/engines/${engineId}/maintenances`}
     >

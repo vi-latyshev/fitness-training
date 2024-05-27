@@ -14,7 +14,7 @@ const MaintenancesPick: NextPageWithLayout = () => {
 
     return (
         <Card.Container>
-            <Card.Card>
+            <Card.Card className="bg-grayPrimary">
                 <MaintanceList engineId={query.engineId as EngineId} />
             </Card.Card>
         </Card.Container>
@@ -23,7 +23,7 @@ const MaintenancesPick: NextPageWithLayout = () => {
 
 MaintenancesPick.layoutProps = {
     meta: {
-        title: 'История предыдущих технических обслуживаний',
+        title: 'История технических обслуживаний',
     },
     auth: {
         needRole: UserRole.MASTER,

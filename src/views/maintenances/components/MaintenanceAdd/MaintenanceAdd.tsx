@@ -23,7 +23,7 @@ export const MaintenanceAdd = ({ engineId }: MaintenanceAddProps): React.ReactEl
             <Modal open={isModelOpen} onClose={handleToggleModal}>
                 <MaintenanceAddModal engineId={engineId} onCreated={handleToggleModal} />
             </Modal>
-            <Button className="self-end" onClick={handleToggleModal}>
+            <Button onClick={handleToggleModal}>
                 Внести результаты технического обслуживания
             </Button>
         </>

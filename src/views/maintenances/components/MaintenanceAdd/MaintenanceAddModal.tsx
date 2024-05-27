@@ -49,7 +49,7 @@ const bearingFaultSelector = convertItemsToSelect(bearingFaultReasonList, bearin
 const fanFaultSelector = convertItemsToSelect(fanFaultReasonList, fanFaultReasonHuman);
 
 export const MaintenanceAddModal = ({ engineId, onCreated }: MaintenanceAddModalProps): React.ReactElement => {
-    const { mutate } = useMaintenances(engineId);
+    const { mutate } = useMaintenances(engineId, { limit: 1 });
     const { engine } = useEngine(engineId);
     const { user } = useUser();
 
@@ -72,8 +72,6 @@ export const MaintenanceAddModal = ({ engineId, onCreated }: MaintenanceAddModal
 
     const handleFormSubmit: SubmitHandler<MaintenanceCreateData> = useCallback(async (data) => {
         try {
-            console.log(data);
-
             await axios.post<MaintenanceCreateData>(`/api/engines/${engineId}/maintenances`, data);
             await mutate();
             setServerError(null);
@@ -101,13 +99,13 @@ export const MaintenanceAddModal = ({ engineId, onCreated }: MaintenanceAddModal
                     full
                     label="Двигатель"
                     disabled
-                    value={engine.humanId}
+                    defaultValue={engine.humanId}
                 />
                 <Input
                     full
                     label="Обслуживание проводил"
                     disabled
-                    value={`${user.firstName} ${user.lastName}`}
+                    defaultValue={`${user.firstName} ${user.lastName}`}
                 />
                 <Select
                     full

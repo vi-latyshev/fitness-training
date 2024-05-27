@@ -24,33 +24,33 @@ type FaultReason<T extends string> = {
 };
 
 export const rotorFaultReasonHuman: FaultReason<RotorFaultReason> = {
-    [RotorFaultReason.None]: 'Отсутствует',
+    [RotorFaultReason.None]: 'Неисправности отсутствуют',
     [RotorFaultReason.Other]: 'Другое',
     [RotorFaultReason.SquirrelCage]: 'Поломка стрежня беличьей клетки',
 };
 
 export const wildingRotorFaultReasonHuman: FaultReason<WildingRotorFaultReason> = {
-    [WildingRotorFaultReason.None]: 'Отсутствует',
+    [WildingRotorFaultReason.None]: 'Неисправности отсутствуют',
     [WildingRotorFaultReason.Other]: 'Другое',
     [WildingRotorFaultReason.Overheat]: 'Перегрев обмотки ротора',
     [WildingRotorFaultReason.Break]: 'Обрыв обмотки ротора',
 };
 
 export const statorFaultReasonHuman: FaultReason<StatorFaultReason> = {
-    [StatorFaultReason.None]: 'Отсутствует',
+    [StatorFaultReason.None]: 'Неисправности отсутствуют',
     [StatorFaultReason.Other]: 'Другое',
     [StatorFaultReason.Overheat]: 'Повышенный нагрев активной стали статора',
 };
 
 export const wildingStatorFaultReasonHuman: FaultReason<WildingStatorFaultReason> = {
-    [WildingStatorFaultReason.None]: 'Отсутствует',
+    [WildingStatorFaultReason.None]: 'Неисправности отсутствуют',
     [WildingStatorFaultReason.Other]: 'Другое',
     [WildingStatorFaultReason.Overheat]: 'Перегрев обмотки статор',
     [WildingStatorFaultReason.Break]: 'Обрыв обмотки статора',
 };
 
 export const bearingFaultReasonHuman: FaultReason<BearingFaultReason> = {
-    [BearingFaultReason.None]: 'Отсутствует',
+    [BearingFaultReason.None]: 'Неисправности отсутствуют',
     [BearingFaultReason.Other]: 'Другое',
     [BearingFaultReason.Expired]: 'Закончился срок эксплуатации',
     [BearingFaultReason.BigGap]: 'Большой зазор в подшипнике',
@@ -58,7 +58,7 @@ export const bearingFaultReasonHuman: FaultReason<BearingFaultReason> = {
 };
 
 export const fanFaultReasonHuman: FaultReason<FanFaultReason> = {
-    [FanFaultReason.None]: 'Отсутствует',
+    [FanFaultReason.None]: 'Неисправности отсутствуют',
     [FanFaultReason.Other]: 'Другое',
     [FanFaultReason.Clog]: 'Засорились каналы подачи воздуха',
     [FanFaultReason.Contamination]: 'Загрязнена поверхность двигателя',
