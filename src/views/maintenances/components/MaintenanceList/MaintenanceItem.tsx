@@ -9,6 +9,8 @@ import {
     fanFaultReasonHuman,
     RotorFaultReason,
     rotorFaultReasonHuman,
+    ShaftFaultReason,
+    shaftFaultReasonHuman,
     StatorFaultReason,
     statorFaultReasonHuman,
     WildingRotorFaultReason,
@@ -72,7 +74,7 @@ export const MaintenanceItem = ({ engineId, maintenance }: MaintenanceItemProps)
                         Ротор:
                     </div>
                     <div>
-                        {rotorFaultReasonHuman[maintenance.rotor]}.
+                        {rotorFaultReasonHuman[maintenance.rotor] ?? '-'}.
                         {maintenance.rotor === RotorFaultReason.Other && (
                             <span>
                                 {' '}{maintenance.rotorDescription}
@@ -88,7 +90,7 @@ export const MaintenanceItem = ({ engineId, maintenance }: MaintenanceItemProps)
                         Обмотка ротора:
                     </div>
                     <div>
-                        {wildingRotorFaultReasonHuman[maintenance.wildingRotor]}.
+                        {wildingRotorFaultReasonHuman[maintenance.wildingRotor] ?? '-'}.
                         {maintenance.wildingRotor === WildingRotorFaultReason.Other && (
                             <span>
                                 {' '}{maintenance.wildingRotorDescription}
@@ -104,7 +106,7 @@ export const MaintenanceItem = ({ engineId, maintenance }: MaintenanceItemProps)
                         Статор:
                     </div>
                     <div>
-                        {statorFaultReasonHuman[maintenance.stator]}.
+                        {statorFaultReasonHuman[maintenance.stator] ?? '-'}.
                         {maintenance.stator === StatorFaultReason.Other && (
                             <span>
                                 {' '}{maintenance.statorDescription}
@@ -120,7 +122,7 @@ export const MaintenanceItem = ({ engineId, maintenance }: MaintenanceItemProps)
                         Обмотка статора:
                     </div>
                     <div>
-                        {wildingStatorFaultReasonHuman[maintenance.wildingStator]}.
+                        {wildingStatorFaultReasonHuman[maintenance.wildingStator] ?? '-'}.
                         {maintenance.wildingStator === WildingStatorFaultReason.Other && (
                             <span>
                                 {' '}{maintenance.wildingStatorDescription}
@@ -136,7 +138,7 @@ export const MaintenanceItem = ({ engineId, maintenance }: MaintenanceItemProps)
                         Подшипник:
                     </div>
                     <div>
-                        {bearingFaultReasonHuman[maintenance.bearing]}.
+                        {bearingFaultReasonHuman[maintenance.bearing] ?? '-'}.
                         {maintenance.bearing === BearingFaultReason.Other && (
                             <span>
                                 {' '}{maintenance.bearingDescription}
@@ -152,10 +154,27 @@ export const MaintenanceItem = ({ engineId, maintenance }: MaintenanceItemProps)
                         Вентилятор:
                     </div>
                     <div>
-                        {fanFaultReasonHuman[maintenance.fan]}.
+                        {fanFaultReasonHuman[maintenance.fan] ?? '-'}.
                         {maintenance.fan === FanFaultReason.Other && (
                             <span>
                                 {' '}{maintenance.fanDescription}
+                            </span>
+                        )}
+                    </div>
+                </div>
+                <div className="flex flex-row items-center space-x-4">
+                    <div className={clsx('font-bold text-xl p-1 rounded-lg', {
+                        'bg-successSoft': shaftFaultReasonHuman[maintenance.shaft] && maintenance.shaft === ShaftFaultReason.None,
+                        'bg-errorSoft': shaftFaultReasonHuman[maintenance.shaft] && maintenance.shaft !== ShaftFaultReason.None,
+                    })}
+                    >
+                        Вал:
+                    </div>
+                    <div>
+                        {shaftFaultReasonHuman[maintenance.shaft] ?? '-'}.
+                        {maintenance.shaft === ShaftFaultReason.Other && (
+                            <span>
+                                {' '}{maintenance.shaftDescription}
                             </span>
                         )}
                     </div>

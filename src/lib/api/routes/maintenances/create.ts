@@ -13,6 +13,7 @@ import {
     statorFaultReasonList,
     wildingStatorFaultReasonList,
     wildingRotorFaultReasonList,
+    shaftFaultReasonList,
 } from '@/lib/models/maintenance';
 import { createMaintenance } from '@/lib/api/db/maintenance';
 import { verifyQueryId } from '@/lib/api/middleware/plugins/check-query-id';
@@ -46,6 +47,9 @@ const validateBody: Validator<MaintenanceCreateData> = ({
     fan,
     fanDescription,
 
+    shaft,
+    shaftDescription,
+
     carriedOutDescription,
     ...rest
 }) => (
@@ -66,6 +70,9 @@ const validateBody: Validator<MaintenanceCreateData> = ({
 
     && fan !== undefined && fanFaultReasonList.includes(fan)
     && (fanDescription === undefined || (fanDescription !== undefined && typeof fanDescription === 'string'))
+
+    && shaft !== undefined && shaftFaultReasonList.includes(shaft)
+    && (shaftDescription === undefined || (shaftDescription !== undefined && typeof shaftDescription === 'string'))
 
     && carriedOutDescription !== undefined && typeof carriedOutDescription === 'string'
     && Object.keys(rest).length === 0

@@ -2,6 +2,7 @@ import {
     BearingFaultReason,
     FanFaultReason,
     RotorFaultReason,
+    ShaftFaultReason,
     StatorFaultReason,
     WildingRotorFaultReason,
     WildingStatorFaultReason,
@@ -19,6 +20,8 @@ export const bearingFaultReasonList = Object.values(BearingFaultReason);
 
 export const fanFaultReasonList = Object.values(FanFaultReason);
 
+export const shaftFaultReasonList = Object.values(ShaftFaultReason);
+
 type FaultReason<T extends string> = {
     [N in T]: string;
 };
@@ -26,7 +29,11 @@ type FaultReason<T extends string> = {
 export const rotorFaultReasonHuman: FaultReason<RotorFaultReason> = {
     [RotorFaultReason.None]: 'Неисправности отсутствуют',
     [RotorFaultReason.Other]: 'Другое',
-    [RotorFaultReason.SquirrelCage]: 'Поломка стрежня беличьей клетки',
+    [RotorFaultReason.SquirrelCage]: 'Поломка стержня беличьей клетки',
+    [RotorFaultReason.Difformation]: 'Дифформация корпуса ротора',
+    [RotorFaultReason.Overheat]: 'Повреждение изоляции',
+    [RotorFaultReason.UnevenRotation]: 'Неравномерное вращение',
+    [RotorFaultReason.AxialShift]: 'Осевой сдвиг',
 };
 
 export const wildingRotorFaultReasonHuman: FaultReason<WildingRotorFaultReason> = {
@@ -40,6 +47,8 @@ export const statorFaultReasonHuman: FaultReason<StatorFaultReason> = {
     [StatorFaultReason.None]: 'Неисправности отсутствуют',
     [StatorFaultReason.Other]: 'Другое',
     [StatorFaultReason.Overheat]: 'Повышенный нагрев активной стали статора',
+    [StatorFaultReason.Vibration]: 'Вибрация и удары в статоре',
+    [StatorFaultReason.Corrosion]: 'Коррозия металлических частей статора',
 };
 
 export const wildingStatorFaultReasonHuman: FaultReason<WildingStatorFaultReason> = {
@@ -52,8 +61,9 @@ export const wildingStatorFaultReasonHuman: FaultReason<WildingStatorFaultReason
 export const bearingFaultReasonHuman: FaultReason<BearingFaultReason> = {
     [BearingFaultReason.None]: 'Неисправности отсутствуют',
     [BearingFaultReason.Other]: 'Другое',
-    [BearingFaultReason.Expired]: 'Закончился срок эксплуатации',
-    [BearingFaultReason.BigGap]: 'Большой зазор в подшипнике',
+    [BearingFaultReason.Fluctuation]: 'Колебание крутящего момента',
+    [BearingFaultReason.LoadsOnSupports]: 'Нагрузка на опоры',
+    [BearingFaultReason.ExceedingSpeed]: 'Превышение скорости вращения',
     [BearingFaultReason.WearOn]: 'Старение смазки',
 };
 
@@ -62,4 +72,10 @@ export const fanFaultReasonHuman: FaultReason<FanFaultReason> = {
     [FanFaultReason.Other]: 'Другое',
     [FanFaultReason.Clog]: 'Засорились каналы подачи воздуха',
     [FanFaultReason.Contamination]: 'Загрязнена поверхность двигателя',
+};
+
+export const shaftFaultReasonHuman: FaultReason<ShaftFaultReason> = {
+    [ShaftFaultReason.None]: 'Неисправности отсутствуют',
+    [ShaftFaultReason.Other]: 'Другое',
+    [ShaftFaultReason.Magnetization]: 'Намагничивание вала',
 };

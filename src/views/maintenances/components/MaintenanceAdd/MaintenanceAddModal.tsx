@@ -20,6 +20,8 @@ import {
     RotorFaultReason,
     rotorFaultReasonHuman,
     rotorFaultReasonList,
+    shaftFaultReasonHuman,
+    shaftFaultReasonList,
     StatorFaultReason,
     statorFaultReasonHuman,
     statorFaultReasonList,
@@ -47,6 +49,7 @@ const statorFaultSelector = convertItemsToSelect(statorFaultReasonList, statorFa
 const wildingStatorFaultSelector = convertItemsToSelect(wildingStatorFaultReasonList, wildingStatorFaultReasonHuman);
 const bearingFaultSelector = convertItemsToSelect(bearingFaultReasonList, bearingFaultReasonHuman);
 const fanFaultSelector = convertItemsToSelect(fanFaultReasonList, fanFaultReasonHuman);
+const shaftFaultSelector = convertItemsToSelect(shaftFaultReasonList, shaftFaultReasonHuman);
 
 export const MaintenanceAddModal = ({ engineId, onCreated }: MaintenanceAddModalProps): React.ReactElement => {
     const { mutate } = useMaintenances(engineId, { limit: 1 });
@@ -238,6 +241,29 @@ export const MaintenanceAddModal = ({ engineId, onCreated }: MaintenanceAddModal
                         error={errors.fanDescription?.message}
                         disabled={isSubmitting}
                         {...register('fanDescription', {
+                            maxLength: {
+                                value: 150,
+                                message: 'Максимальная длина 150',
+                            },
+                        })}
+                    />
+                )}
+                <Select
+                    full
+                    label="Вал"
+                    items={shaftFaultSelector}
+                    error={errors.shaft?.message}
+                    disabled={isSubmitting}
+                    {...register('shaft')}
+                />
+                {fan === FanFaultReason.Other && (
+                    <Input
+                        full
+                        label="Описание проблемы Вала"
+                        placeholder="Опишите проблему Вала"
+                        error={errors.shaftDescription?.message}
+                        disabled={isSubmitting}
+                        {...register('shaft', {
                             maxLength: {
                                 value: 150,
                                 message: 'Максимальная длина 150',

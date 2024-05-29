@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { SwrLoadingHandle } from '@/components/SwrLoadingHandle';
 import { MetaTitle } from '@/components/MetaTitle';
 import { UserRole } from '@/lib/models/user';
-import { EnginesBaseLayout } from '@/views/engines';
+import { EnginesBaseLayout, EngineStats } from '@/views/engines';
 import { useEngine } from '@/hooks/useEngine';
 import Dashboard from '@/components/Dashboard';
 import Card from '@/components/Card';
@@ -29,6 +29,7 @@ const EnginePick: NextPageWithLayout = () => {
             <Card.Container className="grid-cols-3">
                 <Card.Card className="col-span-2">
                     <Card.Title>Статистика</Card.Title>
+                    <EngineStats engineId={engine.id} />
                 </Card.Card>
                 <Card.Card>
                     <Card.Title>Сводка</Card.Title>

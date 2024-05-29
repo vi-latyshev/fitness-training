@@ -120,8 +120,8 @@ export const AddEngineModal = ({ onCreated }: AddEngineModalProps): React.ReactE
                 />
                 <Input
                     type="number"
-                    label="Вес"
-                    placeholder="Вес"
+                    label="Масса"
+                    placeholder="Масса"
                     disabled={isSubmitting}
                     error={errors.weight?.message}
                     {...register('weight', {

@@ -21,7 +21,7 @@ export const EnginesList = (): React.ReactElement => {
                             <Table.Cell>Мощность</Table.Cell>
                             <Table.Cell>Напряжение</Table.Cell>
                             <Table.Cell>Ток</Table.Cell>
-                            <Table.Cell>Вес</Table.Cell>
+                            <Table.Cell>Масса</Table.Cell>
                         </Table.Row>
                     </Table.Head>
                     <Table.Body>

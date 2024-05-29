@@ -6,6 +6,10 @@ import type { Tagged } from 'type-fest';
 export enum RotorFaultReason {
     None = 'None',
     SquirrelCage = 'SquirrelCage',
+    Difformation = 'Difformation',
+    UnevenRotation = 'UnevenRotation',
+    Overheat = 'Overheat',
+    AxialShift = 'AxialShift',
     Other = 'Other',
 }
 
@@ -19,6 +23,8 @@ export enum WildingRotorFaultReason {
 export enum StatorFaultReason {
     None = 'None',
     Overheat = 'Overheat',
+    Vibration = 'Vibration',
+    Corrosion = 'Corrosion',
     Other = 'Other',
 }
 
@@ -31,8 +37,9 @@ export enum WildingStatorFaultReason {
 
 export enum BearingFaultReason {
     None = 'None',
-    Expired = 'Expired',
-    BigGap = 'BigGap',
+    Fluctuation = 'Fluctuation',
+    LoadsOnSupports = 'LoadsOnSupports',
+    ExceedingSpeed = 'ExceedingSpeed',
     WearOn = 'WearOn',
     Other = 'Other',
 }
@@ -41,6 +48,12 @@ export enum FanFaultReason {
     None = 'None',
     Clog = 'Clog',
     Contamination = 'Contamination',
+    Other = 'Other',
+}
+
+export enum ShaftFaultReason {
+    None = 'None',
+    Magnetization = 'Намагничивание',
     Other = 'Other',
 }
 
@@ -69,6 +82,9 @@ export type Maintenance = {
 
     fan: FanFaultReason;
     fanDescription?: string;
+
+    shaft: ShaftFaultReason;
+    shaftDescription?: string;
 
     carriedOutDescription: string;
 };
