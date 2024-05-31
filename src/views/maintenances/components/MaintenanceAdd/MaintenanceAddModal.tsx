@@ -20,6 +20,7 @@ import {
     RotorFaultReason,
     rotorFaultReasonHuman,
     rotorFaultReasonList,
+    ShaftFaultReason,
     shaftFaultReasonHuman,
     shaftFaultReasonList,
     StatorFaultReason,
@@ -72,6 +73,7 @@ export const MaintenanceAddModal = ({ engineId, onCreated }: MaintenanceAddModal
     const wildingStator = watch('wildingStator');
     const bearing = watch('bearing');
     const fan = watch('fan');
+    const shaft = watch('shaft');
 
     const handleFormSubmit: SubmitHandler<MaintenanceCreateData> = useCallback(async (data) => {
         try {
@@ -256,7 +258,7 @@ export const MaintenanceAddModal = ({ engineId, onCreated }: MaintenanceAddModal
                     disabled={isSubmitting}
                     {...register('shaft')}
                 />
-                {fan === FanFaultReason.Other && (
+                {shaft === ShaftFaultReason.Other && (
                     <Input
                         full
                         label="Описание проблемы Вала"
